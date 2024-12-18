@@ -1,0 +1,33 @@
+
+MAP:
+valid characters: 1, 0, N, E, S, W
+
+map open
+tabs
+invalid characters
+more than one player
+no player
+no map
+
+TEXTURES: (NO, WE, SO, EA)
+missing
+not in one line (?)
+duplicate
+non valid files -> after parsing
+are directory -> after parsing
+
+COLORS: (F, C)
+missing
+duplicate
+invalid characters instead of rgb numbers
+negative numbers
+missing number (255,0,)
+too many numbers
+not in one line (?)
+
+GENERAL:
+elements in the same line (?)
+map not at the end of file
+word after map
+filename not ending on .cub
+empty file
