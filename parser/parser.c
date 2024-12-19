@@ -14,7 +14,13 @@
 
 void	parser(char *cub_file, t_cub *cub)
 {
-	exit (print_error(13));
+	int		fd;
+
+	fd = open(cub_file, O_RDONLY);
+	printf( "fd: %d\n", fd);
+	if (fd < 0)
+		exit (print_error(errno));
+
 	(void)cub;
 	(void)cub_file;
 }

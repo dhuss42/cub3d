@@ -17,11 +17,23 @@
 # include "./libft/libft.h"
 
 # include <stdio.h>
+# include <errno.h>
 
-/*------------- ERRORS ---------------------*/
+//---------------- COLORS --------------//
+# define RESET       "\033[0m"
+# define BLACK       "\033[30m"
+# define RED         "\033[31m"
+# define GREEN       "\033[32m"
+# define YELLOW      "\033[33m"
+# define BLUE        "\033[34m"
+# define MAGENTA     "\033[35m"
+# define CYAN        "\033[36m"
+# define WHITE       "\033[37m"
+
+/*---------------- ERRORS ----------------*/
 int	print_error(t_custom_error err);
 
-/*------------- PARSER ---------------------*/
+/*---------------- PARSER -----------------*/
 void	parser(char *cub_file, t_cub *cub);
 
 # endif
