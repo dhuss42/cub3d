@@ -34,8 +34,9 @@
 # define CYAN        "\033[36m"
 # define WHITE       "\033[37m"
 
-/*---------------- ERRORS ----------------*/
-int	print_error(t_custom_error err);
+/*---------------- ERROR_FREE ----------------*/
+void	print_error_exit(t_custom_error err, t_cub *cub);
+void	free_cub(t_cub *cub);
 
 /*---------------- PARSER -----------------*/
 void	parser(char *cub_file, t_cub *cub);

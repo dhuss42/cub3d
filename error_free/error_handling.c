@@ -12,12 +12,26 @@
 
 #include "../cub.h"
 
-int	print_error(t_custom_error err)
+int	custom_error(t_custom_error err)
 {
-	ft_putstr_fd(RED"Error!\n"RESET, 2);
-	if (err <= 106)
-		return (perror(NULL), errno);
 	if (err == E_ARGS)
 		ft_putstr_fd(RED"Wrong amount of arguments!\n"RESET, 2);
+	if (err == E_EMPTYFILE)
+		ft_putstr_fd(RED"Empty file!\n"RESET, 2);
 	return (err);
+}
+
+void	print_error_exit(t_custom_error err, t_cub *cub)
+{
+	if (cub)
+		free_cub(cub);
+	ft_putstr_fd(RED"Error!\n"RESET, 2);
+	if (err > 106)
+		custom_error(err);
+	else if (err <= 106)
+	{
+		perror(NULL);
+		err = errno;
+	}
+	exit (err);
 }

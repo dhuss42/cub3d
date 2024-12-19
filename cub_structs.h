@@ -13,27 +13,31 @@
 #ifndef CUB_STRUCTS_H
 # define CUB_STRUCTS_H
 
+# include <stdint.h>
+
 typedef enum e_custom_error
 {
-	E_ARGS = 107
+	E_ARGS = 107,
+	E_EMPTYFILE
 }				t_custom_error;
 
 typedef struct s_assets
 {
-	char		*no;	//filename to NO asset
-	char		*ea;
-	char		*so;
-	char		*we;
-	uint32_t	c;		//color ceiling
-	uint32_t	f;		//color floor
-	int			*c_int;	//before transformation to uint32_t
-	int			*f_int;	//maybe not necessary
+	char			*no;	//filename to NO asset
+	char			*ea;
+	char			*so;
+	char			*we;
+	uint32_t		c;		//color ceiling
+	uint32_t		f;		//color floor
+	t_custom_error	err;
+	// int			*c_int;	//before transformation to uint32_t
+	// int			*f_int;	//maybe not necessary
 }					t_assets;
 
 typedef struct s_cub
 {
 	char		**map;
-	t_assets	assets;
+	t_assets	*assets;
 }					t_cub;
 
 # endif

@@ -14,7 +14,8 @@ NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 CFILES = cub.c\
-		errors/error_handling.c\
+		error_free/error_handling.c\
+		error_free/free_cub.c\
 		parser/parser.c
 
 VPATH := $(dir $(CFILES))
