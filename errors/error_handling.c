@@ -15,6 +15,8 @@
 int	print_error(t_custom_error err)
 {
 	ft_putstr_fd("Error!\n", 2);
+	if (err <= 106)
+		perror(NULL);
 	if (err == E_ARGS)
 		ft_putstr_fd("Wrrong amount of arguments!\n", 2);
 	return (err);

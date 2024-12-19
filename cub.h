@@ -18,6 +18,10 @@
 
 # include <stdio.h>
 
+/*------------- ERRORS ---------------------*/
 int	print_error(t_custom_error err);
+
+/*------------- PARSER ---------------------*/
+void	parser(char *cub_file, t_cub *cub);
 
 # endif
