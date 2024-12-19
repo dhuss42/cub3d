@@ -15,12 +15,24 @@
 void	parser(char *cub_file, t_cub *cub)
 {
 	int		fd;
+	char	*line;
 
+	line = NULL;
 	fd = open(cub_file, O_RDONLY);
-	printf( "fd: %d\n", fd);
 	if (fd < 0)
 		exit (print_error(errno));
-
+	line = get_next_line(fd);
+	printf("%s", line);
+	if (line)
+		free (line);
+	while (line)
+	{
+		line = get_next_line(fd);
+		printf("%s", line);
+		free (line);
+	}
+	if (close (fd) < 0)
+		exit (print_error(errno));
 	(void)cub;
 	(void)cub_file;
 }

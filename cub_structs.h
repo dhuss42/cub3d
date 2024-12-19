@@ -18,15 +18,22 @@ typedef enum e_custom_error
 	E_ARGS = 107
 }				t_custom_error;
 
+typedef struct s_assets
+{
+	char		*no;	//filename to NO asset
+	char		*ea;
+	char		*so;
+	char		*we;
+	uint32_t	c;		//color ceiling
+	uint32_t	f;		//color floor
+	int			*c_int;	//before transformation to uint32_t
+	int			*f_int;	//maybe not necessary
+}					t_assets;
+
 typedef struct s_cub
 {
-	char	**map;
-	char	*texture_no;
-	char	*texture_ea;
-	char	*texture_so;
-	char	*texture_we;
-	char	*color_ceiling;
-	char	*color_floor;
-}				t_cub;
+	char		**map;
+	t_assets	assets;
+}					t_cub;
 
 # endif
