@@ -12,22 +12,28 @@
 
 #include "../cub.h"
 
-int	custom_error(t_custom_error err)
+int	custom_error(t_custom_error err, char *str)
 {
 	if (err == E_ARGS)
-		ft_putstr_fd(RED"Wrong amount of arguments!\n"RESET, 2);
+		ft_putstr_fd("Wrong amount of arguments!\n", 2);
 	if (err == E_EMPTYFILE)
-		ft_putstr_fd(RED"Empty file!\n"RESET, 2);
+		ft_putstr_fd("Empty file!\n", 2);
+	if (err == E_DUPLICATE)
+	{
+		ft_putstr_fd("Duplicate: ", 2);
+		ft_putstr_fd(str, 2);
+		printf("\n");
+	}
 	return (err);
 }
 
-void	print_error_exit(t_custom_error err, t_cub *cub)
+void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str)
 {
 	if (cub)
 		free_cub(cub);
-	ft_putstr_fd(RED"Error!\n"RESET, 2);
+	ft_putstr_fd(RED"Error!\n", 2);
 	if (err > 106)
-		custom_error(err);
+		custom_error(err, str);
 	else if (err <= 106)
 	{
 		perror(NULL);
@@ -35,3 +41,13 @@ void	print_error_exit(t_custom_error err, t_cub *cub)
 	}
 	exit (err);
 }
+
+void	print_error(t_custom_error err, char *str)
+{
+	ft_putstr_fd(RED"Error!\n"RESET, 2);
+	if (err > 106)
+		custom_error(err, str);
+	else if (err <= 106)
+		perror(NULL);
+}
+

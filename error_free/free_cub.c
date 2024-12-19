@@ -49,3 +49,9 @@ void	free_cub(t_cub *cub)
 	if (cub->map)
 		free_double (cub->map);
 }
+
+void	free_exit(int err, t_cub *cub)
+{
+	free_cub(cub);
+	exit (err);
+}

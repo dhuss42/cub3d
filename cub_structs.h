@@ -18,7 +18,8 @@
 typedef enum e_custom_error
 {
 	E_ARGS = 107,
-	E_EMPTYFILE
+	E_EMPTYFILE,
+	E_DUPLICATE
 }				t_custom_error;
 
 typedef struct s_assets
@@ -29,7 +30,8 @@ typedef struct s_assets
 	char			*we;
 	uint32_t		c;		//color ceiling
 	uint32_t		f;		//color floor
-	t_custom_error	err;
+	int				err;
+	int				i;
 	// int			*c_int;	//before transformation to uint32_t
 	// int			*f_int;	//maybe not necessary
 }					t_assets;

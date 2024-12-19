@@ -16,7 +16,8 @@ CFLAGS = -Wall -Wextra -Werror
 CFILES = cub.c\
 		error_free/error_handling.c\
 		error_free/free_cub.c\
-		parser/parser.c
+		parser/parser.c\
+		parser/parse_line_content.c
 
 VPATH := $(dir $(CFILES))
 
