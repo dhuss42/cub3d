@@ -14,9 +14,12 @@ NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 CFILES = cub.c\
+		errors/error_handling.c
+
+VPATH := $(dir $(CFILES))
 
 OBJ_DIR = objs
-OFILES = $(addprefix $(OBJ_DIR)/, $(CFILES:.c=.o))
+OFILES = $(addprefix $(OBJ_DIR)/, $(notdir $(CFILES:.c=.o)))
 
 LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a

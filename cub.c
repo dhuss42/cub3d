@@ -14,9 +14,9 @@
 
 int	main(int argc, char **argv)
 {
-	printf("hello cub\n");
-
-	(void)argc;
+	if (argc != 2)
+		return (print_error(E_ARGS));
+	
 	(void)argv;
 	return (0);
 }

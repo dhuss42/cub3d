@@ -11,7 +11,7 @@ no map
 
 TEXTURES: (NO, WE, SO, EA)
 missing
-not in one line (?)
+not in one line
 duplicate
 non valid files -> after parsing
 are directory -> after parsing
@@ -23,10 +23,10 @@ invalid characters instead of rgb numbers
 negative numbers
 missing number (255,0,)
 too many numbers
-not in one line (?)
+not in one line
 
 GENERAL:
-elements in the same line (?)
+elements in the same line
 map not at the end of file
 word after map
 filename not ending on .cub
