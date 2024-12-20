@@ -1,0 +1,18 @@
+
+Minimap
+    initialise window
+    create an image
+    draw pixels on the image according to 1 0 etc
+        N S W E
+            is players starting direction
+    keep window open with hook
+
+vectors
+    a struct containing two floats x and y
+    perpendicular vector is identical except one value is negative
+
+raycasting
+    position of player is a vector
+    direction of player is a vector
+    camera plane is a perpendicular vector to direction
+    rays travel from player through camera plane
