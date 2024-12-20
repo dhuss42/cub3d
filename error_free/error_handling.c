@@ -22,7 +22,12 @@ int	custom_error(t_custom_error err, char *str)
 	{
 		ft_putstr_fd("Duplicate: ", 2);
 		ft_putstr_fd(str, 2);
-		printf("\n");
+		ft_putstr_fd("\n", 2);
+	}
+	if (err == E_LINECONTENT)
+	{
+		ft_putstr_fd("Unexpected content in line: ", 2);
+		ft_putstr_fd(str, 2);
 	}
 	return (err);
 }

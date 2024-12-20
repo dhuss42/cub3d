@@ -13,8 +13,26 @@
 #include "../cub.h"
 
 
-/*------------------------------------------------------------------------
+void	check_rest_line(t_assets *assets, char *line)
+{
+	while(line[assets->i] && line[assets->i] != '\n')
+	{
+		if (line[assets->i] != 9 && line[assets->i] != ' ')
+		{
+			assets->err = E_LINECONTENT;
+			print_error(E_LINECONTENT, line);
+			return ;
+		}
+		assets->i++;
+	}
+}
 
+/*------------------------------------------------------------------------
+Store path of NO/EA/SO/WE asset into assets->no/ea/so/we
+If duplicate detected, print error, store errornumber
+and end program after finishing reading with gnl
+Between NO and path: jump whitspaces and tabs
+then read until whitspace or non printable character
 ------------------------------------------------------------------------*/
 int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 {
@@ -27,10 +45,10 @@ int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 		return (1);
 	}
 	assets->i = assets->i + 2;
-	while (line[assets->i] == ' ' || line[assets->i] == 9)	//jump whitspaces and tabs
+	while (line[assets->i] == ' ' || line[assets->i] == 9)
 		assets->i++;
 	tmp = assets->i;
-	while (line[assets->i] >= 33 && 126 >= line[assets->i])	//as long as printable characters and no spaces
+	while (line[assets->i] >= 33 && 126 >= line[assets->i])
 		assets->i++;
 	*assetpath = ft_calloc((assets->i - tmp + 1), sizeof(char));
 	if (!*assetpath)
@@ -41,8 +59,8 @@ int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 		assetpath[0][assets->i - tmp] = line[assets->i];
 		assets->i++;
 	}
-
 	// printf("%s%s\n", as, *assetpath);
+	check_rest_line(assets, line);
 	return (1);
 }
 
