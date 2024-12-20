@@ -29,6 +29,11 @@ int	custom_error(t_custom_error err, char *str)
 		ft_putstr_fd("Unexpected content in line: ", 2);
 		ft_putstr_fd(str, 2);
 	}
+	if (err == E_INVALIDNBR)
+	{
+		ft_putstr_fd("Invalid number in: ", 2);
+		ft_putstr_fd(str, 2);
+	}
 	return (err);
 }
 

@@ -18,8 +18,8 @@ static void	parse_line(char *line, t_cub *cub)
 		return ;
 	if (is_asset(line, cub->assets))
 		return ;
-	// if (is_color(line, cub->assets))
-	// 	return ;
+	if (is_color(line, cub->assets))
+		return ;
 	// is_map(line, cub->map);
 }
 
@@ -37,7 +37,6 @@ static void	read_file(char *cub_file, t_cub *cub)
 		print_error_free_exit(E_EMPTYFILE, NULL, NULL);
 	while (line)
 	{
-		// printf("%s", line);	//delete
 		parse_line(line, cub);
 		free (line);
 		line = get_next_line(fd);
@@ -71,7 +70,7 @@ void	parser(char *cub_file, t_cub *cub)
 {
 	init_parsing(cub);
 	read_file(cub_file, cub);
-	
+
 	// check_content(cub);
 
 }

@@ -12,7 +12,9 @@
 
 #include "../cub.h"
 
-
+/*------------------------------------------------------------------------
+Detect unexpected content in line
+------------------------------------------------------------------------*/
 void	check_rest_line(t_assets *assets, char *line)
 {
 	while(line[assets->i] && line[assets->i] != '\n')
@@ -59,11 +61,15 @@ int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 		assetpath[0][assets->i - tmp] = line[assets->i];
 		assets->i++;
 	}
-	// printf("%s%s\n", as, *assetpath);
 	check_rest_line(assets, line);
 	return (1);
 }
 
+/*------------------------------------------------------------------------
+Check if in this line is stored assetpath (NO/EA/SO/WE)
+in the beginning: skip all whitespaces and tabs
+If yes, store it in struct
+------------------------------------------------------------------------*/
 int	is_asset(char *line, t_assets *assets)
 {
 	assets->i = 0;
@@ -71,7 +77,6 @@ int	is_asset(char *line, t_assets *assets)
 	{
 		while (line[assets->i] == ' ' || line[assets->i] == 9)
 			assets->i++;
-		// printf("%c\n", line[assets->i]);
 		if (line[assets->i] == 'N' && line[assets->i + 1] == 'O')
 			return (store_path(&assets->no, line, assets, "NO"));
 		else if (line[assets->i] == 'E' && line[assets->i+1] == 'A')
@@ -84,10 +89,81 @@ int	is_asset(char *line, t_assets *assets)
 	}
 	return (0);
 }
+
+int	get_single_number(t_assets *assets, char *line)
+{
+	char	nbr_str[4];
+	int		j;
+
+	j = 0;
+	while (line[assets->i] == ' ')
+		assets->i++;
+	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' '  && line[assets->i] != '\n')
+	{
+		if (/*!ft_isdigit (line[assets->i]) || */j > 2)
+		{
+			assets->err = E_INVALIDNBR;
+			print_error(E_INVALIDNBR, line);
+			return (0);
+		}
+		nbr_str[j] = line[assets->i];
+		assets->i++;
+		j++;
+	}
+	if (line[assets->i] == ',')
+		assets->i++;
+	nbr_str[j] = '\0';
+	return (ft_atoi(nbr_str));
+}
+
+int	color_to_uint(t_assets *assets, char *line)	//change name (?)
+{
+	int		nbr_int[3];
+	int		n;
+
+	assets->i++;
+	while (line[assets->i] == ' ' || line[assets->i] == 9)
+		assets->i++;
+	n = 0;
+	while (n < 3)
+	{
+		nbr_int[n] = get_single_number(assets, line);
+		n++;
+	}
+	// int_to_uint32(nbr_int);	//TODO
+	n = 0;
+	while (n < 3)
+	{
+		printf ("%d,", nbr_int[n]);
+		n++;
+	}
+	printf ("\n");
+	return (nbr_int[n]);		//change
+}
+
+/*------------------------------------------------------------------------
+Check if in this line is stored color (C/F)
+in the beginning: skip all whitespaces and tabs
+If yes, transform colors to uint32 and store it in struct
+------------------------------------------------------------------------*/
 int	is_color(char *line, t_assets *assets)
 {
-	(void)line;
-	(void)assets;
+	assets->i = 0;
+	while (line[assets->i])
+	{
+		while (line[assets->i] == ' ' || line[assets->i] == 9)
+			assets->i++;
+		if (line[assets->i] == 'C' || line[assets->i] == 'F')
+		{
+			// if (line[assets->i] == 'C')
+			// 	assets->c = color_to_uint(assets, line);
+			// else if (line[assets->i] == 'F')
+			// 	assets->f = color_to_uint(assets, line);
+			color_to_uint(assets, line);
+			return (1);
+		}
+		assets->i++;
+	}
 	return (0);
 }
 

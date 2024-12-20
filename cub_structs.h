@@ -20,7 +20,8 @@ typedef enum e_custom_error
 	E_ARGS = 107,
 	E_EMPTYFILE,
 	E_DUPLICATE,
-	E_LINECONTENT
+	E_LINECONTENT,
+	E_INVALIDNBR
 }				t_custom_error;
 
 typedef struct s_assets
