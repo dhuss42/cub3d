@@ -44,7 +44,7 @@ void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str)
 
 void	print_error(t_custom_error err, char *str)
 {
-	ft_putstr_fd(RED"Error!\n"RESET, 2);
+	ft_putstr_fd(RED"Error!\n", 2);
 	if (err > 106)
 		custom_error(err, str);
 	else if (err <= 106)

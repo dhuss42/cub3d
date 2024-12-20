@@ -71,7 +71,7 @@ void	parser(char *cub_file, t_cub *cub)
 {
 	init_parsing(cub);
 	read_file(cub_file, cub);
-	printf("NO: %s\n", cub->assets->no);
+	
 	// check_content(cub);
 
 }
