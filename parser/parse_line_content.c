@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse_line_content.c                               :+:      :+:    :+:   */
+/*   parse_line_line.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: maustel <maustel@student.42heilbronn.de    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,32 +12,64 @@
 
 #include "../cub.h"
 
-int	write_to_assetfile(char *assetfile, char *content, t_assets *assets, char *ass)
+/*------------------------------------------------------------------------
+Detect unexpected content in line
+------------------------------------------------------------------------*/
+void	check_rest_line(t_assets *assets, char *line)
+{
+	while(line[assets->i] && line[assets->i] != '\n')
+	{
+		if (line[assets->i] != 9 && line[assets->i] != ' ')
+		{
+			assets->err = E_LINECONTENT;
+			print_error(E_LINECONTENT, line);
+			return ;
+		}
+		assets->i++;
+	}
+}
+
+/*------------------------------------------------------------------------
+Store path of NO/EA/SO/WE asset into assets->no/ea/so/we
+If duplicate detected, print error, store errornumber
+and end program after finishing reading with gnl
+Between NO and path: jump whitspaces and tabs
+then read until whitspace or non printable character
+------------------------------------------------------------------------*/
+int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 {
 	int	tmp;
 
-	if (assetfile != NULL)
+	if (*assetpath != NULL)
 	{
 		assets->err = E_DUPLICATE;
-		print_error(E_DUPLICATE, ass);
+		print_error(E_DUPLICATE, as);
 		return (1);
 	}
-	tmp = assets->i;
-	while (content[assets->i] >= 33 && 126 >= content[assets->i])
+	assets->i = assets->i + 2;
+	while (line[assets->i] == ' ' || line[assets->i] == 9)
 		assets->i++;
-	assetfile = malloc(sizeof(char) * (assets->i - tmp + 1));
-	if (!assetfile)
+	tmp = assets->i;
+	while (line[assets->i] >= 33 && 126 >= line[assets->i])
+		assets->i++;
+	*assetpath = ft_calloc((assets->i - tmp + 1), sizeof(char));
+	if (!*assetpath)
 		return (1);	//do something else (exit?)
 	assets->i = tmp;
-	while (content[assets->i] >= 33 && 126 >= content[assets->i])
+	while (line[assets->i] >= 33 && 126 >= line[assets->i])
 	{
-		assetfile[assets->i] = content[assets->i];
+		assetpath[0][assets->i - tmp] = line[assets->i];
 		assets->i++;
 	}
-	assetfile[assets->i] = '\0';
+	check_rest_line(assets, line);
 	return (1);
 }
 
+/*------------------------------------------------------------------------
+Check if in this line is stored assetpath (NO/EA/SO/WE)
+in the beginning: skip all whitespaces and tabs
+If yes, store it in struct
+------------------------------------------------------------------------*/
 int	is_asset(char *line, t_assets *assets)
 {
 	assets->i = 0;
@@ -45,22 +77,93 @@ int	is_asset(char *line, t_assets *assets)
 	{
 		while (line[assets->i] == ' ' || line[assets->i] == 9)
 			assets->i++;
-		if (line[assets->i] == 'N' && line[assets->i+1] == 'O')
-			return (write_to_assetfile(assets->no, &line[assets->i], assets, "NO"));
+		if (line[assets->i] == 'N' && line[assets->i + 1] == 'O')
+			return (store_path(&assets->no, line, assets, "NO"));
 		else if (line[assets->i] == 'E' && line[assets->i+1] == 'A')
-			return (write_to_assetfile(assets->ea, &line[assets->i], assets, "EA"));
+			return (store_path(&assets->ea, line, assets, "EA"));
 		else if (line[assets->i] == 'S' && line[assets->i+1] == 'O')
-			return (write_to_assetfile(assets->so, &line[assets->i], assets, "SO"));
+			return (store_path(&assets->so, line, assets, "SO"));
 		else if (line[assets->i] == 'W' && line[assets->i+1] == 'E')
-			return (write_to_assetfile(assets->we, &line[assets->i], assets, "WE"));
+			return (store_path(&assets->we, line, assets, "WE"));
 		assets->i++;
 	}
 	return (0);
 }
+
+int	get_single_number(t_assets *assets, char *line)
+{
+	char	nbr_str[4];
+	int		j;
+
+	j = 0;
+	while (line[assets->i] == ' ')
+		assets->i++;
+	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' '  && line[assets->i] != '\n')
+	{
+		if (/*!ft_isdigit (line[assets->i]) || */j > 2)
+		{
+			assets->err = E_INVALIDNBR;
+			print_error(E_INVALIDNBR, line);
+			return (0);
+		}
+		nbr_str[j] = line[assets->i];
+		assets->i++;
+		j++;
+	}
+	if (line[assets->i] == ',')
+		assets->i++;
+	nbr_str[j] = '\0';
+	return (ft_atoi(nbr_str));
+}
+
+int	color_to_uint(t_assets *assets, char *line)	//change name (?)
+{
+	int		nbr_int[3];
+	int		n;
+
+	assets->i++;
+	while (line[assets->i] == ' ' || line[assets->i] == 9)
+		assets->i++;
+	n = 0;
+	while (n < 3)
+	{
+		nbr_int[n] = get_single_number(assets, line);
+		n++;
+	}
+	// int_to_uint32(nbr_int);	//TODO
+	n = 0;
+	while (n < 3)
+	{
+		printf ("%d,", nbr_int[n]);
+		n++;
+	}
+	printf ("\n");
+	return (nbr_int[n]);		//change
+}
+
+/*------------------------------------------------------------------------
+Check if in this line is stored color (C/F)
+in the beginning: skip all whitespaces and tabs
+If yes, transform colors to uint32 and store it in struct
+------------------------------------------------------------------------*/
 int	is_color(char *line, t_assets *assets)
 {
-	(void)line;
-	(void)assets;
+	assets->i = 0;
+	while (line[assets->i])
+	{
+		while (line[assets->i] == ' ' || line[assets->i] == 9)
+			assets->i++;
+		if (line[assets->i] == 'C' || line[assets->i] == 'F')
+		{
+			// if (line[assets->i] == 'C')
+			// 	assets->c = color_to_uint(assets, line);
+			// else if (line[assets->i] == 'F')
+			// 	assets->f = color_to_uint(assets, line);
+			color_to_uint(assets, line);
+			return (1);
+		}
+		assets->i++;
+	}
 	return (0);
 }
 
