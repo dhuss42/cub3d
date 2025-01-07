@@ -31,7 +31,7 @@ void	check_rest_line(t_assets *assets, char *line)
 
 /*------------------------------------------------------------------------
 Store path of NO/EA/SO/WE asset into assets->no/ea/so/we
-If duplicate detected, print error, store errornumber
+If duplicate detected, print error, store last errornumber
 and end program after finishing reading with gnl
 Between NO and path: jump whitspaces and tabs
 then read until whitspace or non printable character
@@ -54,7 +54,7 @@ int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 		assets->i++;
 	*assetpath = ft_calloc((assets->i - tmp + 1), sizeof(char));
 	if (!*assetpath)
-		return (1);	//do something else (exit?)
+		return (1);	//do something else (exit?)(printerror?)
 	assets->i = tmp;
 	while (line[assets->i] >= 33 && 126 >= line[assets->i])
 	{
@@ -90,32 +90,57 @@ int	is_asset(char *line, t_assets *assets)
 	return (0);
 }
 
+/*------------------------------------------------------------------------
+Skip all whitespaces, then read number until ',' or newline or whitespace
+(example: F 66, 110, 65)
+Number will be written into string
+Function returns int number
+------------------------------------------------------------------------*/
 int	get_single_number(t_assets *assets, char *line)
 {
 	char	nbr_str[4];
 	int		j;
 
 	j = 0;
-	while (line[assets->i] == ' ')
+	while (line[assets->i] == ' ' || line[assets->i] == '+' || line[assets->i] == '0')
 		assets->i++;
-	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' '  && line[assets->i] != '\n')
+	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' ' && line[assets->i] != '\n')
 	{
-		if (/*!ft_isdigit (line[assets->i]) || */j > 2)
+		if (!assets->err && (!ft_isdigit (line[assets->i]) || j > 2))
 		{
-			assets->err = E_INVALIDNBR;
+			assets->err = E_INVALIDNBR;	//put this into print_error
 			print_error(E_INVALIDNBR, line);
-			return (0);
+			return (-1);
 		}
 		nbr_str[j] = line[assets->i];
 		assets->i++;
 		j++;
 	}
-	if (line[assets->i] == ',')
-		assets->i++;
 	nbr_str[j] = '\0';
+	if (!assets->err && (j == 0 || ft_atoi(nbr_str) > 255))
+	{
+		assets->err = E_INVALIDNBR;
+		print_error(E_INVALIDNBR, line);
+	}
 	return (ft_atoi(nbr_str));
 }
 
+void	skip_ws_until_comma(t_assets *assets, char *line)
+{
+	while (line[assets->i] == ' ')
+		assets->i++;
+	if (line[assets->i] == ',')
+		assets->i++;
+	else
+	{
+		assets->err = E_INVALIDNBR;
+		print_error(E_INVALIDNBR, line);
+	}
+}
+
+/*------------------------------------------------------------------------
+Write the three colors as int into int array
+------------------------------------------------------------------------*/
 int	color_to_uint(t_assets *assets, char *line)	//change name (?)
 {
 	int		nbr_int[3];
@@ -128,9 +153,15 @@ int	color_to_uint(t_assets *assets, char *line)	//change name (?)
 	while (n < 3)
 	{
 		nbr_int[n] = get_single_number(assets, line);
+		if (nbr_int[n] < 0)
+			return (0);
+		if (n < 2 && !assets->err)
+			skip_ws_until_comma(assets, line);
+		else if (n >= 2 && !assets->err)
+			check_rest_line(assets, line);
 		n++;
 	}
-	// int_to_uint32(nbr_int);	//TODO
+	// int_to_uint32(nbr_int);	//TODO (enter only if err == 0)
 	n = 0;
 	while (n < 3)
 	{
@@ -140,6 +171,7 @@ int	color_to_uint(t_assets *assets, char *line)	//change name (?)
 	printf ("\n");
 	return (nbr_int[n]);		//change
 }
+
 
 /*------------------------------------------------------------------------
 Check if in this line is stored color (C/F)

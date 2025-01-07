@@ -33,18 +33,18 @@ filename not ending on .cub
 empty file
 
 PLAN:
-1. Search for NO, WE, SO, EA, F and C, jump whitespaces and read following letters
+DONE 1. Search for NO, WE, SO, EA, F and C, jump whitespaces and read following letters
 	check for duplicate
-2. files: ->read filename until whitespace or newline
-	if somthing after it, error (?)
-3. colors: ->read number until ','.
-	Transform to int
-	Check if valid number.
-	Do this until we have 3 numbers
-	error if != 3 numbers
+DONE 2. files: ->read filename until whitespace or newline
+	if somthing after it, error
+3. DONE colors: ->read number until ','.
+	DONE Transform to int
+	DONE Check if valid number.
+	DONE Do this until we have 3 numbers
+	DONE error if != 3 numbers
+	DONE if after 3. number is something, error
 	Transform it to uint32_t (0xFF0000)
-	if after 3. number is something, error (?)
-4. map indicated by numbers in line. read until
+4. map indicated by numbers in line.
 	read until eof and safe map in **map
 5. check for other characters than whitespace and newlines after map
 

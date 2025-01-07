@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_STRUCTS_H
-# define CUB_STRUCTS_H
+#ifndef CUB_TYPEDEF_H
+# define CUB_TYPEDEF_H
 
 # include <stdint.h>
 

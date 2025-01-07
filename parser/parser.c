@@ -23,6 +23,12 @@ static void	parse_line(char *line, t_cub *cub)
 	// is_map(line, cub->map);
 }
 
+/*------------------------------------------------------------------------
+Read input file line by line until the end of file
+If any error occurred during reading, it will be printed immediatly,
+but the program will finish to read file until the end, before it exits.
+In case of error it exits with last error number
+------------------------------------------------------------------------*/
 static void	read_file(char *cub_file, t_cub *cub)
 {
 	int		fd;
@@ -43,10 +49,10 @@ static void	read_file(char *cub_file, t_cub *cub)
 	}
 	if (line)
 		free (line);
-	if (cub->assets->err)
-		free_exit (cub->assets->err, cub);
 	if (close (fd) < 0)
 		print_error_free_exit(errno, cub, NULL);
+	if (cub->assets->err)
+		free_exit (cub->assets->err, cub);
 }
 
 static void	init_parsing(t_cub *cub)
