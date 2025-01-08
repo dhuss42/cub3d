@@ -16,11 +16,13 @@ static void	parse_line(char *line, t_cub *cub)
 {
 	if (cub->assets->err || !line)
 		return ;
+	if (line[0] == '\n' && !is_map)
+			return ;
 	if (is_asset(line, cub->assets))
 		return ;
 	if (is_color(line, cub->assets))
 		return ;
-	// is_map(line, cub->map);
+	// is_map(line, cub);
 }
 
 /*------------------------------------------------------------------------
@@ -51,7 +53,6 @@ static void	read_file(char *cub_file, t_cub *cub)
 		free (line);
 	if (close (fd) < 0)
 		print_error_free_exit(errno, cub, NULL);
-	
 	if (cub->assets->err)
 		free_exit (cub->assets->err, cub);
 }
@@ -59,6 +60,9 @@ static void	read_file(char *cub_file, t_cub *cub)
 static void	init_parsing(t_cub *cub)
 {
 	cub->map = NULL;
+	cub->is_map = false;
+	cub->j		= 0;
+	//cub->mapy = NULL and allocate and other mapy variables
 	cub->assets = NULL;
 	cub->assets = malloc (sizeof(t_assets));
 	if (!cub->assets)
@@ -73,11 +77,18 @@ static void	init_parsing(t_cub *cub)
 	cub->assets->i = 0;
 }
 
+// void print_binary(uint32_t n) {
+//     if (n > 0) {
+//         print_binary(n / 2);
+//     }
+//     printf("%d", n % 2);
+// }
+
+
 void	parser(char *cub_file, t_cub *cub)
 {
 	init_parsing(cub);
 	read_file(cub_file, cub);
-
 	// check_content(cub);
 
 }

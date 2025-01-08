@@ -44,7 +44,7 @@ void	free_exit(int err, t_cub *cub);
 void	parser(char *cub_file, t_cub *cub);
 int		is_asset(char *line, t_assets *assets);
 int		is_color(char *line, t_assets *assets);
-int		is_map(char *line, char **map);
+int		is_map(char *line, t_cub *cub);
 void	check_rest_line(t_assets *assets, char *line);
 uint32_t		color_to_uint(t_assets *assets, char *line);
 

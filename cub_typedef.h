@@ -43,9 +43,19 @@ typedef struct s_assets
 	uint8_t blue = nbr_uint32 & 0xFF;
 */
 
+typedef struct s_map
+{
+	char	**map;
+	bool	is_map;
+	int		line_counter;
+	int		line_start_map;
+	int		j;
+}					t_map;
+
+
 typedef struct s_cub
 {
-	char		**map;
+	t_map		*mapy;
 	t_assets	*assets;
 }					t_cub;
 

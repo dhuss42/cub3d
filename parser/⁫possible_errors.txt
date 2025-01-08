@@ -43,16 +43,21 @@ DONE 2. files: ->read filename until whitespace or newline
 	DONE Do this until we have 3 numbers
 	DONE error if != 3 numbers
 	DONE if after 3. number is something, error
-	Transform it to uint32_t (0xFF0000)
-4. map indicated by numbers in line.
+	DONE Transform it to uint32_t (0xFF0000)
+4. map: before: skip any newlines
+	set flag for beginning map?
+	indicated by numbers in line.
+	or indicated because colors and textures aleady exist
+	count lines with getnext line. Remember line where map begins
+	for writing into map, do another round of getnextline.
 	read until eof and safe map in **map
-5. check for other characters than whitespace and newlines after map
+5. check for other characters than whitespace and newlines after map ->later (?)
 
 after reading:
 1. check if everything present (NO, WE, SO, EA, F, C , map)
-2. files: check if file valid (just do fd = open(file, O_RDONLY) ?)
+2. files: check if files of textures valid (just do fd = open(file, O_RDONLY) ?)
 	check if filename ending in .cub
-3. map: check if any unvalid characters (this includes also characters after map end)
+3. map: check if any unvalid characters (also newline without other content?) (this includes also characters after map end)
 	check if player == 1
 	floodfill from player position to check if map is closed
 

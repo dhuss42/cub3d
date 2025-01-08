@@ -115,9 +115,22 @@ int	is_color(char *line, t_assets *assets)
 	return (0);
 }
 
-int	is_map(char *line, char **map)
+int	is_map(char *line, t_cub *cub)
 {
+	int	i;
+
+	if (cub->assets->no && cub->assets->ea && cub->assets->so
+		&& cub->assets->we && cub->assets->c && cub->assets->f)
+	{
+		cub->is_map = true;
+		i = 0;
+		while (line[i])
+		{
+			
+			i++;
+		}
+	}
 	(void)line;
-	(void)map;
+	(void)cub;
 	return (0);
 }
