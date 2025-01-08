@@ -51,6 +51,7 @@ static void	read_file(char *cub_file, t_cub *cub)
 		free (line);
 	if (close (fd) < 0)
 		print_error_free_exit(errno, cub, NULL);
+	
 	if (cub->assets->err)
 		free_exit (cub->assets->err, cub);
 }

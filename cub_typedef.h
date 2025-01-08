@@ -34,9 +34,14 @@ typedef struct s_assets
 	uint32_t		f;		//color floor
 	int				err;
 	int				i;
-	// int			*c_int;	//before transformation to uint32_t
-	// int			*f_int;	//maybe not necessary
 }					t_assets;
+
+/*
+	---- how to transform uint32_t (little endian) into single colors ----
+	uint8_t red = (nbr_uint32 >> 16) & 0xFF;
+	uint8_t green = (nbr_uint32 >> 8) & 0xFF;
+	uint8_t blue = nbr_uint32 & 0xFF;
+*/
 
 typedef struct s_cub
 {
