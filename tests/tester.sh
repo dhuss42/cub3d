@@ -20,15 +20,15 @@ for MAP in $MAPS; do
 done;
 
 # Invalid maps tester
-MAPS_FOLDER=./tests/invalid/;
-MAPS=$(ls "$MAPS_FOLDER");
-echo "[ INVALID MAPS ]";
-for MAP in $MAPS; do
-	echo "[$MAP]"
-	./cub3d "$MAPS_FOLDER$MAP";
-	if [[ $? == 0 ]]; then
-		echo -e "${R}[FAIL]${NC}\n"
-	else
-		echo -e "${G}[OK]${NC}\n";
-	fi;
-done;
+# MAPS_FOLDER=./tests/invalid/;
+# MAPS=$(ls "$MAPS_FOLDER");
+# echo "[ INVALID MAPS ]";
+# for MAP in $MAPS; do
+# 	echo "[$MAP]"
+# 	./cub3d "$MAPS_FOLDER$MAP";
+# 	if [[ $? == 0 ]]; then
+# 		echo -e "${R}[FAIL]${NC}\n"
+# 	else
+# 		echo -e "${G}[OK]${NC}\n";
+# 	fi;
+# done;

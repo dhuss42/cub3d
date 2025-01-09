@@ -24,10 +24,10 @@ void	allocate_map(t_map *mapy)
 		return ;
 	}
 	i = 0;
-	while (i <= (mapy->nbr_lines - mapy->line_start))
+	while (i < (mapy->nbr_lines - mapy->line_start))
 	{
 		mapy->map[i] = NULL;
-		mapy->map[i] = malloc (sizeof(char) * (mapy->longest_line * 1));
+		mapy->map[i] = malloc (sizeof(char) * (mapy->longest_line + 1));
 		if (!mapy->map[i])
 		{
 			mapy->err = E_MALLOC;
@@ -53,8 +53,8 @@ void	write_to_map(char *line, t_map *mapy)
 		i++;
 	}
 	mapy->map[mapy->current_line][i] = '\0';
-	printf(BLUE"CURRENT LINE:%d\n"RESET, mapy->current_line);
 	mapy->current_line++;
+	(void)line;
 	// if (mapy->current_line == (mapy->nbr_lines - mapy->line_start + 1))
 	// 	mapy->map[mapy->current_line] = NULL;
 }
@@ -75,10 +75,8 @@ void	get_map(char *cub_file, t_cub *cub)
 	i = 0;
 	while (line)
 	{
-		printf(YELLOW"i: %d\n"RESET, i);
 		if (i >= cub->mapy->line_start)
 			write_to_map(line, cub->mapy);
-		printf(RED"HERE\n"RESET);
 		free (line);
 		line = NULL;
 		line = get_next_line(fd);

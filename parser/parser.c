@@ -47,6 +47,7 @@ static void	read_file(char *cub_file, t_cub *cub)
 	{
 		parse_line(line, cub);
 		free (line);
+		line = NULL;
 		line = get_next_line(fd);
 		cub->mapy->nbr_lines++;
 	}
@@ -118,7 +119,7 @@ void	parser(char *cub_file, t_cub *cub)
 	// if (!all_colors_assets_exist)	//todo
 	// 	free_exit (cub->assets->err, cub);
 	get_map(cub_file, cub);
-	print_map(cub->mapy->map);
+	// print_map(cub->mapy->map);
 	// check_content(cub);
 
 }
