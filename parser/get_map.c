@@ -77,7 +77,8 @@ void	get_map(char *cub_file, t_cub *cub)
 	{
 		printf(YELLOW"i: %d\n"RESET, i);
 		if (i >= cub->mapy->line_start)
-			write_to_map(line, cub->mapy);	//todo
+			write_to_map(line, cub->mapy);
+		printf(RED"HERE\n"RESET);
 		free (line);
 		line = NULL;
 		line = get_next_line(fd);
