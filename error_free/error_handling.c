@@ -34,6 +34,8 @@ int	custom_error(t_custom_error err, char *str)
 		ft_putstr_fd("Invalid number in: ", 2);
 		ft_putstr_fd(str, 2);
 	}
+	if (err == E_MALLOC)
+		ft_putstr_fd("Malloc failed!\n", 2);
 	return (err);
 }
 

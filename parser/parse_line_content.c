@@ -122,15 +122,16 @@ int	is_map(char *line, t_cub *cub)
 	if (cub->assets->no && cub->assets->ea && cub->assets->so
 		&& cub->assets->we && cub->assets->c && cub->assets->f)
 	{
-		cub->is_map = true;
+		if (!cub->mapy->is_map)
+		{
+			cub->mapy->is_map = true;
+			cub->mapy->line_start = cub->mapy->nbr_lines;
+		}
 		i = 0;
 		while (line[i])
-		{
-			
 			i++;
-		}
+		if (i > cub->mapy->longest_line)
+			cub->mapy->longest_line = i;
 	}
-	(void)line;
-	(void)cub;
 	return (0);
 }

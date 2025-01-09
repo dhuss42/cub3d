@@ -18,7 +18,8 @@ CFILES = cub.c\
 		error_free/free_cub.c\
 		parser/parser.c\
 		parser/parse_line_content.c\
-		parser/color_number.c
+		parser/color_number.c\
+		parser/get_map.c
 
 VPATH := $(dir $(CFILES))
 

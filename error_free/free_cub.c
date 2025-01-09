@@ -28,6 +28,14 @@ void	free_double(char **to_free)
 	to_free = NULL;
 }
 
+void	free_mapy(t_map *mapy)
+{
+	if (mapy->map)
+		free_double (mapy->map);
+	if (mapy)
+		free (mapy);
+}
+
 void	free_assets(t_assets *assets)
 {
 	if (assets->no)
@@ -46,8 +54,8 @@ void	free_cub(t_cub *cub)
 {
 	if (cub->assets)
 		free_assets(cub->assets);
-	if (cub->map)
-		free_double (cub->map);
+	if (cub->mapy)
+		free_mapy(cub->mapy);
 }
 
 void	free_exit(int err, t_cub *cub)

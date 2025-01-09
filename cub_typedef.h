@@ -14,6 +14,7 @@
 # define CUB_TYPEDEF_H
 
 # include <stdint.h>
+# include <stdbool.h>
 
 typedef enum e_custom_error
 {
@@ -21,7 +22,8 @@ typedef enum e_custom_error
 	E_EMPTYFILE,
 	E_DUPLICATE,
 	E_LINECONTENT,
-	E_INVALIDNBR
+	E_INVALIDNBR,
+	E_MALLOC
 }				t_custom_error;
 
 typedef struct s_assets
@@ -47,9 +49,11 @@ typedef struct s_map
 {
 	char	**map;
 	bool	is_map;
-	int		line_counter;
-	int		line_start_map;
-	int		j;
+	int		nbr_lines;
+	int		line_start;
+	int		longest_line;
+	int		current_line;
+	int		err;
 }					t_map;
 
 
