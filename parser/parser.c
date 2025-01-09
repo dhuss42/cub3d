@@ -14,7 +14,6 @@
 
 static void	parse_line(char *line, t_cub *cub)
 {
-	cub->mapy->nbr_lines++;
 	if (cub->assets->err || !line)
 		return ;
 	if (line[0] == '\n' && !cub->mapy->is_map)
@@ -49,6 +48,7 @@ static void	read_file(char *cub_file, t_cub *cub)
 		parse_line(line, cub);
 		free (line);
 		line = get_next_line(fd);
+		cub->mapy->nbr_lines++;
 	}
 	if (line)
 		free (line);
@@ -98,7 +98,7 @@ void	print_map(char **map)
 	int	j;
 
 	j = 0;
-	while (map[j])
+	while (map && map[j])
 	{
 		i = 0;
 		while (map[j][i])

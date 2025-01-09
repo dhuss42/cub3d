@@ -52,9 +52,11 @@ void	write_to_map(char *line, t_map *mapy)
 		mapy->map[mapy->current_line][i] = line[i];
 		i++;
 	}
+	mapy->map[mapy->current_line][i] = '\0';
+	printf(BLUE"CURRENT LINE:%d\n"RESET, mapy->current_line);
 	mapy->current_line++;
-	if (mapy->current_line == (mapy->nbr_lines - mapy->line_start + 1))
-		mapy->map[mapy->current_line] = NULL;
+	// if (mapy->current_line == (mapy->nbr_lines - mapy->line_start + 1))
+	// 	mapy->map[mapy->current_line] = NULL;
 }
 
 void	get_map(char *cub_file, t_cub *cub)
@@ -73,15 +75,17 @@ void	get_map(char *cub_file, t_cub *cub)
 	i = 0;
 	while (line)
 	{
+		printf(YELLOW"i: %d\n"RESET, i);
 		if (i >= cub->mapy->line_start)
 			write_to_map(line, cub->mapy);	//todo
 		free (line);
+		line = NULL;
 		line = get_next_line(fd);
 		i++;
 	}
 	if (line)
 		free (line);
-	// cub->mapy->map[cub->mapy->map->current_line] = NULL;
+	cub->mapy->map[cub->mapy->current_line] = NULL;
 	if (close (fd) < 0)
 		print_error_free_exit(errno, cub, NULL);
 	if (cub->mapy->err)	//needed? if yes change to mapy->err

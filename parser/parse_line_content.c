@@ -126,6 +126,7 @@ int	is_map(char *line, t_cub *cub)
 		{
 			cub->mapy->is_map = true;
 			cub->mapy->line_start = cub->mapy->nbr_lines;
+			printf(GREEN"LINE START:%d\n"RESET, cub->mapy->line_start);
 		}
 		i = 0;
 		while (line[i])
