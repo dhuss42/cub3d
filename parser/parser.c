@@ -39,7 +39,7 @@ static void	read_file(char *cub_file, t_cub *cub)
 	line = NULL;
 	fd = open(cub_file, O_RDONLY);
 	if (fd < 0)
-		print_error_free_exit(errno, NULL, NULL);
+		print_error_free_exit(errno, NULL, cub_file);
 	line = get_next_line(fd);
 	if (!line)
 		print_error_free_exit(E_EMPTYFILE, NULL, NULL);
@@ -54,7 +54,7 @@ static void	read_file(char *cub_file, t_cub *cub)
 	if (line)
 		free (line);
 	if (close (fd) < 0)
-		print_error_free_exit(errno, cub, NULL);
+		print_error_free_exit(errno, cub, cub_file);
 	if (cub->assets->err)
 		free_exit (cub->assets->err, cub);
 }
@@ -112,12 +112,22 @@ void	print_map(char **map)
 
 }
 
+void	print_assets(t_assets *assets)
+{
+	printf("%s\n", assets->no);
+	printf("%s\n", assets->ea);
+	printf("%s\n", assets->so);
+	printf("%s\n", assets->we);
+}
+
 void	parser(char *cub_file, t_cub *cub)
 {
 	init_parsing(cub);
+	check_filename_valid(cub_file, cub);
 	read_file(cub_file, cub);
 	if (cub->mapy->is_map)
 	{
+		print_assets(cub->assets);
 		get_map(cub_file, cub);
 		// print_map(cub->mapy->map);
 	}

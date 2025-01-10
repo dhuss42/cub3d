@@ -33,6 +33,7 @@ filename not ending on .cub
 empty file
 
 PLAN:
+DONE 0. check if filename ending on .cub
 DONE 1. Search for NO, WE, SO, EA, F and C, jump whitespaces and read following letters
 	check for duplicate
 DONE 2. files: ->read filename until whitespace or newline
@@ -44,16 +45,15 @@ DONE 2. files: ->read filename until whitespace or newline
 	DONE error if != 3 numbers
 	DONE if after 3. number is something, error
 	DONE Transform it to uint32_t (0xFF0000)
-4. map: before: skip any newlines
+4. DONE map: before: skip any newlines
 	set flag for beginning map (when colors and textures exist)
 	count lines with getnext line. Remember line where map begins
 	for writing into map, do another round of getnextline.
 	DONE read until eof and safe map in **map
 
 after reading:
-1. check if everything present (NO, WE, SO, EA, F, C , map)
-2. files: check if files of textures valid (just do fd = open(file, O_RDONLY) ?)
-	check if filename ending in .cub
+1. DONE check if everything present (NO, WE, SO, EA, F, C , map)
+2.  files: check if files of textures valid (just do fd = open(file, O_RDONLY) ?)
 3. map: check if any unvalid characters (also newline without other content?) (this includes also characters after map end)
 	check if player == 1
 	floodfill from player position to check if map is closed
