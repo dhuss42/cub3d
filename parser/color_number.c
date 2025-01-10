@@ -24,10 +24,12 @@ static int	get_single_number(t_assets *assets, char *line)
 	int		j;
 
 	j = 0;
-	while (line[assets->i] == ' ' || line[assets->i] == '+' || line[assets->i] == '0')
+	while (line[assets->i] == ' ' || line[assets->i] == '+')
 		assets->i++;
 	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' ' && line[assets->i] != '\n')
 	{
+		while (j == 0 && line[assets->i] == '0' && ft_isdigit(line[assets->i + 1]))
+			assets->i++;
 		if (!assets->err && (!ft_isdigit (line[assets->i]) || j > 2))
 		{
 			assets->err = E_INVALIDNBR;	//put this into print_error
@@ -86,7 +88,7 @@ uint32_t	int_to_uint32(int *nbr_int)
 Write the three colors as int into int array
 then return them as uint32_t
 ------------------------------------------------------------------------*/
-uint32_t	color_to_uint(t_assets *assets, char *line)
+uint32_t	color_to_uint32(t_assets *assets, char *line)
 {
 	int		nbr_int[3];
 	int		n;
@@ -99,7 +101,7 @@ uint32_t	color_to_uint(t_assets *assets, char *line)
 	{
 		nbr_int[n] = get_single_number(assets, line);
 		if (nbr_int[n] < 0)
-			return (0);
+			return (16777216);	//
 		if (n < 2 && !assets->err)
 			skip_ws_until_comma(assets, line);
 		else if (n >= 2 && !assets->err)
@@ -108,5 +110,5 @@ uint32_t	color_to_uint(t_assets *assets, char *line)
 	}
 	if (!assets->err)
 		return (int_to_uint32(nbr_int));
-	return (0);
+	return (16777216);	//
 }

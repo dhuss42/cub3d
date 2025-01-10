@@ -36,6 +36,11 @@ int	custom_error(t_custom_error err, char *str)
 	}
 	if (err == E_MALLOC)
 		ft_putstr_fd("Malloc failed!\n", 2);
+	if (err == E_MISSING)
+	{
+		ft_putstr_fd("Missing part in input file: ", 2);
+		ft_putstr_fd(str, 2);
+	}
 	return (err);
 }
 

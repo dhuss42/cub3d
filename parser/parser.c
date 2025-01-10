@@ -69,8 +69,8 @@ static void	init_parsing(t_cub *cub)
 	cub->assets->ea = NULL;
 	cub->assets->so = NULL;
 	cub->assets->we = NULL;
-	cub->assets->c = 0;
-	cub->assets->f = 0;
+	cub->assets->c = 16777216;
+	cub->assets->f = 16777216;
 	cub->assets->err = 0;
 	cub->assets->i = 0;
 	cub->mapy = NULL;
@@ -116,10 +116,10 @@ void	parser(char *cub_file, t_cub *cub)
 {
 	init_parsing(cub);
 	read_file(cub_file, cub);
-	// if (!all_colors_assets_exist)	//todo
-	// 	free_exit (cub->assets->err, cub);
-	get_map(cub_file, cub);
-	// print_map(cub->mapy->map);
-	// check_content(cub);
-
+	if (cub->mapy->is_map)
+	{
+		get_map(cub_file, cub);
+		// print_map(cub->mapy->map);
+	}
+	check_content(cub);
 }
