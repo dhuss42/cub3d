@@ -12,34 +12,30 @@
 
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-CFILES = cub.c\
-		error_free/error_handling.c\
-		error_free/free_cub.c\
-		parser/parser.c\
-		parser/parse_line_content.c
+CFLAGS = -Wall -Wextra -Werror ../MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+CFILES = raycaster.c\
+	helpers.c\
+	player.c\
+	mini_map.c\
 
-VPATH := $(dir $(CFILES))
+OFILES = $(CFILES:.c=.o)
 
-OBJ_DIR = objs
-OFILES = $(addprefix $(OBJ_DIR)/, $(notdir $(CFILES:.c=.o)))
-
-LIBFT_DIR = ./libft
-LIBFT = $(LIBFT_DIR)/libft.a
-LIBFT_INCLUDES = -I $(LIBFT_DIR)
+# LIBFT_DIR = ./libft
+# LIBFT = $(LIBFT_DIR)/libft.a
+# LIBFT_INCLUDES = -I $(LIBFT_DIR)
 
 all: $(NAME)
 	@echo "\033[32m cub3D built successfully! \033[0m"
 
-$(LIBFT):
-	@$(MAKE) -C $(LIBFT_DIR) all
-	@$(MAKE) -C $(LIBFT_DIR) bonus
+# $(LIBFT):
+# 	@$(MAKE) -C $(LIBFT_DIR) all
+# 	@$(MAKE) -C $(LIBFT_DIR) bonus
 
-$(NAME): $(OFILES) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) -o $(NAME)
+$(NAME): $(OFILES) 
+	@$(CC) $(CFLAGS) $(OFILES) -o $(NAME)
 
 $(OBJ_DIR)/%.o: %.c
-	$(CC) $(CFLAGS) $(LIBFT_INCLUDES) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJDIR)
@@ -47,13 +43,11 @@ $(OBJ_DIR):
 clean:
 	@echo "\033[33m cleaning cub3D files \033[0m"
 	@rm -f $(OBJ_DIR)/*
-	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean:
 	@echo "\033[33m fcleaning cub3D \033[0m"
 	@rm -f $(OBJ_DIR)/*
 	@rm -f $(NAME)
-	@$(MAKE) -C $(LIBFT_DIR) fclean
 
 re:
 	@echo "\033[35m re making... \033[0m"

@@ -12,12 +12,52 @@
 
 #include "../cub.h"
 
-int	print_error(t_custom_error err)
+int	custom_error(t_custom_error err, char *str)
 {
-	ft_putstr_fd(RED"Error!\n"RESET, 2);
-	if (err <= 106)
-		return (perror(NULL), errno);
 	if (err == E_ARGS)
-		ft_putstr_fd(RED"Wrong amount of arguments!\n"RESET, 2);
+		ft_putstr_fd("Wrong amount of arguments!\n", 2);
+	if (err == E_EMPTYFILE)
+		ft_putstr_fd("Empty file!\n", 2);
+	if (err == E_DUPLICATE)
+	{
+		ft_putstr_fd("Duplicate: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("\n", 2);
+	}
+	if (err == E_LINECONTENT)
+	{
+		ft_putstr_fd("Unexpected content in line: ", 2);
+		ft_putstr_fd(str, 2);
+	}
+	if (err == E_INVALIDNBR)
+	{
+		ft_putstr_fd("Invalid number in: ", 2);
+		ft_putstr_fd(str, 2);
+	}
 	return (err);
 }
+
+void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str)
+{
+	if (cub)
+		free_cub(cub);
+	ft_putstr_fd(RED"Error!\n", 2);
+	if (err > 106)
+		custom_error(err, str);
+	else if (err <= 106)
+	{
+		perror(NULL);
+		err = errno;
+	}
+	exit (err);
+}
+
+void	print_error(t_custom_error err, char *str)
+{
+	ft_putstr_fd(RED"Error!\n", 2);
+	if (err > 106)
+		custom_error(err, str);
+	else if (err <= 106)
+		perror(NULL);
+}
+

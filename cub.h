@@ -34,10 +34,16 @@
 # define CYAN        "\033[36m"
 # define WHITE       "\033[37m"
 
-/*---------------- ERRORS ----------------*/
-int	print_error(t_custom_error err);
+/*---------------- ERROR_FREE ----------------*/
+void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str);
+void	print_error(t_custom_error err, char *str);
+void	free_cub(t_cub *cub);
+void	free_exit(int err, t_cub *cub);
 
 /*---------------- PARSER -----------------*/
 void	parser(char *cub_file, t_cub *cub);
+int		is_asset(char *line, t_assets *assets);
+int		is_color(char *line, t_assets *assets);
+int		is_map(char *line, char **map);
 
 # endif
