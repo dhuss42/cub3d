@@ -31,12 +31,12 @@ void	check_rest_line(t_assets *assets, char *line)
 
 /*------------------------------------------------------------------------
 Store path of NO/EA/SO/WE asset into assets->no/ea/so/we
-If duplicate detected, print error, store errornumber
+If duplicate detected, print error, store last errornumber
 and end program after finishing reading with gnl
 Between NO and path: jump whitspaces and tabs
 then read until whitspace or non printable character
 ------------------------------------------------------------------------*/
-int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
+static int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 {
 	int	tmp;
 
@@ -54,7 +54,7 @@ int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 		assets->i++;
 	*assetpath = ft_calloc((assets->i - tmp + 1), sizeof(char));
 	if (!*assetpath)
-		return (1);	//do something else (exit?)
+		return (1);	//do something else (exit?)(printerror?)
 	assets->i = tmp;
 	while (line[assets->i] >= 33 && 126 >= line[assets->i])
 	{
@@ -90,57 +90,6 @@ int	is_asset(char *line, t_assets *assets)
 	return (0);
 }
 
-int	get_single_number(t_assets *assets, char *line)
-{
-	char	nbr_str[4];
-	int		j;
-
-	j = 0;
-	while (line[assets->i] == ' ')
-		assets->i++;
-	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' '  && line[assets->i] != '\n')
-	{
-		if (/*!ft_isdigit (line[assets->i]) || */j > 2)
-		{
-			assets->err = E_INVALIDNBR;
-			print_error(E_INVALIDNBR, line);
-			return (0);
-		}
-		nbr_str[j] = line[assets->i];
-		assets->i++;
-		j++;
-	}
-	if (line[assets->i] == ',')
-		assets->i++;
-	nbr_str[j] = '\0';
-	return (ft_atoi(nbr_str));
-}
-
-int	color_to_uint(t_assets *assets, char *line)	//change name (?)
-{
-	int		nbr_int[3];
-	int		n;
-
-	assets->i++;
-	while (line[assets->i] == ' ' || line[assets->i] == 9)
-		assets->i++;
-	n = 0;
-	while (n < 3)
-	{
-		nbr_int[n] = get_single_number(assets, line);
-		n++;
-	}
-	// int_to_uint32(nbr_int);	//TODO
-	n = 0;
-	while (n < 3)
-	{
-		printf ("%d,", nbr_int[n]);
-		n++;
-	}
-	printf ("\n");
-	return (nbr_int[n]);		//change
-}
-
 /*------------------------------------------------------------------------
 Check if in this line is stored color (C/F)
 in the beginning: skip all whitespaces and tabs
@@ -155,11 +104,10 @@ int	is_color(char *line, t_assets *assets)
 			assets->i++;
 		if (line[assets->i] == 'C' || line[assets->i] == 'F')
 		{
-			// if (line[assets->i] == 'C')
-			// 	assets->c = color_to_uint(assets, line);
-			// else if (line[assets->i] == 'F')
-			// 	assets->f = color_to_uint(assets, line);
-			color_to_uint(assets, line);
+			if (line[assets->i] == 'C')
+				assets->c = color_to_uint32(assets, line);
+			else if (line[assets->i] == 'F')
+				assets->f = color_to_uint32(assets, line);
 			return (1);
 		}
 		assets->i++;
@@ -167,9 +115,23 @@ int	is_color(char *line, t_assets *assets)
 	return (0);
 }
 
-int	is_map(char *line, char **map)
+int	is_map(char *line, t_cub *cub)
 {
-	(void)line;
-	(void)map;
+	int	i;
+
+	if (cub->assets->no && cub->assets->ea && cub->assets->so
+		&& cub->assets->we && cub->assets->c < 16777216 && cub->assets->f < 16777216)
+	{
+		if (!cub->mapy->is_map)
+		{
+			cub->mapy->is_map = true;
+			cub->mapy->line_start = cub->mapy->nbr_lines;
+		}
+		i = 0;
+		while (line[i])
+			i++;
+		if (i > cub->mapy->longest_line)
+			cub->mapy->longest_line = i;
+	}
 	return (0);
 }

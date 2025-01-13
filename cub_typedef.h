@@ -10,10 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef CUB_STRUCTS_H
-# define CUB_STRUCTS_H
+#ifndef CUB_TYPEDEF_H
+# define CUB_TYPEDEF_H
 
 # include <stdint.h>
+# include <stdbool.h>
 
 typedef enum e_custom_error
 {
@@ -21,7 +22,10 @@ typedef enum e_custom_error
 	E_EMPTYFILE,
 	E_DUPLICATE,
 	E_LINECONTENT,
-	E_INVALIDNBR
+	E_INVALIDNBR,
+	E_MALLOC,
+	E_MISSING,
+	E_FILENAME
 }				t_custom_error;
 
 typedef struct s_assets
@@ -34,13 +38,30 @@ typedef struct s_assets
 	uint32_t		f;		//color floor
 	int				err;
 	int				i;
-	// int			*c_int;	//before transformation to uint32_t
-	// int			*f_int;	//maybe not necessary
 }					t_assets;
+
+/*
+	---- how to transform uint32_t (little endian) into single colors ----
+	uint8_t red = (nbr_uint32 >> 16) & 0xFF;
+	uint8_t green = (nbr_uint32 >> 8) & 0xFF;
+	uint8_t blue = nbr_uint32 & 0xFF;
+*/
+
+typedef struct s_map
+{
+	char	**map;
+	bool	is_map;
+	int		nbr_lines;
+	int		line_start;
+	int		longest_line;
+	int		current_line;
+	int		err;
+}					t_map;
+
 
 typedef struct s_cub
 {
-	char		**map;
+	t_map		*mapy;
 	t_assets	*assets;
 }					t_cub;
 
