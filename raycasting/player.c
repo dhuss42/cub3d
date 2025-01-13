@@ -37,19 +37,29 @@ void    determine_dir(t_cub *cub, char dir)
 {
     if (dir == 'N')
     {
-       cub->player_angle = PI / 2;
+    //    cub->player_angle = PI / 2;
+       cub->player_angle = 3 * PI / 2; // turned around because of y 
+       cub->plane.x = 0.66;
+       cub->plane.y = 0;
     }
     else if (dir == 'E')
     {
         cub->player_angle = 0;
+        cub->plane.x = 0;
+        cub->plane.y = 0.66;
     }
     else if (dir == 'S')
     {
-        cub->player_angle = 3 * PI / 2;
+        cub->player_angle = PI / 2;
+        // cub->player_angle = 3 * PI / 2;
+        cub->plane.x = 0.66;
+        cub->plane.y = 0;
     }
     else if (dir == 'W')
     {
         cub->player_angle = PI;
+        cub->plane.x = 0;
+        cub->plane.y = 0.66;
     }
     cub->dir_player.x = cos(cub->player_angle);
     cub->dir_player.y = sin(cub->player_angle);
