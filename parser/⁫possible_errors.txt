@@ -53,10 +53,12 @@ DONE 2. files: ->read filename until whitespace or newline
 
 after reading:
 1. DONE check if everything present (NO, WE, SO, EA, F, C , map)
-2.  files: check if files of textures valid (just do fd = open(file, O_RDONLY) ?)
-3. map: check if any unvalid characters (also newline without other content?) (this includes also characters after map end)
+2. DONE files: check if files of textures valid (just do fd = open(file, O_RDONLY) ?)
+3. DONE check if map is there / in right position
+4. map: check if any unvalid characters (also newline without other content?) (this includes also characters after map end)
 	check if player == 1
 	floodfill from player position to check if map is closed
+5. Check if any nonsense between lines
 
 valid:
 NO ./assets/tile_0.png

@@ -29,8 +29,8 @@ static void	check_all_there(t_cub *cub)
 		print_error_free_exit(E_MISSING, cub, "'C' ceiling color\n");
 	if (cub->assets->f >16777215)
 		print_error_free_exit(E_MISSING, cub, "'F' floor color\n");
-	if (!cub->mapy->map)
-		print_error_free_exit(E_MISSING, cub, "map\n");
+	// if (!cub->mapy->map)
+	// 	print_error_free_exit(E_MISSING, cub, "map\n");
 }
 
 void	check_filename_valid(char *path, t_cub *cub)	//somewhere else
@@ -45,21 +45,42 @@ void	check_filename_valid(char *path, t_cub *cub)	//somewhere else
 			print_error_free_exit(E_FILENAME, cub, NULL);
 }
 
-// static void	check_filepaths_valid(t_cub *cub)
-// {
-// 	int		fd;
+static void	check_filepaths_valid(t_cub *cub)
+{
+	int		fd;
 
-// 	fd = open(cub->assets->no, O_RDONLY);
-// 	if (fd < 0)
-// 		print_error_free_exit(errno, cub, cub->assets->no);
-// 	if (close (fd) < 0)
-// 		print_error_free_exit(errno, cub, cub->assets->no);
-// }
+	fd = open(cub->assets->no, O_RDONLY);
+	if (fd < 0)
+		print_error_free_exit(errno, cub, cub->assets->no);
+	if (close(fd) < 0)
+		print_error_free_exit(errno, cub, cub->assets->no);
+	fd = open(cub->assets->ea, O_RDONLY);
+	if (fd < 0)
+		print_error_free_exit(errno, cub, cub->assets->ea);
+	if (close(fd) < 0)
+		print_error_free_exit(errno, cub, cub->assets->ea);
+	fd = open(cub->assets->so, O_RDONLY);
+	if (fd < 0)
+		print_error_free_exit(errno, cub, cub->assets->so);
+	if (close(fd) < 0)
+		print_error_free_exit(errno, cub, cub->assets->so);
+	fd = open(cub->assets->we, O_RDONLY);
+	if (fd < 0)
+		print_error_free_exit(errno, cub, cub->assets->we);
+	if (close(fd) < 0)
+		print_error_free_exit(errno, cub, cub->assets->we);
+}
+//valid characters: 1, 0, N, E, S, W
+void	check_map(char **map, t_cub *cub)
+{
+	if (!map || !*map)
+		print_error_free_exit(E_NOMAP, cub, NULL);
+}
 
 void	check_content(t_cub *cub)
 {
 	check_all_there(cub);
-	// check_filepaths_valid(cub);	//not done yet
-	// check_map(cub->mapy->map);	//todo
+	check_filepaths_valid(cub);
+	check_map(cub->mapy->map, cub);	//todo
 
 }

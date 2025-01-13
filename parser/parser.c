@@ -22,7 +22,9 @@ static void	parse_line(char *line, t_cub *cub)
 		return ;
 	if (is_color(line, cub->assets))
 		return ;
-	is_map(line, cub);
+	if (is_map(line, cub))
+		return ;
+	// is_nonsense(line, cub);
 }
 
 /*------------------------------------------------------------------------
@@ -59,6 +61,11 @@ static void	read_file(char *cub_file, t_cub *cub)
 		free_exit (cub->assets->err, cub);
 }
 
+/*------------------------------------------------------------------------
+Init all values that are relevant for parsing
+16777215 is the max value if all colors are 255
+16777216 I need for the check of color is set. because 0 would be white
+------------------------------------------------------------------------*/
 static void	init_parsing(t_cub *cub)
 {
 	cub->assets = NULL;
@@ -127,9 +134,9 @@ void	parser(char *cub_file, t_cub *cub)
 	read_file(cub_file, cub);
 	if (cub->mapy->is_map)
 	{
-		print_assets(cub->assets);
 		get_map(cub_file, cub);
-		// print_map(cub->mapy->map);
+		// print_assets(cub->assets);
+		print_map(cub->mapy->map);
 	}
 	check_content(cub);
 }

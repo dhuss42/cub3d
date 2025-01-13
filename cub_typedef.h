@@ -25,7 +25,8 @@ typedef enum e_custom_error
 	E_INVALIDNBR,
 	E_MALLOC,
 	E_MISSING,
-	E_FILENAME
+	E_FILENAME,
+	E_NOMAP
 }				t_custom_error;
 
 typedef struct s_assets

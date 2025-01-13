@@ -132,6 +132,7 @@ int	is_map(char *line, t_cub *cub)
 			i++;
 		if (i > cub->mapy->longest_line)
 			cub->mapy->longest_line = i;
+		return (1);
 	}
 	return (0);
 }
