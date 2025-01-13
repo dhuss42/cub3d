@@ -136,3 +136,10 @@ int	is_map(char *line, t_cub *cub)
 	}
 	return (0);
 }
+
+int	is_nonsense(char *line, t_cub *cub)
+{
+	cub->assets->i = 0;
+	check_rest_line(cub->assets, line);
+	return (0);
+}

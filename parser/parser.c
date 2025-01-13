@@ -24,7 +24,7 @@ static void	parse_line(char *line, t_cub *cub)
 		return ;
 	if (is_map(line, cub))
 		return ;
-	// is_nonsense(line, cub);
+	is_nonsense(line, cub);
 }
 
 /*------------------------------------------------------------------------
