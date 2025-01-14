@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 14:35:49 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 13:20:15 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,18 +228,6 @@ void	raycaster(t_cub *cub)
 {
 	int x;
 
-	// cub->drawn_walls = mlx_new_image(cub->mlx, WIDTH / 2, HEIGHT);
-	// if (cub->drawn_walls == NULL)
-	// {
-	// 	printf("Failed to create image\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// cub->rays = mlx_new_image(cub->mlx, WIDTH / 2, HEIGHT);
-	// if (cub->rays == NULL)
-	// {
-	// 	printf("Failed to create image\n");
-	// 	exit(EXIT_FAILURE);
-	// }
 	x = 0;
 	// printf(RED"pos_player-x: %f\n"WHITE, cub->pos_player.x);
 	// printf(RED"pos_player-y: %f\n"WHITE, cub->pos_player.y);

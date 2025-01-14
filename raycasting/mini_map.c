@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:21 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 11:11:01 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 13:20:12 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,11 @@ void	draw_mini_map(t_cub *cub)
 
 void	mini_map(t_cub *cub)
 {
+	printf("test0\n");
 	draw_mini_map(cub);
+	printf("test2\n");
 	create_vectors(cub);
+	printf("test3\n");
 	draw_player(cub);
+	printf("test4\n");
 }

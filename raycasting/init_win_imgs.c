@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 10:47:33 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 13:38:41 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,20 @@ void	init_win_imgs(t_cub *cub)
 		exit(EXIT_FAILURE);
 	}
 	// intialises new Window
+
+	// int width = 0;
+	// int	height = 0;
+	// mlx_get_monitor_size(0, &width, &height);
+	// printf(MAGENTA"width: %d\n"WHITE, width);
+	// printf(MAGENTA"height: %d\n"WHITE, height);
+
+	cub->width = 0;
+	cub->height = 0;
+	mlx_get_monitor_size(0, &cub->width, &cub->height);
+	printf(MAGENTA"width: %d\n"WHITE, cub->width);
+	printf(MAGENTA"height: %d\n"WHITE, cub->height);
+	mlx_set_window_size(cub->mlx, cub->width, cub->height);
+	mlx_set_window_pos(cub->mlx, 0, 0);
 	new_image(cub->mlx, &cub->map_image, WIDTH, HEIGHT);
 	new_image(cub->mlx, &cub->player_image, 32, 32);
 }

@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 14:55:22 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 13:20:09 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	game_loop(void *param)
 	ft_key_hook(cub);
 	reset_img(cub);
 	raycaster(cub);
-
 }
 
 void	visualisation(t_cub *cub)
@@ -48,16 +47,14 @@ void	visualisation(t_cub *cub)
 	mini_map(cub);
 	cub->pos_player.x += 0.5;
 	cub->pos_player.y += 0.5;
-	// raycaster(cub);
-	// mlx_loop_hook(cub->mlx, ft_key_hook, cub);
-	// handles key presses
 	mlx_loop_hook(cub->mlx, game_loop, cub);
 	mlx_loop(cub->mlx);
+	mlx_terminate(cub->mlx);
 }
 
 int	main()
 {
-	t_cub   cub;
+	t_cub	cub;
 
 	char	*map[] = {
 		"1111111111",
@@ -66,9 +63,9 @@ int	main()
 		"1000000001",
 		"1000001101",
 		"1000000001",
-		"100000E001",
-		"1000000001",
-		"1000000101",
+		"10000010W1",
+		"1000001001",
+		"1000001101",
 		"1111111111",
 		NULL
 	};

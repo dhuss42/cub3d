@@ -63,6 +63,8 @@ typedef struct s_cub
 	int			line_height;
 	int			line_start;
 	int			line_end;
+	int			width;
+	int			height;
 	uint32_t	colour;
 	char		**map;
 	char		start_dir;
