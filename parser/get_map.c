@@ -17,6 +17,8 @@ void	allocate_map(t_map *mapy)
 	int	i;
 
 	mapy->map = malloc(sizeof(char*) * (mapy->nbr_lines - mapy->line_start));
+	// printf("hä\n");	//wenn hier ein printf, dann kommt kein free(): invalid pointer
+	printf(MAGENTA"%d\n"WHITE, mapy->nbr_lines - mapy->line_start);
 	if (!mapy->map)
 	{
 		mapy->err = E_MALLOC;
@@ -24,10 +26,11 @@ void	allocate_map(t_map *mapy)
 		return ;
 	}
 	i = 0;
+	// printf(MAGENTA"%d\n"WHITE, mapy->longest_line);
 	while (i < (mapy->nbr_lines - mapy->line_start))
 	{
 		mapy->map[i] = NULL;
-		mapy->map[i] = malloc (sizeof(char) * (mapy->longest_line + 1));
+		mapy->map[i] = malloc (sizeof(char) * (mapy->longest_line));
 		if (!mapy->map[i])
 		{
 			mapy->err = E_MALLOC;
@@ -46,6 +49,7 @@ void	write_to_map(char *line, t_map *mapy)
 		allocate_map(mapy);
 	if (mapy->err)
 		return ;
+	printf(BLUE"current line: %d\n"WHITE, mapy->current_line);
 	i = 0;
 	while (line[i])
 	{
@@ -54,7 +58,6 @@ void	write_to_map(char *line, t_map *mapy)
 	}
 	mapy->map[mapy->current_line][i] = '\0';
 	mapy->current_line++;
-	(void)line;
 	// if (mapy->current_line == (mapy->nbr_lines - mapy->line_start + 1))
 	// 	mapy->map[mapy->current_line] = NULL;
 }

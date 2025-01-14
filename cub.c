@@ -18,6 +18,7 @@ int	main(int argc, char **argv)
 	if (argc != 2)
 		print_error_free_exit(E_ARGS, NULL, NULL);
 	parser(argv[1], &cub);
+	free_cub(&cub);
 	(void)argv;
 	return (0);
 }

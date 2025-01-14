@@ -70,11 +70,42 @@ static void	check_filepaths_valid(t_cub *cub)
 	if (close(fd) < 0)
 		print_error_free_exit(errno, cub, cub->assets->we);
 }
-//valid characters: 1, 0, N, E, S, W
+
+bool	non_valid_char_map(char c)
+{
+	if (c != '1' && c != '0' && c != 'N' && c != 'E' && c != 'S'
+		&& c != 'W' && c != '\n' && c != ' ')
+			return(true);
+	return (false);
+}
+
+//valid characters: 1, 0, N, E, S, W, whitespace, newline
 void	check_map(char **map, t_cub *cub)
 {
+	int	j;
+	int	i;
+
 	if (!map || !*map)
 		print_error_free_exit(E_NOMAP, cub, NULL);
+	j = 0;
+	while(map[j][0] == '\n')
+		j++;
+	while(map[j])
+	{
+		i = 0;
+		if (map[j][i] == '\n' && map [j + 1] && map [j + 1][0] != '\n')
+			print_error_free_exit(E_NEWLINEMAP, cub, NULL);	//sometimes error: free(): invalid pointer | Aborted (core dumped)
+		while(map[j][i])
+		{
+			if (non_valid_char_map(map[j][i]))
+			{
+				printf(YELLOW"%c\n", map[j][i]);
+				print_error_free_exit(E_LINECONTENT, cub, map[j]);
+			}
+			i++;
+		}
+		j++;
+	}
 }
 
 void	check_content(t_cub *cub)

@@ -26,12 +26,12 @@ int	custom_error(t_custom_error err, char *str)
 	}
 	if (err == E_LINECONTENT)
 	{
-		ft_putstr_fd("Unexpected content in line: ", 2);
+		ft_putstr_fd("Invalid content in line: ", 2);
 		ft_putstr_fd(str, 2);
 	}
 	if (err == E_INVALIDNBR)
 	{
-		ft_putstr_fd("Invalid number in: ", 2);
+		ft_putstr_fd("Invalid content in line: ", 2);
 		ft_putstr_fd(str, 2);
 	}
 	if (err == E_MALLOC)
@@ -45,6 +45,8 @@ int	custom_error(t_custom_error err, char *str)
 		ft_putstr_fd("Input filename not ending on '.cub'\n", 2);
 	if (err == E_NOMAP)
 		ft_putstr_fd("No map or map in wrong position\n", 2);
+	if (err == E_NEWLINEMAP)
+		ft_putstr_fd("Newline in map\n", 2);
 	return (err);
 }
 
