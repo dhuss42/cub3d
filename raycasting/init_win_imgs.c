@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/14 13:38:41 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 15:05:34 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height)
 
 void	init_win_imgs(t_cub *cub)
 {
+	mlx_set_setting(MLX_FULLSCREEN, 1);
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	cub->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (cub->mlx == NULL)
 	{
@@ -47,6 +49,6 @@ void	init_win_imgs(t_cub *cub)
 	printf(MAGENTA"height: %d\n"WHITE, cub->height);
 	mlx_set_window_size(cub->mlx, cub->width, cub->height);
 	mlx_set_window_pos(cub->mlx, 0, 0);
-	new_image(cub->mlx, &cub->map_image, WIDTH, HEIGHT);
+	new_image(cub->mlx, &cub->map_image, cub->width, cub->height);
 	new_image(cub->mlx, &cub->player_image, 32, 32);
 }
