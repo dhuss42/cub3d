@@ -12,9 +12,9 @@
 
 #include "../cub.h"
 
-/*
-	check if everything present (NO, WE, SO, EA, F, C , map)
-*/
+/*-------------------------------------------------------------------
+	check if everything present (NO, WE, SO, EA, F, C)
+-------------------------------------------------------------------*/
 static void	check_all_there(t_cub *cub)
 {
 	if (!cub->assets->no)
@@ -29,10 +29,12 @@ static void	check_all_there(t_cub *cub)
 		print_error_free_exit(E_MISSING, cub, "'C' ceiling color\n");
 	if (cub->assets->f >16777215)
 		print_error_free_exit(E_MISSING, cub, "'F' floor color\n");
-	// if (!cub->mapy->map)
-	// 	print_error_free_exit(E_MISSING, cub, "map\n");
 }
 
+/*-------------------------------------------------------------------
+	check if filename of inputfile is valid
+	has to end on '.cub'
+-------------------------------------------------------------------*/
 void	check_filename_valid(t_cub *cub, char *path)	//somewhere else
 {
 	int	i;
@@ -45,6 +47,9 @@ void	check_filename_valid(t_cub *cub, char *path)	//somewhere else
 			print_error_free_exit(E_FILENAME, cub, NULL);
 }
 
+/*-------------------------------------------------------------------
+	check if file exists and is not directory
+-------------------------------------------------------------------*/
 void	check_filepath_valid(t_cub *cub, char *file_path)
 {
 	int		fd;
@@ -58,6 +63,10 @@ void	check_filepath_valid(t_cub *cub, char *file_path)
 		print_error_free_exit(errno, cub, file_path);
 }
 
+/*-------------------------------------------------------------------
+	check for any non valid characters in map
+	valid characters: 1, 0, N, E, S, W, whitespace, newline
+-------------------------------------------------------------------*/
 bool	non_valid_char_map(char c)
 {
 	if (c != '1' && c != '0' && c != 'N' && c != 'E' && c != 'S'
@@ -66,7 +75,10 @@ bool	non_valid_char_map(char c)
 	return (false);
 }
 
-void	check_map_char(int j, t_cub *cub, char **map)
+/*-------------------------------------------------------------------
+	check map for newlines, non valid characters, if player exists
+-------------------------------------------------------------------*/
+void	check_map_valid(int j, t_cub *cub, char **map)
 {
 	while(map[j])
 	{
@@ -96,7 +108,10 @@ void	check_map_char(int j, t_cub *cub, char **map)
 		print_error_free_exit(E_NOPLAYER, cub, map[j]);
 }
 
-char	**cpy_2d_arr(char **map_2d, t_cub *cub)
+/*-------------------------------------------------------------------
+	copy map to do floodfill
+-------------------------------------------------------------------*/
+char	**cpy_map(char **map_2d, t_cub *cub)
 {
 	char	**map_new;
 	int		i;
@@ -119,6 +134,14 @@ char	**cpy_2d_arr(char **map_2d, t_cub *cub)
 	return (map_new);
 }
 
+/*-------------------------------------------------------------------
+	check if map is closed/surrounded by walls
+	starting from players position, check always the surrounding fields
+	if not beyond map, set it to 1
+	if 1, return
+	if it reaches beyond the borders of the map ('\0', '\n' or y/x < 0),
+	means that map is open
+-------------------------------------------------------------------*/
 void	floodfill(char **map, t_cub *cub, int x, int y)
 {
 	if (y < 0 || x < 0 || !map[y] || !map[y][x]|| map[y][x] == '\n')
@@ -132,6 +155,9 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 	floodfill(map, cub, x - 1, y);
 }
 
+/*-------------------------------------------------------------------
+	remove all lines including only '\n' from map`s end
+-------------------------------------------------------------------*/
 void	cut_newlines_map_end(char **map)
 {
 	int	j;
@@ -153,7 +179,9 @@ void	cut_newlines_map_end(char **map)
 	}
 }
 
-//valid characters: 1, 0, N, E, S, W, whitespace, newline
+/*-------------------------------------------------------------------
+	check if map exists, check for any invalid content
+-------------------------------------------------------------------*/
 void	check_map(char **map, t_cub *cub)
 {
 	int		j;
@@ -164,13 +192,16 @@ void	check_map(char **map, t_cub *cub)
 	j = 0;
 	while(map[j][0] == '\n')
 		j++;
-	check_map_char(j, cub, map);
-	flood_map = cpy_2d_arr(map, cub);
+	check_map_valid(j, cub, map);
+	flood_map = cpy_map(map, cub);
 	floodfill(flood_map, cub, cub->mapy->player_pos[1], cub->mapy->player_pos[0]);
 	free_double(flood_map);
 	cut_newlines_map_end(map);
 }
 
+/*-------------------------------------------------------------------
+	check if parsed input is valid
+-------------------------------------------------------------------*/
 void	check_content(t_cub *cub)
 {
 	check_all_there(cub);
