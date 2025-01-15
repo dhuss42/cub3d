@@ -63,7 +63,8 @@ after reading:
 TODO:
 DONE check if "file" is directory
 NOPE better test for missing texture or color
-delete newlines after map or throw error?
+DONE delete newlines after map or throw error?
+CHeck for memory leaks (system leaks not working :´( 	)
 
 valid:
 NO ./assets/tile_0.png

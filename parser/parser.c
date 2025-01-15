@@ -140,8 +140,8 @@ void	parser(char *cub_file, t_cub *cub)
 	{
 		get_map(cub_file, cub);
 		// print_assets(cub->assets);
-		// print_map(cub->mapy->map);
 	}
 	check_content(cub);
+	// print_map(cub->mapy->map);
 	// printf(YELLOW"%d | %d\n", cub->mapy->player_pos[0], cub->mapy->player_pos[1]);
 }

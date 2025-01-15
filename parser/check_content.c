@@ -132,6 +132,27 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 	floodfill(map, cub, x - 1, y);
 }
 
+void	cut_newlines_map_end(char **map)
+{
+	int	j;
+
+	j = 0;
+	while (map[j])
+	{
+		if (map[j][0] == '\n')
+		{
+			map[j] = NULL;
+			while (map[j])
+			{
+				free(map[j]);
+				map[j] = NULL;
+				j++;
+			}
+		}
+		j++;
+	}
+}
+
 //valid characters: 1, 0, N, E, S, W, whitespace, newline
 void	check_map(char **map, t_cub *cub)
 {
@@ -147,6 +168,7 @@ void	check_map(char **map, t_cub *cub)
 	flood_map = cpy_2d_arr(map, cub);
 	floodfill(flood_map, cub, cub->mapy->player_pos[1], cub->mapy->player_pos[0]);
 	free_double(flood_map);
+	cut_newlines_map_end(map);
 }
 
 void	check_content(t_cub *cub)
@@ -157,5 +179,4 @@ void	check_content(t_cub *cub)
 	check_filepath_valid(cub, cub->assets->so);
 	check_filepath_valid(cub, cub->assets->we);
 	check_map(cub->mapy->map, cub);
-
 }
