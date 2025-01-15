@@ -27,7 +27,9 @@ typedef enum e_custom_error
 	E_MISSING,
 	E_FILENAME,
 	E_NOMAP,
-	E_NEWLINEMAP
+	E_NEWLINEMAP,
+	E_TOOMANYPLAYERS,
+	E_NOPLAYER
 }				t_custom_error;
 
 typedef struct s_assets
@@ -53,6 +55,7 @@ typedef struct s_map
 {
 	char	**map;
 	bool	is_map;
+	bool	is_player;
 	int		nbr_lines;
 	int		line_start;
 	int		longest_line;

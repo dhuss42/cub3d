@@ -42,11 +42,15 @@ int	custom_error(t_custom_error err, char *str)
 		ft_putstr_fd(str, 2);
 	}
 	if (err == E_FILENAME)
-		ft_putstr_fd("Input filename not ending on '.cub'\n", 2);
+		ft_putstr_fd("Input filename not ending on '.cub'!\n", 2);
 	if (err == E_NOMAP)
-		ft_putstr_fd("No map or map in wrong position\n", 2);
+		ft_putstr_fd("No map or map in wrong position!\n", 2);
 	if (err == E_NEWLINEMAP)
-		ft_putstr_fd("Newline in map\n", 2);
+		ft_putstr_fd("Newline in map!\n", 2);
+	if (err == E_TOOMANYPLAYERS)
+		ft_putstr_fd("Too many players!\n", 2);
+	if (err == E_NOPLAYER)
+		ft_putstr_fd("No player!\n", 2);
 	return (err);
 }
 

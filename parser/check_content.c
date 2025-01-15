@@ -79,39 +79,53 @@ bool	non_valid_char_map(char c)
 	return (false);
 }
 
+void	check_map_char(int j, t_cub *cub, char **map)
+{
+	while(map[j])
+	{
+		int	i;
+
+		i = 0;
+		if (map[j][i] == '\n' && map [j + 1] && map [j + 1][0] != '\n')
+			print_error_free_exit(E_NEWLINEMAP, cub, NULL);
+		while(map[j][i])
+		{
+			if (non_valid_char_map(map[j][i]))
+				print_error_free_exit(E_LINECONTENT, cub, map[j]);
+			if (map[j][i] == 'N' || map[j][i] == 'E'
+				|| map[j][i] == 'S' || map[j][i] == 'W')
+			{
+				if (cub->mapy->is_player)
+					print_error_free_exit(E_TOOMANYPLAYERS, cub, map[j]);
+				else
+					cub->mapy->is_player = true;
+			}
+			i++;
+		}
+		j++;
+	}
+	if (!cub->mapy->is_player)
+		print_error_free_exit(E_NOPLAYER, cub, map[j]);
+}
+
 //valid characters: 1, 0, N, E, S, W, whitespace, newline
 void	check_map(char **map, t_cub *cub)
 {
 	int	j;
-	int	i;
 
 	if (!map || !*map)
 		print_error_free_exit(E_NOMAP, cub, NULL);
 	j = 0;
 	while(map[j][0] == '\n')
 		j++;
-	while(map[j])
-	{
-		i = 0;
-		if (map[j][i] == '\n' && map [j + 1] && map [j + 1][0] != '\n')
-			print_error_free_exit(E_NEWLINEMAP, cub, NULL);	//sometimes error: free(): invalid pointer | Aborted (core dumped)
-		while(map[j][i])
-		{
-			if (non_valid_char_map(map[j][i]))
-			{
-				printf(YELLOW"%c\n", map[j][i]);
-				print_error_free_exit(E_LINECONTENT, cub, map[j]);
-			}
-			i++;
-		}
-		j++;
-	}
+	check_map_char(j, cub, map);
+
 }
 
 void	check_content(t_cub *cub)
 {
 	check_all_there(cub);
 	check_filepaths_valid(cub);
-	check_map(cub->mapy->map, cub);	//todo
+	check_map(cub->mapy->map, cub);
 
 }
