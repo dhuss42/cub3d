@@ -56,6 +56,7 @@ typedef struct s_map
 	char	**map;
 	bool	is_map;
 	bool	is_player;
+	int		player_pos[2];
 	int		nbr_lines;
 	int		line_start;
 	int		longest_line;

@@ -97,8 +97,9 @@ void	check_map_char(int j, t_cub *cub, char **map)
 			{
 				if (cub->mapy->is_player)
 					print_error_free_exit(E_TOOMANYPLAYERS, cub, map[j]);
-				else
-					cub->mapy->is_player = true;
+				cub->mapy->is_player = true;
+				cub->mapy->player_pos[0] = j;
+				cub->mapy->player_pos[1] = i;
 			}
 			i++;
 		}

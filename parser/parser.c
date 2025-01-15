@@ -86,6 +86,9 @@ static void	init_parsing(t_cub *cub)
 		return ;	//do something more reasonable
 	cub->mapy->map = NULL;
 	cub->mapy->is_map = false;
+	cub->mapy->is_player = false;
+	cub->mapy->player_pos[0] = -1;
+	cub->mapy->player_pos[1] = -1;
 	cub->mapy->nbr_lines = 0;
 	cub->mapy->line_start = 0;
 	cub->mapy->longest_line = 0;
