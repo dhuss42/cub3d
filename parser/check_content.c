@@ -33,7 +33,7 @@ static void	check_all_there(t_cub *cub)
 	// 	print_error_free_exit(E_MISSING, cub, "map\n");
 }
 
-void	check_filename_valid(char *path, t_cub *cub)	//somewhere else
+void	check_filename_valid(t_cub *cub, char *path)	//somewhere else
 {
 	int	i;
 
@@ -45,30 +45,17 @@ void	check_filename_valid(char *path, t_cub *cub)	//somewhere else
 			print_error_free_exit(E_FILENAME, cub, NULL);
 }
 
-static void	check_filepaths_valid(t_cub *cub)
+void	check_filepath_valid(t_cub *cub, char *file_path)
 {
 	int		fd;
 
-	fd = open(cub->assets->no, O_RDONLY);
+	fd = open(file_path, O_RDONLY);
 	if (fd < 0)
-		print_error_free_exit(errno, cub, cub->assets->no);
+		print_error_free_exit(errno, cub, file_path);
+	if (read(fd, 0, 0) < 0)
+		print_error_free_exit(errno, cub, file_path);
 	if (close(fd) < 0)
-		print_error_free_exit(errno, cub, cub->assets->no);
-	fd = open(cub->assets->ea, O_RDONLY);
-	if (fd < 0)
-		print_error_free_exit(errno, cub, cub->assets->ea);
-	if (close(fd) < 0)
-		print_error_free_exit(errno, cub, cub->assets->ea);
-	fd = open(cub->assets->so, O_RDONLY);
-	if (fd < 0)
-		print_error_free_exit(errno, cub, cub->assets->so);
-	if (close(fd) < 0)
-		print_error_free_exit(errno, cub, cub->assets->so);
-	fd = open(cub->assets->we, O_RDONLY);
-	if (fd < 0)
-		print_error_free_exit(errno, cub, cub->assets->we);
-	if (close(fd) < 0)
-		print_error_free_exit(errno, cub, cub->assets->we);
+		print_error_free_exit(errno, cub, file_path);
 }
 
 bool	non_valid_char_map(char c)
@@ -109,10 +96,47 @@ void	check_map_char(int j, t_cub *cub, char **map)
 		print_error_free_exit(E_NOPLAYER, cub, map[j]);
 }
 
+char	**cpy_2d_arr(char **map_2d, t_cub *cub)
+{
+	char	**map_new;
+	int		i;
+
+	i = 0;
+	while (map_2d[i])
+		i++;
+	map_new = malloc (sizeof(char *) * (i + 1));
+	if (!map_new)
+		print_error_free_exit(E_MALLOC, cub, NULL);
+	i = 0;
+	while (map_2d[i])
+	{
+		map_new[i] = ft_strdup(map_2d[i]);
+		if (!map_new[i])
+			print_error_free_exit(E_MALLOC, cub, NULL);
+		i++;
+	}
+	map_new[i] = NULL;
+	return (map_new);
+}
+
+void	floodfill(char **map, t_cub *cub, int x, int y)
+{
+	if (y < 0 || x < 0 || !map[y] || !map[y][x]|| map[y][x] == '\n')
+		print_error_free_exit(E_OPENMAP, cub, NULL);
+	if (map[y][x] == '1')
+		return ;
+	else (map[y][x] = '1');
+	floodfill(map, cub, x, y + 1);
+	floodfill(map, cub, x, y - 1);
+	floodfill(map, cub, x + 1, y);
+	floodfill(map, cub, x - 1, y);
+}
+
 //valid characters: 1, 0, N, E, S, W, whitespace, newline
 void	check_map(char **map, t_cub *cub)
 {
-	int	j;
+	int		j;
+	char	**flood_map;
 
 	if (!map || !*map)
 		print_error_free_exit(E_NOMAP, cub, NULL);
@@ -120,13 +144,18 @@ void	check_map(char **map, t_cub *cub)
 	while(map[j][0] == '\n')
 		j++;
 	check_map_char(j, cub, map);
-
+	flood_map = cpy_2d_arr(map, cub);
+	floodfill(flood_map, cub, cub->mapy->player_pos[1], cub->mapy->player_pos[0]);
+	free_double(flood_map);
 }
 
 void	check_content(t_cub *cub)
 {
 	check_all_there(cub);
-	check_filepaths_valid(cub);
+	check_filepath_valid(cub, cub->assets->no);
+	check_filepath_valid(cub, cub->assets->ea);
+	check_filepath_valid(cub, cub->assets->so);
+	check_filepath_valid(cub, cub->assets->we);
 	check_map(cub->mapy->map, cub);
 
 }

@@ -57,8 +57,13 @@ after reading:
 3. DONE check if map is there / in right position
 4. DONE map: check if any unvalid characters (also newline without other content?) (this includes also characters after map end)
 	DONE check if player == 1
-	floodfill from player position to check if map is closed
-5. Check if any nonsense between lines
+	DONE floodfill from player position to check if map is closed
+5. DONE(?) Check if any nonsense between lines
+
+TODO:
+DONE check if "file" is directory
+NOPE better test for missing texture or color
+delete newlines after map or throw error?
 
 valid:
 NO ./assets/tile_0.png

@@ -51,6 +51,8 @@ int	custom_error(t_custom_error err, char *str)
 		ft_putstr_fd("Too many players!\n", 2);
 	if (err == E_NOPLAYER)
 		ft_putstr_fd("No player!\n", 2);
+	if (err == E_OPENMAP)
+		ft_putstr_fd("Map is not surrounded by walls!\n", 2);
 	return (err);
 }
 

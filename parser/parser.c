@@ -133,7 +133,8 @@ void	print_assets(t_assets *assets)
 void	parser(char *cub_file, t_cub *cub)
 {
 	init_parsing(cub);
-	check_filename_valid(cub_file, cub);
+	check_filename_valid(cub, cub_file);
+	check_filepath_valid(cub, cub_file);
 	read_file(cub_file, cub);
 	if (cub->mapy->is_map)
 	{
@@ -142,4 +143,5 @@ void	parser(char *cub_file, t_cub *cub)
 		// print_map(cub->mapy->map);
 	}
 	check_content(cub);
+	// printf(YELLOW"%d | %d\n", cub->mapy->player_pos[0], cub->mapy->player_pos[1]);
 }

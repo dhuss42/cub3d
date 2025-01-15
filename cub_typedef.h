@@ -29,7 +29,8 @@ typedef enum e_custom_error
 	E_NOMAP,
 	E_NEWLINEMAP,
 	E_TOOMANYPLAYERS,
-	E_NOPLAYER
+	E_NOPLAYER,
+	E_OPENMAP
 }				t_custom_error;
 
 typedef struct s_assets

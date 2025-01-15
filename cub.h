@@ -38,6 +38,7 @@
 void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str);
 void	print_error(t_custom_error err, char *str);
 void	free_cub(t_cub *cub);
+void	free_double(char **to_free);
 void	free_exit(int err, t_cub *cub);
 
 /*---------------- PARSER -----------------*/
@@ -50,6 +51,7 @@ void	check_rest_line(t_assets *assets, char *line);
 uint32_t		color_to_uint32(t_assets *assets, char *line);
 void	get_map(char *cub_file, t_cub *cub);
 void	check_content(t_cub *cub);
-void	check_filename_valid(char *path, t_cub *cub);
+void	check_filename_valid(t_cub *cub, char *path);
+void	check_filepath_valid(t_cub *cub, char *file_path);
 
 # endif
