@@ -136,7 +136,7 @@ void	parser(char *cub_file, t_cub *cub)
 	{
 		get_map(cub_file, cub);
 		// print_assets(cub->assets);
-		print_map(cub->mapy->map);
+		// print_map(cub->mapy->map);
 	}
 	check_content(cub);
 }
