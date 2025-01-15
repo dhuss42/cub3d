@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:34 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 11:10:50 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 14:17:47 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	determine_plane(t_cub *cub)
 
 	camera = cub->plane;
 	camera.x = cub->dir_player.y;
-	camera.y = cub->dir_player.x; // 0.66?
+	camera.y = cub->dir_player.x;
 
 	// inverse of direction vector
 	// needs to be variable based on the starting direction

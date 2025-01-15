@@ -9,8 +9,8 @@
 # include <math.h>
 # include "../libft/libft.h"
 
-#define WIDTH 1280
-#define HEIGHT 640
+#define WIDTH 3200
+#define HEIGHT 1800
 #define PI 3.14159265358979323846  // Define Pi
 
 //---------------- COLORS --------------//
@@ -63,6 +63,8 @@ typedef struct s_cub
 	int			line_height;
 	int			line_start;
 	int			line_end;
+	int			width;
+	int			height;
 	uint32_t	colour;
 	char		**map;
 	char		start_dir;
@@ -73,6 +75,7 @@ void	init_win_imgs(t_cub *cub);
 
 //-mini_map-//
 void	mini_map(t_cub *cub);
+void	draw_mini_map(t_cub *cub);
 int		create_vectors(t_cub *cub);
 
 //-raycasting-//

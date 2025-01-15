@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 14:55:22 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 15:09:58 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,14 @@ void	reset_img(t_cub *cub)
 	int	y;
 
 	y = 0;
-	while (y < HEIGHT)
+	while (y < cub->height)
 	{
 		x = 0;
-		while (x < WIDTH / 2)
+		while (x < cub->width /* / 2 */)
 		{
-			if (x + (WIDTH / 2) > WIDTH / 2 && x + (WIDTH / 2) < WIDTH && y > 0 && y < HEIGHT)
-				mlx_put_pixel(cub->map_image, WIDTH / 2 + x, 0 + y, 0xFF808080);
+			// if (x + (WIDTH / 2) > WIDTH / 2 && x + (WIDTH / 2) < WIDTH && y > 0 && y < HEIGHT)
+			if (y > 0 && y < cub->height && /* ( */x /* + WIDTH / 2) */ > 0 /* WIDTH / 2 */ && (x /* + WIDTH / 2 */) < cub->width)
+				mlx_put_pixel(cub->map_image, /* WIDTH / 2 + */ x, 0 + y, 0xFF808080);
 			x++;
 		}
 		y++;
@@ -39,7 +40,7 @@ void	game_loop(void *param)
 	ft_key_hook(cub);
 	reset_img(cub);
 	raycaster(cub);
-
+	draw_mini_map(cub);
 }
 
 void	visualisation(t_cub *cub)
@@ -48,16 +49,14 @@ void	visualisation(t_cub *cub)
 	mini_map(cub);
 	cub->pos_player.x += 0.5;
 	cub->pos_player.y += 0.5;
-	// raycaster(cub);
-	// mlx_loop_hook(cub->mlx, ft_key_hook, cub);
-	// handles key presses
 	mlx_loop_hook(cub->mlx, game_loop, cub);
 	mlx_loop(cub->mlx);
+	mlx_terminate(cub->mlx);
 }
 
 int	main()
 {
-	t_cub   cub;
+	t_cub	cub;
 
 	char	*map[] = {
 		"1111111111",
@@ -66,9 +65,9 @@ int	main()
 		"1000000001",
 		"1000001101",
 		"1000000001",
-		"100000E001",
-		"1000000001",
-		"1000000101",
+		"10000010W1",
+		"1000001001",
+		"1000001101",
 		"1111111111",
 		NULL
 	};

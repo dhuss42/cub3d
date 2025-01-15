@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:21 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 11:11:01 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 14:43:56 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,14 +47,18 @@ void	draw_mini_map(t_cub *cub)
 		y++;
 	}
 	// interates over map and draws cells according to 1 and 0
-	mlx_image_to_window(cub->mlx, cub->map_image, 0, 0);
 	// displays image on window at x = 0 and y = 0
 	// create_vectors(cub);
 }
 
 void	mini_map(t_cub *cub)
 {
+	printf("test0\n");
 	draw_mini_map(cub);
+	mlx_image_to_window(cub->mlx, cub->map_image, 0, 0);
+	printf("test2\n");
 	create_vectors(cub);
+	printf("test3\n");
 	draw_player(cub);
+	printf("test4\n");
 }

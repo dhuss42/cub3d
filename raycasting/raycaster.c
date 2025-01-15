@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/13 14:35:49 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/14 15:03:50 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	rays(t_cub *cub, int x)
 {
-	cub->camera_x = 2 * x / (float)(WIDTH / 2) -1;
+	cub->camera_x = 2 * x / (float)(cub->width) -1;
 	cub->ray_dir.x = cub->dir_player.x + cub->plane.x * cub->camera_x;
 	cub->ray_dir.y = cub->dir_player.y + cub->plane.y * cub->camera_x;
 	cub->map_pos.x = cub->pos_player.x;
@@ -186,13 +186,13 @@ void	calculate_line_height(t_cub *cub)
 	// printf(YELLOW"plane_wall_dist: %f\n"WHITE, cub->plane_wall_dist);
 
 
-	cub->line_height = (int)HEIGHT / cub->plane_wall_dist;
-	cub->line_start = -cub->line_height / 2 + (int)HEIGHT / 2;
+	cub->line_height = cub->height / cub->plane_wall_dist;
+	cub->line_start = -cub->line_height / 2 + cub->height / 2;
 	if (cub->line_start < 0)
 		cub->line_start = 0;
-	cub->line_end = cub->line_height / 2 + (int)HEIGHT / 2;
-	if (cub->line_start >= HEIGHT)
-		cub->line_start = (int)HEIGHT - 1;
+	cub->line_end = cub->line_height / 2 + cub->height / 2;
+	if (cub->line_start >= cub->height)
+		cub->line_start = cub->height - 1;
 
 }
 
@@ -218,8 +218,10 @@ void	draw_walls(t_cub *cub, int x)
 	while (y <= cub->line_end)
 	{
 		// printf("test7\n");
-		if (y > 0 && y < HEIGHT && (x + WIDTH / 2) > WIDTH / 2 && (x + WIDTH / 2) < WIDTH)
-			mlx_put_pixel(cub->map_image, (WIDTH / 2) + x, y, cub->colour);
+		// if (y > 0 && y < cub->height && x > 0 && x < cub->width && (y == cub->line_start || y == cub->line_end))
+		// 	mlx_put_pixel(cub->map_image, /* (WIDTH / 2) +  */x, y, 0x000000FF);
+		if (y > 0 && y < cub->height && /* ( */x /* + WIDTH / 2) */ > 0 /* WIDTH / 2 */ && (x /* + WIDTH / 2 */) < cub->width)
+			mlx_put_pixel(cub->map_image, /* (WIDTH / 2) +  */x, y, cub->colour);
 		y++;
 	}
 }
@@ -228,23 +230,11 @@ void	raycaster(t_cub *cub)
 {
 	int x;
 
-	// cub->drawn_walls = mlx_new_image(cub->mlx, WIDTH / 2, HEIGHT);
-	// if (cub->drawn_walls == NULL)
-	// {
-	// 	printf("Failed to create image\n");
-	// 	exit(EXIT_FAILURE);
-	// }
-	// cub->rays = mlx_new_image(cub->mlx, WIDTH / 2, HEIGHT);
-	// if (cub->rays == NULL)
-	// {
-	// 	printf("Failed to create image\n");
-	// 	exit(EXIT_FAILURE);
-	// }
 	x = 0;
 	// printf(RED"pos_player-x: %f\n"WHITE, cub->pos_player.x);
 	// printf(RED"pos_player-y: %f\n"WHITE, cub->pos_player.y);
 	int run = 0;
-		while (x < WIDTH / 2)
+		while (x < cub->width /* / 2 */)
 		{
 			// printf(GREEN"run [%d]\n"WHITE, run);
 			// printf("test1\n");
