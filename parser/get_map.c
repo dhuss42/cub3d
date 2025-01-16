@@ -27,7 +27,7 @@ void	allocate_map(t_map *mapy)
 	while (i < (mapy->nbr_lines - mapy->line_start))
 	{
 		mapy->map[i] = NULL;
-		mapy->map[i] = malloc (sizeof(char) * (mapy->longest_line));
+		mapy->map[i] = malloc (sizeof(char) * (mapy->longest_line + 1));
 		if (!mapy->map[i])
 		{
 			mapy->err = E_MALLOC;
@@ -46,7 +46,7 @@ void	write_to_map(char *line, t_map *mapy)
 		allocate_map(mapy);
 	if (mapy->err)
 		return ;
-	if (!mapy->map[mapy->current_line])
+	if (!mapy->map[mapy->current_line])	//maby delete
 	{
 		mapy->err = E_MALLOC;
 		print_error(E_MALLOC, NULL);

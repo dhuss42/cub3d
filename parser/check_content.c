@@ -161,21 +161,21 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 void	cut_newlines_map_end(char **map)
 {
 	int	j;
+	int	f;
 
 	j = 0;
+	f = 0;
 	while (map[j])
 	{
 		if (map[j][0] == '\n')
-		{
-			map[j] = NULL;
-			while (map[j])
-			{
-				free(map[j]);
-				map[j] = NULL;
-				j++;
-			}
-		}
+			f = j;
 		j++;
+	}
+	while (j <= f)
+	{
+		free(map[j]);
+		map[j] = NULL;
+		j--;
 	}
 }
 
