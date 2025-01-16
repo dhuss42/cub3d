@@ -12,6 +12,10 @@
 
 #include "../cub.h"
 
+/*------------------------------------------------------------------------
+Check what kind of content is this line and safe its content
+in the corresponding variables
+------------------------------------------------------------------------*/
 static void	parse_line(char *line, t_cub *cub)
 {
 	if (cub->assets->err || !line)
@@ -22,7 +26,10 @@ static void	parse_line(char *line, t_cub *cub)
 		return ;
 	if (is_color(line, cub->assets))
 		return ;
-	is_map(line, cub);
+	if (is_map(line, cub))
+		return ;
+	cub->assets->i = 0;
+	check_rest_line(cub->assets, line);
 }
 
 /*------------------------------------------------------------------------
@@ -39,10 +46,10 @@ static void	read_file(char *cub_file, t_cub *cub)
 	line = NULL;
 	fd = open(cub_file, O_RDONLY);
 	if (fd < 0)
-		print_error_free_exit(errno, NULL, cub_file);
+		print_error_free_exit(errno, cub, cub_file);
 	line = get_next_line(fd);
 	if (!line)
-		print_error_free_exit(E_EMPTYFILE, NULL, NULL);
+		print_error_free_exit(E_EMPTYFILE, cub, NULL);
 	while (line)
 	{
 		parse_line(line, cub);
@@ -59,12 +66,39 @@ static void	read_file(char *cub_file, t_cub *cub)
 		free_exit (cub->assets->err, cub);
 }
 
-static void	init_parsing(t_cub *cub)
+/*------------------------------------------------------------------------
+Init all map related values that are relevant for parsing
+------------------------------------------------------------------------*/
+static void	init_mapy(t_cub *cub)
+{
+	cub->mapy = NULL;
+	cub->mapy = malloc (sizeof(t_map));
+	if (!cub->mapy)
+		print_error_free_exit(E_MALLOC, cub, NULL);
+	cub->mapy->line = NULL;
+	cub->mapy->map = NULL;
+	cub->mapy->is_map = false;
+	cub->mapy->is_player = false;
+	cub->mapy->player_pos[0] = -1;
+	cub->mapy->player_pos[1] = -1;
+	cub->mapy->nbr_lines = 0;
+	cub->mapy->line_start = 0;
+	cub->mapy->longest_line = 0;
+	cub->mapy->current_line = 0;
+	cub->mapy->err = 0;
+}
+
+/*------------------------------------------------------------------------
+Init all assets related values that are relevant for parsing
+16777215 is the max value if all colors are 255
+16777216 I need for the check of color is set. because 0 would be white
+------------------------------------------------------------------------*/
+static void	init_assets(t_cub *cub)
 {
 	cub->assets = NULL;
 	cub->assets = malloc (sizeof(t_assets));
 	if (!cub->assets)
-		return ;	//do something more reasonable
+		print_error_free_exit(E_MALLOC, cub, NULL);
 	cub->assets->no = NULL;
 	cub->assets->ea = NULL;
 	cub->assets->so = NULL;
@@ -73,63 +107,19 @@ static void	init_parsing(t_cub *cub)
 	cub->assets->f = 16777216;
 	cub->assets->err = 0;
 	cub->assets->i = 0;
-	cub->mapy = NULL;
-	cub->mapy = malloc (sizeof(t_map));
-	if (!cub->mapy)
-		return ;	//do something more reasonable
-	cub->mapy->map = NULL;
-	cub->mapy->is_map = false;
-	cub->mapy->nbr_lines = 0;
-	cub->mapy->line_start = 0;
-	cub->mapy->longest_line = 0;
-	cub->mapy->current_line = 0;
-	cub->mapy->err = 0;
 }
 
-// void print_binary(uint32_t n) {
-//     if (n > 0) {
-//         print_binary(n / 2);
-//     }
-//     printf("%d", n % 2);
-// }
-
-void	print_map(char **map)
-{
-	int	i;
-	int	j;
-
-	j = 0;
-	while (map && map[j])
-	{
-		i = 0;
-		while (map[j][i])
-		{
-			printf("%c", map[j][i]);
-			i++;
-		}
-		j++;
-	}
-
-}
-
-void	print_assets(t_assets *assets)
-{
-	printf("%s\n", assets->no);
-	printf("%s\n", assets->ea);
-	printf("%s\n", assets->so);
-	printf("%s\n", assets->we);
-}
-
+/*------------------------------------------------------------------------
+Parse content of input file into its single parts and check their contents
+------------------------------------------------------------------------*/
 void	parser(char *cub_file, t_cub *cub)
 {
-	init_parsing(cub);
-	check_filename_valid(cub_file, cub);
+	init_assets(cub);
+	init_mapy(cub);
+	check_filename_valid(cub, cub_file);
+	check_filepath_valid(cub, cub_file);
 	read_file(cub_file, cub);
 	if (cub->mapy->is_map)
-	{
-		print_assets(cub->assets);
 		get_map(cub_file, cub);
-		// print_map(cub->mapy->map);
-	}
 	check_content(cub);
 }

@@ -26,14 +26,14 @@ static int	get_single_number(t_assets *assets, char *line)
 	j = 0;
 	while (line[assets->i] == ' ' || line[assets->i] == '+')
 		assets->i++;
-	while (line[assets->i] && line[assets->i] != ',' && line[assets->i] != ' ' && line[assets->i] != '\n')
+	while (line[assets->i] && line[assets->i] != ','
+		&& line[assets->i] != ' ' && line[assets->i] != '\n')
 	{
 		while (j == 0 && line[assets->i] == '0' && ft_isdigit(line[assets->i + 1]))
 			assets->i++;
 		if (!assets->err && (!ft_isdigit (line[assets->i]) || j > 2))
 		{
-			assets->err = E_INVALIDNBR;	//put this into print_error
-			print_error(E_INVALIDNBR, line);
+			print_error(E_INVALIDNBR, &assets->err, line);
 			return (-1);
 		}
 		nbr_str[j] = line[assets->i];
@@ -42,10 +42,7 @@ static int	get_single_number(t_assets *assets, char *line)
 	}
 	nbr_str[j] = '\0';
 	if (!assets->err && (j == 0 || ft_atoi(nbr_str) > 255))
-	{
-		assets->err = E_INVALIDNBR;
-		print_error(E_INVALIDNBR, line);
-	}
+		print_error(E_INVALIDNBR, &assets->err, line);
 	return (ft_atoi(nbr_str));
 }
 
@@ -56,10 +53,7 @@ static void	skip_ws_until_comma(t_assets *assets, char *line)
 	if (line[assets->i] == ',')
 		assets->i++;
 	else
-	{
-		assets->err = E_INVALIDNBR;
-		print_error(E_INVALIDNBR, line);
-	}
+		print_error(E_INVALIDNBR, &assets->err, line);
 }
 
 /*------------------------------------------------------------------------
@@ -72,7 +66,6 @@ little endian ( = less significant byte first)
 nbr_uint32:	10001110 10111111 10010011
 			red			green	blue
 ------------------------------------------------------------------------*/
-
 uint32_t	int_to_uint32(int *nbr_int)
 {
 	uint32_t	nbr_uint32;
@@ -101,7 +94,7 @@ uint32_t	color_to_uint32(t_assets *assets, char *line)
 	{
 		nbr_int[n] = get_single_number(assets, line);
 		if (nbr_int[n] < 0)
-			return (16777216);	//
+			return (16777216);
 		if (n < 2 && !assets->err)
 			skip_ws_until_comma(assets, line);
 		else if (n >= 2 && !assets->err)
@@ -110,5 +103,5 @@ uint32_t	color_to_uint32(t_assets *assets, char *line)
 	}
 	if (!assets->err)
 		return (int_to_uint32(nbr_int));
-	return (16777216);	//
+	return (16777216);
 }

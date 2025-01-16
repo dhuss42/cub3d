@@ -12,12 +12,18 @@
 
 #include "cub.h"
 
-int	main(int argc, char **argv)
+	void	leaks(void)
+	{
+		system("leaks ./cub3D");
+	}
+
+	int	main(int argc, char **argv)
 {
+	// atexit(leaks);
 	t_cub cub;
 	if (argc != 2)
 		print_error_free_exit(E_ARGS, NULL, NULL);
 	parser(argv[1], &cub);
-	(void)argv;
+	free_cub(&cub);
 	return (0);
 }

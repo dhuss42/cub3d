@@ -12,9 +12,9 @@
 
 #include "../cub.h"
 
-/*
-	check if everything present (NO, WE, SO, EA, F, C , map)
-*/
+/*-------------------------------------------------------------------
+	check if everything present (NO, WE, SO, EA, F, C)
+-------------------------------------------------------------------*/
 static void	check_all_there(t_cub *cub)
 {
 	if (!cub->assets->no)
@@ -29,11 +29,13 @@ static void	check_all_there(t_cub *cub)
 		print_error_free_exit(E_MISSING, cub, "'C' ceiling color\n");
 	if (cub->assets->f >16777215)
 		print_error_free_exit(E_MISSING, cub, "'F' floor color\n");
-	if (!cub->mapy->map)
-		print_error_free_exit(E_MISSING, cub, "map\n");
 }
 
-void	check_filename_valid(char *path, t_cub *cub)	//somewhere else
+/*-------------------------------------------------------------------
+	check if filename of inputfile is valid
+	has to end on '.cub'
+-------------------------------------------------------------------*/
+void	check_filename_valid(t_cub *cub, char *path)	//somewhere else
 {
 	int	i;
 
@@ -45,21 +47,53 @@ void	check_filename_valid(char *path, t_cub *cub)	//somewhere else
 			print_error_free_exit(E_FILENAME, cub, NULL);
 }
 
-// static void	check_filepaths_valid(t_cub *cub)
-// {
-// 	int		fd;
+/*-------------------------------------------------------------------
+	check if file exists and is not directory
+-------------------------------------------------------------------*/
+void	check_filepath_valid(t_cub *cub, char *file_path)
+{
+	int		fd;
 
-// 	fd = open(cub->assets->no, O_RDONLY);
-// 	if (fd < 0)
-// 		print_error_free_exit(errno, cub, cub->assets->no);
-// 	if (close (fd) < 0)
-// 		print_error_free_exit(errno, cub, cub->assets->no);
-// }
+	fd = open(file_path, O_RDONLY);
+	if (fd < 0)
+		print_error_free_exit(errno, cub, file_path);
+	if (read(fd, 0, 0) < 0)
+		print_error_free_exit(errno, cub, file_path);
+	if (close(fd) < 0)
+		print_error_free_exit(errno, cub, file_path);
+}
 
+/*-------------------------------------------------------------------
+	check if map exists, check for any invalid content
+-------------------------------------------------------------------*/
+void	check_map(char **map, t_cub *cub)
+{
+	int		j;
+	int		i;
+	char	**flood_map;
+
+	if (!map || !*map)
+		print_error_free_exit(E_NOMAP, cub, NULL);
+	j = 0;
+	i = 0;
+	while(map[j][0] == '\n')
+		j++;
+	check_map_valid(i, j, cub, map);
+	flood_map = cpy_map(map, cub);
+	floodfill(flood_map, cub, cub->mapy->player_pos[1], cub->mapy->player_pos[0]);
+	free_double(flood_map);
+	cut_newlines_map_end(map);
+}
+
+/*-------------------------------------------------------------------
+	check if parsed input is valid
+-------------------------------------------------------------------*/
 void	check_content(t_cub *cub)
 {
 	check_all_there(cub);
-	// check_filepaths_valid(cub);	//not done yet
-	// check_map(cub->mapy->map);	//todo
-
+	check_filepath_valid(cub, cub->assets->no);
+	check_filepath_valid(cub, cub->assets->ea);
+	check_filepath_valid(cub, cub->assets->so);
+	check_filepath_valid(cub, cub->assets->we);
+	check_map(cub->mapy->map, cub);
 }
