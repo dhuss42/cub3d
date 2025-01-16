@@ -20,28 +20,27 @@ void	draw_mini_map(t_cub *cub)
 {
 	int	x;
 	int	y;
-	int	cell_size;
 	int	start_x;
 	int	start_y; // The actual pixel location on the window (map location * cell_size)
 
-	cell_size = 64;
+	cub->cell_size = 16;
 	y = 0;
 	while (cub->map[y] != NULL)
 	{
 		x = 0;
 		while (cub->map[y][x] != '\0')
 		{
-			start_x = x * cell_size;
-			start_y = y * cell_size;
+			start_x = x * cub->cell_size;
+			start_y = y * cub->cell_size;
 			// determines where to start drawing
 			if (cub->map[y][x] == '1')
-				draw_cell(cub->map_image, start_x, start_y, cell_size - 1, 0x000000FF);
+				draw_cell(cub->map_image, start_x, start_y, cub->cell_size - 1, 0x000000FF);
 			else if (cub->map[y][x] == '0')
-				draw_cell(cub->map_image, start_x, start_y, cell_size - 1, 0xFFFFFFFF);
+				draw_cell(cub->map_image, start_x, start_y, cub->cell_size - 1, 0xFFFFFFFF);
 			else if (is_player(cub->map[y][x], cub))
-				draw_cell(cub->map_image, start_x, start_y, cell_size - 1, 0xFFFFFFFF);
+				draw_cell(cub->map_image, start_x, start_y, cub->cell_size - 1, 0xFFFFFFFF);
 			else
-				draw_cell(cub->map_image, start_x, start_y, cell_size, 0x00000000);
+				draw_cell(cub->map_image, start_x, start_y, cub->cell_size, 0x00000000);
 			x++;
 		}
 		y++;

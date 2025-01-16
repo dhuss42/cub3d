@@ -188,9 +188,12 @@ Untextured Raycaster
                 -> this is done because things that are closer appear larger and vice versa (Umgekehrt proportional)
                     -> 1 / 3 needs to be drawn larger than
                     -> 1 / 8
-            - then 
+        
+        Calculate start and end position of where to draw
+            - center of the wall should be at the center of the screen
+            - 
 
-
+        
 collision
     detect if next square is wall
 key hold

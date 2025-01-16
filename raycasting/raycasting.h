@@ -9,8 +9,8 @@
 # include <math.h>
 # include "../libft/libft.h"
 
-#define WIDTH 3200
-#define HEIGHT 1800
+#define WIDTH 1240
+#define HEIGHT 720
 #define PI 3.14159265358979323846  // Define Pi
 
 //---------------- COLORS --------------//
@@ -65,6 +65,7 @@ typedef struct s_cub
 	int			line_end;
 	int			width;
 	int			height;
+    int         cell_size;
 	uint32_t	colour;
 	char		**map;
 	char		start_dir;

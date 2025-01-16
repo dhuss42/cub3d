@@ -46,12 +46,12 @@ void	movement(t_cub *cub, float speed)
 	if (cub->map[(int)cub->pos_player.y][(int)(next_x + cub->dir_player.x * buffer)] != '1')
 	{
 		cub->pos_player.x = next_x;
-		cub->player_image->instances[0].x = cub->pos_player.x * 64;
+		cub->player_image->instances[0].x = cub->pos_player.x * cub->cell_size;
 	}
 	if (cub->map[(int)(next_y + cub->dir_player.y * buffer)][(int)cub->pos_player.x] != '1')
 	{
 		cub->pos_player.y = next_y;
-		cub->player_image->instances[0].y = cub->pos_player.y * 64;
+		cub->player_image->instances[0].y = cub->pos_player.y * cub->cell_size;
 	}
 	// printf(GREEN"x = %d\n"WHITE, cub->player_image->instances[0].x);
 	// printf(GREEN"y = %d\n"WHITE, cub->player_image->instances[0].y);

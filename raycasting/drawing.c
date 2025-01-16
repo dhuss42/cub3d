@@ -37,19 +37,19 @@ void	draw_direction(t_cub *cub, float dir_x, float dir_y)
 
 void	draw_player(t_cub *cub)
 {
-	int player_pixel_x = cub->pos_player.x * 64 + 16;  // The starting pixel position of the player
-	int player_pixel_y = cub->pos_player.y * 64 + 16;
+	int player_pixel_x = cub->pos_player.x * cub->cell_size + cub->cell_size / 4;  // The starting pixel position of the player
+	int player_pixel_y = cub->pos_player.y * cub->cell_size + cub->cell_size / 4;
 
 	// printf(GREEN"playerpixel_x: %d\n"WHITE, player_pixel_x);
 	// printf(GREEN"playerpixel_y: %d\n"WHITE, player_pixel_y);
-	draw_cell(cub->player_image, 0, 0, 32, 0xFFFF00FF);
+	draw_cell(cub->player_image, 0, 0, cub->cell_size / 2, 0xFFFF00FF);
 	// y=0 and x=0 refer to the top left corner of the player image !! not the map
 	if (!(cub->dir_image = mlx_new_image(cub->mlx, WIDTH / 2, HEIGHT)))
 		printf("Error mlx_image\n");
 	draw_direction(cub, cub->dir_player.x, cub->dir_player.y);
 	draw_direction(cub, cub->dir_player.x - cub->plane.x, cub->dir_player.y - cub->plane.y);
 	draw_direction(cub, cub->dir_player.x + cub->plane.x, cub->dir_player.y + cub->plane.y);
-	mlx_image_to_window(cub->mlx, cub->dir_image, 0, 0);
+	// mlx_image_to_window(cub->mlx, cub->dir_image, 0, 0);
 	if (mlx_image_to_window(cub->mlx, cub->player_image, player_pixel_x, player_pixel_y) == -1)
 		printf("Error mlx_image to window\n");
 	// this passes the entire image on to the game window at the coordinates of the player's starting position
