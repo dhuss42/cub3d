@@ -76,8 +76,9 @@ void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str)
 	exit (err);
 }
 
-void	print_error(t_custom_error err, char *str)
+void	print_error(t_custom_error err, int *err_msg, char *str)
 {
+	*err_msg = err;
 	ft_putstr_fd(RED"Error!\n", 2);
 	if (err > 106)
 		custom_error(err, str);

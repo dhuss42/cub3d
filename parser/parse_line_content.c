@@ -14,6 +14,7 @@
 
 /*------------------------------------------------------------------------
 Detect unexpected content in line
+-> anything thats not tab, whitespace or newline
 ------------------------------------------------------------------------*/
 void	check_rest_line(t_assets *assets, char *line)
 {
@@ -21,8 +22,7 @@ void	check_rest_line(t_assets *assets, char *line)
 	{
 		if (line[assets->i] != 9 && line[assets->i] != ' ')
 		{
-			assets->err = E_LINECONTENT;
-			print_error(E_LINECONTENT, line);
+			print_error(E_LINECONTENT, &assets->err, line);
 			return ;
 		}
 		assets->i++;
@@ -42,8 +42,7 @@ static int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 
 	if (*assetpath != NULL)
 	{
-		assets->err = E_DUPLICATE;
-		print_error(E_DUPLICATE, as);
+		print_error(E_DUPLICATE, &assets->err, as);
 		return (1);
 	}
 	assets->i = assets->i + 2;
@@ -54,7 +53,7 @@ static int	store_path(char **assetpath, char *line, t_assets *assets, char *as)
 		assets->i++;
 	*assetpath = ft_calloc((assets->i - tmp + 1), sizeof(char));
 	if (!*assetpath)
-		return (1);	//do something else (exit?)(printerror?)
+		print_error(E_MALLOC, &assets->err, NULL);
 	assets->i = tmp;
 	while (line[assets->i] >= 33 && 126 >= line[assets->i])
 	{
@@ -115,6 +114,14 @@ int	is_color(char *line, t_assets *assets)
 	return (0);
 }
 
+/*------------------------------------------------------------------------
+The map-part of the input file is considered to start when all assets
+and colors are already there.
+If thats the case, map flag is set to true and the current line-number
+will be safed for later map-reading (map starts here)
+stringlength of the line will be counted to figure out the longest line of
+the map (-> important for later allocation)
+------------------------------------------------------------------------*/
 int	is_map(char *line, t_cub *cub)
 {
 	int	i;
@@ -134,12 +141,5 @@ int	is_map(char *line, t_cub *cub)
 			cub->mapy->longest_line = i;
 		return (1);
 	}
-	return (0);
-}
-
-int	is_nonsense(char *line, t_cub *cub)
-{
-	cub->assets->i = 0;
-	check_rest_line(cub->assets, line);
 	return (0);
 }

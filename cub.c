@@ -25,9 +25,5 @@
 		print_error_free_exit(E_ARGS, NULL, NULL);
 	parser(argv[1], &cub);
 	free_cub(&cub);
-	// char *str = malloc(1000);
-	// (void)str;
-	// leaks();
-	// exit (0);
 	return (0);
 }

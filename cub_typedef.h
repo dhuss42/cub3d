@@ -55,6 +55,7 @@ typedef struct s_assets
 typedef struct s_map
 {
 	char	**map;
+	char	*line;
 	bool	is_map;
 	bool	is_player;
 	int		player_pos[2];
