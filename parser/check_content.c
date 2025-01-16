@@ -127,7 +127,10 @@ char	**cpy_map(char **map_2d, t_cub *cub)
 	{
 		map_new[i] = ft_strdup(map_2d[i]);
 		if (!map_new[i])
+		{
+			free_double(map_new);
 			print_error_free_exit(E_MALLOC, cub, NULL);
+		}
 		i++;
 	}
 	map_new[i] = NULL;
@@ -144,7 +147,8 @@ char	**cpy_map(char **map_2d, t_cub *cub)
 -------------------------------------------------------------------*/
 void	floodfill(char **map, t_cub *cub, int x, int y)
 {
-	if (y < 0 || x < 0 || !map[y] || !map[y][x]|| map[y][x] == '\n')
+	if (y < 0 || x < 0 || !map[y] || x > ft_strlen(map[y])
+		|| !map[y][x] || map[y][x] == '\n')
 	{
 		free_double(map);
 		print_error_free_exit(E_OPENMAP, cub, NULL);
