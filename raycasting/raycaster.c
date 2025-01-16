@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/14 15:03:50 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/16 14:24:37 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,20 +208,14 @@ void	draw_walls(t_cub *cub, int x)
 {
 	int y;
 
-	// printf(YELLOW"line_start: %d\n", cub->line_start);
-	// printf(YELLOW"line_end: %d\n"WHITE, cub->line_end);
-
 	cub->colour = 0x0F00F0FF;
 	if (cub->side == 1)
 		cub->colour = cub->colour / 2;
 	y = cub->line_start;
 	while (y <= cub->line_end)
 	{
-		// printf("test7\n");
-		// if (y > 0 && y < cub->height && x > 0 && x < cub->width && (y == cub->line_start || y == cub->line_end))
-		// 	mlx_put_pixel(cub->map_image, /* (WIDTH / 2) +  */x, y, 0x000000FF);
-		if (y > 0 && y < cub->height && /* ( */x /* + WIDTH / 2) */ > 0 /* WIDTH / 2 */ && (x /* + WIDTH / 2 */) < cub->width)
-			mlx_put_pixel(cub->map_image, /* (WIDTH / 2) +  */x, y, cub->colour);
+		if (y > 0 && y < cub->height && x > 0 && x < cub->width)
+			mlx_put_pixel(cub->wall_image, x, y, cub->colour);
 		y++;
 	}
 }
@@ -231,27 +225,24 @@ void	raycaster(t_cub *cub)
 	int x;
 
 	x = 0;
-	// printf(RED"pos_player-x: %f\n"WHITE, cub->pos_player.x);
-	// printf(RED"pos_player-y: %f\n"WHITE, cub->pos_player.y);
-	int run = 0;
-		while (x < cub->width /* / 2 */)
-		{
-			// printf(GREEN"run [%d]\n"WHITE, run);
-			// printf("test1\n");
-			rays(cub, x);
-			// printf("test2\n");
-			distance_to_first_side(cub);
-			// printf("test3\n");
-			dda(cub);
-			// printf("test4\n");
-			plane_to_wall_distance(cub);
-			// printf("test5\n");
-			calculate_line_height(cub);
-			draw_walls(cub, x);
-			// draw_rays(cub, x);
-			// printf("test6\n");
-			x++;
-			run ++;
+	while (x < cub->width)
+	{
+		// printf("test1\n");
+		rays(cub, x);
+		// printf("test2\n");
+		distance_to_first_side(cub);
+		// printf("test3\n");
+		dda(cub);
+		// printf("test4\n");
+		plane_to_wall_distance(cub);
+		// printf("test5\n");
+		calculate_line_height(cub);
+		draw_walls(cub, x);
+		// draw_rays(cub, x);
+		// printf("test6\n");
+		x++;
+		// printf("x: %d\n", x);
 	}
-	// mlx_image_to_window(cub->mlx, cub->drawn_walls, WIDTH / 2, 0);
+	// Spiegelverkehrt
+	// Fisheye
 }

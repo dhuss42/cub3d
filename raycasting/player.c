@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:34 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/14 14:17:47 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/16 11:42:39 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,9 @@ void	determine_dir(t_cub *cub, char dir)
 {
 	if (dir == 'N')
 	{
-	//	cub->player_angle = PI / 2;
-	   cub->player_angle = 3 * PI / 2; // turned around because of y
-	   cub->plane.x = 0.66;
-	   cub->plane.y = 0;
+		cub->player_angle = 3 * PI / 2; // turned around because of y
+		cub->plane.x = 0.66;
+		cub->plane.y = 0;
 	}
 	else if (dir == 'E')
 	{
@@ -63,7 +62,6 @@ void	determine_dir(t_cub *cub, char dir)
 	else if (dir == 'S')
 	{
 		cub->player_angle = PI / 2;
-		// cub->player_angle = 3 * PI / 2;
 		cub->plane.x = 0.66;
 		cub->plane.y = 0;
 	}
@@ -96,9 +94,9 @@ void	determine_plane(t_cub *cub)
 }
 
 // finds starting position and angle of player
-int create_vectors(t_cub *cub)
+int	create_vectors(t_cub *cub)
 {
-	printf("char dir: %c\n", cub->start_dir);
+	// printf("char dir: %c\n", cub->start_dir);
 	cub->pos_player = find_position(cub->map, cub->start_dir);
 	determine_dir(cub, cub->start_dir);
 	determine_plane(cub);

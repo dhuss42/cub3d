@@ -24,6 +24,14 @@
 # define CYAN		"\033[36m"
 # define WHITE	   "\033[37m"
 
+typedef enum e_key
+{
+	W,
+	S,
+	A,
+	D,
+} t_key;
+
 typedef struct s_vector
 {
 	float   x;
@@ -40,15 +48,17 @@ typedef struct s_cub
 {
 	mlx_t		*mlx;
 	mlx_image_t	*map_image;
+	mlx_image_t	*wall_image;
 	mlx_image_t	*player_image;
 	mlx_image_t	*dir_image;
-	mlx_image_t	*drawn_walls;
 	mlx_image_t	*rays;
 	t_vector	pos_player;
 	t_vector	dir_player;
 	t_vector	plane;
 	t_vector	ray_dir;
+	t_vector	buffer;
 	t_point		map_pos;
+	t_point		map_size;
 	float		camera_x;
 	float		player_angle;
 	float		first_side_x;
@@ -65,10 +75,11 @@ typedef struct s_cub
 	int			line_end;
 	int			width;
 	int			height;
-    int         cell_size;
+	int			cell_size;
 	uint32_t	colour;
 	char		**map;
 	char		start_dir;
+	bool		bottom;
 } t_cub;
 
 //-init-//
@@ -84,14 +95,16 @@ void	raycaster(t_cub *cub);
 
 //-drawing-//
 void	draw_player(t_cub *cub);
-void	draw_cell(mlx_image_t *image, int start_x, int start_y, int cell_size, uint32_t color);
+void	draw_cell(mlx_image_t *image, int start_x, int start_y, int cell_size, uint32_t color, t_cub *cub);
 void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height);
+void	draw_direction(t_cub *cub, float dir_x, float dir_y);
 
 //-input-//
 void	ft_key_hook(void* param);
 
 // -------helpers---------- //
-bool is_player(char c, t_cub *cub);
+bool	is_player(char c, t_cub *cub);
+void	get_map_size(t_cub *cub);
 
 #endif
 

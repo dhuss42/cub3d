@@ -6,26 +6,26 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/14 15:09:58 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/16 14:14:40 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-void	reset_img(t_cub *cub)
+void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 {
 	int x;
 	int	y;
 
+
 	y = 0;
-	while (y < cub->height)
+	while (y < height)
 	{
 		x = 0;
-		while (x < cub->width /* / 2 */)
+		while (x < width)
 		{
-			// if (x + (WIDTH / 2) > WIDTH / 2 && x + (WIDTH / 2) < WIDTH && y > 0 && y < HEIGHT)
-			if (y > 0 && y < cub->height && /* ( */x /* + WIDTH / 2) */ > 0 /* WIDTH / 2 */ && (x /* + WIDTH / 2 */) < cub->width)
-				mlx_put_pixel(cub->map_image, /* WIDTH / 2 + */ x, 0 + y, 0xFF808080);
+			if (y >= 0 && y < height && x >= 0 && x < width)
+				mlx_put_pixel(img, x, 0 + y, colour);
 			x++;
 		}
 		y++;
@@ -38,9 +38,11 @@ void	game_loop(void *param)
 
 	cub = param;
 	ft_key_hook(cub);
-	reset_img(cub);
+	reset_img(cub->width, cub->height, 	0xFFC1C1FF, cub->wall_image);
+	reset_img(cub->map_size.x * cub->cell_size, cub->map_size.y * cub->cell_size, 0xFF00FFFF, cub->map_image);
 	raycaster(cub);
 	draw_mini_map(cub);
+	draw_direction(cub, cub->dir_player.x, cub->dir_player.y);
 }
 
 void	visualisation(t_cub *cub)
@@ -65,7 +67,7 @@ int	main()
 		"1000000001",
 		"1000001101",
 		"1000000001",
-		"10000010W1",
+		"10000010S1",
 		"1000001001",
 		"1000001101",
 		"1111111111",
@@ -75,3 +77,14 @@ int	main()
 	visualisation(&cub);
 	return (0);
 }
+
+// tidy up
+// handle minimap and screen size more gracefully
+// fix minimap x and y checks to be more dynamic
+// handle key inputs wasd and arrows appropriatly
+//		handle collision
+// handle inversion of ray drawing
+// fix fisheye
+// look into textures
+
+// rotate point of view with mouse

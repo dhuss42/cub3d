@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/14 13:20:07 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/16 14:56:09 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,40 @@ void	rotation(t_cub *cub, float angle)
 // checks if the next cell is a wall, if not then the player is moved according to the pressed key and passed speed
 // moves the player on the minimap in corresponding pixel distance
 //	-> buffer acts as a small buffer zone between player and wall
-void	movement(t_cub *cub, float speed)
+void	movement(t_cub *cub, float speed, int sideways)
 {
 	float	next_x;
 	float	next_y;
+	float	move_x;
+	float	move_y;
 	float	buffer;
 
-	buffer = 0.1;
-	next_x = cub->pos_player.x + cub->dir_player.x * speed;
-	next_y = cub->pos_player.y + cub->dir_player.y * speed;
-	if (cub->map[(int)cub->pos_player.y][(int)(next_x + cub->dir_player.x * buffer)] != '1')
+	if (sideways)
+	{
+		move_x = cub->dir_player.y;
+		move_y = -cub->dir_player.x;
+	}
+	else
+	{
+		move_x = cub->dir_player.x;
+		move_y = cub->dir_player.y;
+	}
+	buffer = 0.2;
+	next_x = cub->pos_player.x + move_x * speed;
+	next_y = cub->pos_player.y + move_y * speed;
+	if (cub->map[(int)cub->pos_player.y][(int)(next_x + move_x * buffer)] != '1')
 	{
 		cub->pos_player.x = next_x;
 		cub->player_image->instances[0].x = cub->pos_player.x * cub->cell_size;
 	}
-	if (cub->map[(int)(next_y + cub->dir_player.y * buffer)][(int)cub->pos_player.x] != '1')
+	if (cub->map[(int)(next_y + move_y * buffer)][(int)cub->pos_player.x] != '1')
 	{
 		cub->pos_player.y = next_y;
 		cub->player_image->instances[0].y = cub->pos_player.y * cub->cell_size;
 	}
-	// printf(GREEN"x = %d\n"WHITE, cub->player_image->instances[0].x);
-	// printf(GREEN"y = %d\n"WHITE, cub->player_image->instances[0].y);
-	// printf(BLUE"pos_player.x: %f\n"WHITE, cub->pos_player.x);
-	// printf(BLUE"pos_player.y: %f\n"WHITE, cub->pos_player.y);
+	// implement collision for left backwards
 }
 
-// need to change movement to wasd
-// need to add sideways movement ad
 // on minimap the player can movebackwards inside the wall segfaults sometimes
 void	ft_key_hook(void* param)
 {
@@ -68,20 +75,16 @@ void	ft_key_hook(void* param)
 
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(cub->mlx);
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_UP))
-	{
-		movement(cub, 0.07);
-	}
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_DOWN))
-	{
-		movement(cub, -0.07);
-	}
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_W))
+		movement(cub, 0.07, 0);
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_S))
+		movement(cub, -0.07, 0);
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_A))
+		movement(cub, -0.07, 1);
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_D))
+		movement(cub, 0.07, 1);
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_LEFT))
-	{
 		rotation(cub, 0.05);
-	}
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
-	{
 		rotation(cub, -0.05);
-	}
 }
