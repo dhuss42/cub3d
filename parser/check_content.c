@@ -147,7 +147,7 @@ char	**cpy_map(char **map_2d, t_cub *cub)
 -------------------------------------------------------------------*/
 void	floodfill(char **map, t_cub *cub, int x, int y)
 {
-	if (y < 0 || x < 0 || !map[y] || x > ft_strlen(map[y])
+	if (y < 0 || x < 0 || !map[y] || x > (int)ft_strlen(map[y])
 		|| !map[y][x] || map[y][x] == '\n')
 	{
 		free_double(map);
