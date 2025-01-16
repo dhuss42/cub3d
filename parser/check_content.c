@@ -146,7 +146,7 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 {
 	if (y < 0 || x < 0 || !map[y] || !map[y][x]|| map[y][x] == '\n')
 	{
-		free_double(flood_map);
+		free_double(map);
 		print_error_free_exit(E_OPENMAP, cub, NULL);
 	}
 	if (map[y][x] == '1')

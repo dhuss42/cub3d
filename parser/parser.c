@@ -41,10 +41,10 @@ static void	read_file(char *cub_file, t_cub *cub)
 	line = NULL;
 	fd = open(cub_file, O_RDONLY);
 	if (fd < 0)
-		print_error_free_exit(errno, NULL, cub_file);
+		print_error_free_exit(errno, cub, cub_file);
 	line = get_next_line(fd);
 	if (!line)
-		print_error_free_exit(E_EMPTYFILE, NULL, NULL);
+		print_error_free_exit(E_EMPTYFILE, cub, NULL);
 	while (line)
 	{
 		parse_line(line, cub);
