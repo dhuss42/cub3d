@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:07:07 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 14:35:10 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 12:23:03 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ void	draw_player(t_cub *cub)
 	// y=0 and x=0 refer to the top left corner of the player image !! not the map
 
 	draw_direction(cub, cub->dir_player.x, cub->dir_player.y);
-	draw_direction(cub, cub->dir_player.x - cub->plane.x, cub->dir_player.y - cub->plane.y);
-	draw_direction(cub, cub->dir_player.x + cub->plane.x, cub->dir_player.y + cub->plane.y);
+	// draw_direction(cub, cub->dir_player.x - cub->plane.x, cub->dir_player.y - cub->plane.y);
+	// draw_direction(cub, cub->dir_player.x + cub->plane.x, cub->dir_player.y + cub->plane.y);
 	if (mlx_image_to_window(cub->mlx, cub->player_image, player_pixel_x, player_pixel_y) == -1)
 		printf("Error mlx_image to window\n");
 }

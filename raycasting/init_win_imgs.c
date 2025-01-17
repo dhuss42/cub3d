@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 11:46:22 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 11:51:40 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ void	init_win_imgs(t_cub *cub)
 	new_image(cub->mlx, &cub->wall_image, cub->width, cub->height);
 
 	mlx_image_to_window(cub->mlx, cub->wall_image, 0, 0);
+	mlx_set_cursor_mode(cub->mlx, MLX_MOUSE_DISABLED);
 }

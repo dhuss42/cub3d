@@ -24,13 +24,12 @@
 # define CYAN		"\033[36m"
 # define WHITE	   "\033[37m"
 
-typedef enum e_key
+typedef enum e_dir
 {
-	W,
-	S,
-	A,
-	D,
-} t_key;
+	X_DIR,
+	Y_DIR,
+	DIAGONAL,
+} t_dir;
 
 typedef struct s_vector
 {
@@ -66,6 +65,7 @@ typedef struct s_cub
 	float		dist_x;
 	float		dist_y;
 	float		plane_wall_dist;
+	float		check_buffer;
 	int			step_x;
 	int			step_y;
 	int			hit;

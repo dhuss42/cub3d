@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 14:56:09 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 11:55:46 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,44 +31,93 @@ void	rotation(t_cub *cub, float angle)
 	cub->plane.y = old_plane_x * sin(angle) + cub->plane.y * cos(angle);
 }
 
+// determines in which direction the buffer should be added based on the passed speed
+// negative speed means moving backwards
+void	get_buffer_dir(float speed, float *buffer_dir)
+{
+	float	buffer;
+
+	buffer = 0.1;
+	if (speed > 0)
+		*buffer_dir = buffer;
+	else
+		*buffer_dir = -buffer;
+}
+
+// sets move_x/y to perpundicular to player direction vector
+void	is_side_dir(t_cub *cub, int sideways, float *move_x, float *move_y)
+{
+	if (sideways)
+	{
+		*move_x = cub->dir_player.y;
+		*move_y = -cub->dir_player.x;
+	}
+	else
+	{
+		*move_x = cub->dir_player.x;
+		*move_y = cub->dir_player.y;
+	}
+}
+
+// checks if next move in x/y direction is valid, prevents segfault
+int	is_within_bounds(t_cub *cub, float x, float y)
+{
+	return (x >= 0 && x < cub->map_size.x && y >= 0 && y < cub->map_size.y);
+}
+
+// updates the player position according to the passed direction
+// Also updates the player position on the minimap
+void	update_position(t_cub *cub, float next_x, float next_y, int dir)
+{
+	if (dir == DIAGONAL)
+	{
+		cub->pos_player.x = next_x;
+		cub->pos_player.y = next_y;
+		cub->player_image->instances[0].x = cub->pos_player.x * cub->cell_size;
+		cub->player_image->instances[0].y = cub->pos_player.y * cub->cell_size;
+	}
+	else if (dir == X_DIR)
+	{
+		cub->pos_player.x = next_x;
+		cub->player_image->instances[0].x = cub->pos_player.x * cub->cell_size;
+	}
+	else if (dir == Y_DIR)
+	{
+		cub->pos_player.y = next_y;
+		cub->player_image->instances[0].y = cub->pos_player.y * cub->cell_size;
+	}
+}
+
 // checks if the next cell is a wall, if not then the player is moved according to the pressed key and passed speed
 // moves the player on the minimap in corresponding pixel distance
 //	-> buffer acts as a small buffer zone between player and wall
-void	movement(t_cub *cub, float speed, int sideways)
+void	movement(t_cub *cub, float speed, int sideways) // -0.07, 1
 {
 	float	next_x;
 	float	next_y;
 	float	move_x;
 	float	move_y;
-	float	buffer;
+	float	check_buffer;
 
-	if (sideways)
-	{
-		move_x = cub->dir_player.y;
-		move_y = -cub->dir_player.x;
-	}
-	else
-	{
-		move_x = cub->dir_player.x;
-		move_y = cub->dir_player.y;
-	}
-	buffer = 0.2;
+	check_buffer = 0;
+	get_buffer_dir(speed, &check_buffer);
+	is_side_dir(cub, sideways, &move_x, &move_y);
 	next_x = cub->pos_player.x + move_x * speed;
 	next_y = cub->pos_player.y + move_y * speed;
-	if (cub->map[(int)cub->pos_player.y][(int)(next_x + move_x * buffer)] != '1')
+	if (!is_within_bounds(cub, next_x, cub->pos_player.y) || !is_within_bounds(cub, cub->pos_player.x, next_y))
+		return ;
+	if (cub->map[(int)(next_y + move_y * check_buffer)][(int)(next_x + move_x * check_buffer)] != '1')
+		update_position(cub, next_x, next_y, DIAGONAL);
+	else
 	{
-		cub->pos_player.x = next_x;
-		cub->player_image->instances[0].x = cub->pos_player.x * cub->cell_size;
+		if (cub->map[(int)cub->pos_player.y][(int)(next_x + move_x * check_buffer)] != '1')
+			update_position(cub, next_x, next_y, X_DIR);
+		if (cub->map[(int)(next_y + move_y * check_buffer)][(int)cub->pos_player.x] != '1')
+			update_position(cub, next_x, next_y, Y_DIR);
 	}
-	if (cub->map[(int)(next_y + move_y * buffer)][(int)cub->pos_player.x] != '1')
-	{
-		cub->pos_player.y = next_y;
-		cub->player_image->instances[0].y = cub->pos_player.y * cub->cell_size;
-	}
-	// implement collision for left backwards
 }
 
-// on minimap the player can movebackwards inside the wall segfaults sometimes
+
 void	ft_key_hook(void* param)
 {
 	t_cub *cub = param;
@@ -88,3 +137,5 @@ void	ft_key_hook(void* param)
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
 		rotation(cub, -0.05);
 }
+
+// movement speed is faster when pressing two keys
