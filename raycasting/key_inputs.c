@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/17 11:55:46 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 14:21:20 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,17 +106,31 @@ void	movement(t_cub *cub, float speed, int sideways) // -0.07, 1
 	next_y = cub->pos_player.y + move_y * speed;
 	if (!is_within_bounds(cub, next_x, cub->pos_player.y) || !is_within_bounds(cub, cub->pos_player.x, next_y))
 		return ;
-	if (cub->map[(int)(next_y + move_y * check_buffer)][(int)(next_x + move_x * check_buffer)] != '1')
+	// printf(YELLOW"cub->player_image->instances[0].y / cub->cell_size + cub->cell_size / 2 %d\n"WHITE, (cub->player_image->instances[0].y + cub->cell_size / 2) / cub->cell_size);
+	// printf(YELLOW"cub->player_image->instances[0].x / cub->cell_size + cub->cell_size / 2 %d\n"WHITE, (cub->player_image->instances[0].x + cub->cell_size / 2) / cub->cell_size);
+	if (cub->map[(int)(next_y + move_y * check_buffer)][(int)(next_x + move_x * check_buffer)] != '1' /* && cub->map[(cub->player_image->instances[0].y + cub->cell_size / 2) / cub->cell_size][(cub->player_image->instances[0].x + cub->cell_size / 2) / cub->cell_size] != '1' */)
 		update_position(cub, next_x, next_y, DIAGONAL);
 	else
 	{
-		if (cub->map[(int)cub->pos_player.y][(int)(next_x + move_x * check_buffer)] != '1')
+		if (cub->map[(int)cub->pos_player.y][(int)(next_x + move_x * check_buffer)] != '1' /* && cub->map[(cub->player_image->instances[0].y + cub->cell_size / 2) / cub->cell_size][(cub->player_image->instances[0].x + cub->cell_size / 2) / cub->cell_size] != '1' */)
 			update_position(cub, next_x, next_y, X_DIR);
-		if (cub->map[(int)(next_y + move_y * check_buffer)][(int)cub->pos_player.x] != '1')
+		if (cub->map[(int)(next_y + move_y * check_buffer)][(int)cub->pos_player.x] != '1' /* && cub->map[(cub->player_image->instances[0].y + cub->cell_size / 2) / cub->cell_size][(cub->player_image->instances[0].x + cub->cell_size / 2) / cub->cell_size] != '1' */)
 			update_position(cub, next_x, next_y, Y_DIR);
 	}
 }
 
+// get pixel size of mini_map img
+//		cub->map_size.x * cub->cell_size, cub->map_size.y * cub->cell_size
+// add player height and width as buffer
+//		cub->cell_size / 2
+// if position of player + his width or height = '1' on the map don't move
+//		if (map[cub->pos_player.y * cub->cell_size + cub->cell_size / 2][cub->pos_player.x * cub->cell_size + cub->cell_size / 2] != '1')
+// player position should be at center of the mini_map img
+//
+// thus the buffer should be half of the player_width/height converted
+
+// cub->map[(cub->player_image->instances[0].y + cub->cell_size / 2) / cub->cell_size][(cub->player_image->instances[0].x + cub->cell_size / 2) / cub->cell_size] != '1'
+// -> does not work
 
 void	ft_key_hook(void* param)
 {
@@ -129,13 +143,13 @@ void	ft_key_hook(void* param)
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_S))
 		movement(cub, -0.07, 0);
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_A))
-		movement(cub, -0.07, 1);
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_D))
 		movement(cub, 0.07, 1);
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_D))
+		movement(cub, -0.07, 1);
 	if (mlx_is_key_down(cub->mlx, MLX_KEY_LEFT))
-		rotation(cub, 0.05);
-	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
 		rotation(cub, -0.05);
+	if (mlx_is_key_down(cub->mlx, MLX_KEY_RIGHT))
+		rotation(cub, 0.05);
 }
 
 // movement speed is faster when pressing two keys

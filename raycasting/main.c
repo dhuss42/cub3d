@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 14:14:40 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 15:07:55 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,10 @@ void	game_loop(void *param)
 	raycaster(cub);
 	draw_mini_map(cub);
 	draw_direction(cub, cub->dir_player.x, cub->dir_player.y);
+	// printf(RED"pos_player.x: %f\n"WHITE, cub->pos_player.x);
+	// printf(RED"pos_player.y: %f\n"WHITE, cub->pos_player.y);
+	// printf(CYAN"instances.x: %d\n"WHITE, cub->player_image->instances[0].x);
+	// printf(CYAN"instances.y: %d\n"WHITE, cub->player_image->instances[0].y);
 }
 
 void	visualisation(t_cub *cub)
@@ -66,8 +70,8 @@ int	main()
 		"1000000001",
 		"1000000001",
 		"1000001101",
-		"1000000001",
-		"10000010S1",
+		"10N0000001",
+		"1000001001",
 		"1000001001",
 		"1000001101",
 		"1111111111",
@@ -81,9 +85,10 @@ int	main()
 // tidy up
 // handle minimap and screen size more gracefully
 // fix minimap x and y checks to be more dynamic
-// handle key inputs wasd and arrows appropriatly
-//		handle collision
+
+
 // handle inversion of ray drawing
+// -> only inverted when starting position is S or W
 // fix fisheye
 // look into textures
 

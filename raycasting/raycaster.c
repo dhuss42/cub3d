@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 14:24:37 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 15:07:22 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ void	rays(t_cub *cub, int x)
 	cub->camera_x = 2 * x / (float)(cub->width) -1;
 	cub->ray_dir.x = cub->dir_player.x + cub->plane.x * cub->camera_x;
 	cub->ray_dir.y = cub->dir_player.y + cub->plane.y * cub->camera_x;
-	cub->map_pos.x = cub->pos_player.x;
-	cub->map_pos.y = cub->pos_player.y;
+	cub->map_pos.x = (int)cub->pos_player.x;
+	cub->map_pos.y = (int)cub->pos_player.y;
 	cub->dist_x = sqrt(1 + (cub->ray_dir.y * cub->ray_dir.y) / (cub->ray_dir.x * cub->ray_dir.x));
 	// 1 is the distanced traveld in x direction
 	// slope = y / x
@@ -27,6 +27,9 @@ void	rays(t_cub *cub, int x)
 	// --> ray_dir_y / ray_dir_x is the slope when x is exactly 1
 	// --> y = 1 * raydirY / raydirX
 	cub->dist_y = sqrt(1 + (cub->ray_dir.x * cub->ray_dir.x) / (cub->ray_dir.y * cub->ray_dir.y));
+
+	// cub->dist_x = fabs(1 / cub->ray_dir.x);
+	// cub->dist_y = fabs(1 / cub->ray_dir.y);
 }
 
 // camera_x: point on which the current ray will cross the camera plane
@@ -43,26 +46,25 @@ void	rays(t_cub *cub, int x)
 void	distance_to_first_side(t_cub *cub)
 {
 	cub->hit = 0;
-
 	if (cub->ray_dir.x < 0)
 	{
-		cub->first_side_x = (cub->pos_player.x - cub->map_pos.x) * cub->dist_x;
 		cub->step_x = -1;
+		cub->first_side_x = (cub->pos_player.x - cub->map_pos.x) * cub->dist_x;
 	}
 	else
 	{
-		cub->first_side_x = (cub->map_pos.x + 1 - cub->pos_player.x) * cub->dist_x;
 		cub->step_x = 1;
+		cub->first_side_x = (cub->map_pos.x + 1 - cub->pos_player.x) * cub->dist_x;
 	}
 	if (cub->ray_dir.y < 0)
 	{
-		cub->first_side_y = (cub->pos_player.y - cub->map_pos.y) * cub->dist_y;
 		cub->step_y = -1;
+		cub->first_side_y = (cub->pos_player.y - cub->map_pos.y) * cub->dist_y;
 	}
 	else
 	{
-		cub->first_side_y = (cub->map_pos.y + 1 - cub->pos_player.y) * cub->dist_y;
 		cub->step_y = 1;
+		cub->first_side_y = (cub->map_pos.y + 1 - cub->pos_player.y) * cub->dist_y;
 	}
 }
 
@@ -174,9 +176,9 @@ void	dda(t_cub *cub) // Digital Differential Analysis
 void	plane_to_wall_distance(t_cub *cub)
 {
 	if (cub->side == 0)
-		cub->plane_wall_dist = (cub->first_side_x - cub->dist_x);
+		cub->plane_wall_dist = (cub->map_pos.x - cub->pos_player.x + (1 -cub->step_x) / 2) / cub->ray_dir.x;
 	else
-		cub->plane_wall_dist = (cub->first_side_y - cub->dist_y);
+		cub->plane_wall_dist = (cub->map_pos.y - cub->pos_player.y + (1 -cub->step_y) / 2) / cub->ray_dir.y;
 }
 
 // do not understand the maths involved here

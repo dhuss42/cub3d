@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:34 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 11:42:39 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/17 15:09:22 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,14 @@ void	determine_dir(t_cub *cub, char dir)
 	else if (dir == 'S')
 	{
 		cub->player_angle = PI / 2;
-		cub->plane.x = 0.66;
-		cub->plane.y = 0;
+		cub->plane.y = -0.66;
+		cub->plane.x = 0;
 	}
 	else if (dir == 'W')
 	{
 		cub->player_angle = PI;
-		cub->plane.x = 0;
-		cub->plane.y = 0.66;
+		cub->plane.y = 0;
+		cub->plane.x = -0.66;
 	}
 	cub->dir_player.x = cos(cub->player_angle);
 	cub->dir_player.y = sin(cub->player_angle);
@@ -77,6 +77,8 @@ void	determine_dir(t_cub *cub, char dir)
 	printf(RED"dir player.y: %f /\n"WHITE, cub->dir_player.y);
 }
 // floats for continous values
+
+// right now S and W not working with the rendering. The values have changed to properly handle side_ways movement and rotation
 
 // If the player is facing East (0°), cos(0) gives 1 (along the x-axis), and sin(0) gives 0 (along the y-axis).
 // So, the direction vector is (1, 0), which points straight to the right.
@@ -88,6 +90,11 @@ void	determine_plane(t_cub *cub)
 	camera = cub->plane;
 	camera.x = cub->dir_player.y;
 	camera.y = cub->dir_player.x;
+	printf(RED"camera.x %f\n"WHITE, camera.x);
+	printf(RED"camera.y %f\n"WHITE, camera.y);
+	printf(GREEN"dir_player.x %f\n"WHITE, cub->dir_player.x);
+	printf(GREEN"dir_player.y %f\n"WHITE, cub->dir_player.y);
+
 
 	// inverse of direction vector
 	// needs to be variable based on the starting direction
