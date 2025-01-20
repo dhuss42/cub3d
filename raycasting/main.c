@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/20 09:42:21 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/20 09:51:35 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 {
 	int x;
 	int	y;
-
 
 	y = 0;
 	while (y < height)
@@ -43,10 +42,6 @@ void	game_loop(void *param)
 	raycaster(cub);
 	draw_mini_map(cub);
 	draw_direction(cub, cub->dir_player.x, cub->dir_player.y);
-	// printf(RED"pos_player.x: %f\n"WHITE, cub->pos_player.x);
-	// printf(RED"pos_player.y: %f\n"WHITE, cub->pos_player.y);
-	// printf(CYAN"instances.x: %d\n"WHITE, cub->player_image->instances[0].x);
-	// printf(CYAN"instances.y: %d\n"WHITE, cub->player_image->instances[0].y);
 }
 
 void	visualisation(t_cub *cub)
@@ -85,11 +80,9 @@ int	main()
 // tidy up
 // handle minimap and screen size more gracefully
 // fix minimap x and y checks to be more dynamic
+// handle double speed when moving diagonally
+// handle minimap colission better
 
-
-// handle inversion of ray drawing
-// -> only inverted when starting position is S or W
-// fix fisheye
 // look into textures
 
 // rotate point of view with mouse

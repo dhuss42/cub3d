@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/17 14:21:20 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/20 10:20:50 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,18 @@ void	update_position(t_cub *cub, float next_x, float next_y, int dir)
 	}
 }
 
+void	normalise(float *move_x, float *move_y)
+{
+	float	vector_len;
+
+	vector_len = sqrt(*move_x * *move_x + *move_y * *move_y);
+	if (vector_len > 0)
+	{
+		*move_x /= vector_len;
+		*move_y /= vector_len;
+	}
+}
+
 // checks if the next cell is a wall, if not then the player is moved according to the pressed key and passed speed
 // moves the player on the minimap in corresponding pixel distance
 //	-> buffer acts as a small buffer zone between player and wall
@@ -102,6 +114,7 @@ void	movement(t_cub *cub, float speed, int sideways) // -0.07, 1
 	check_buffer = 0;
 	get_buffer_dir(speed, &check_buffer);
 	is_side_dir(cub, sideways, &move_x, &move_y);
+	normalise(&move_x, &move_y);
 	next_x = cub->pos_player.x + move_x * speed;
 	next_y = cub->pos_player.y + move_y * speed;
 	if (!is_within_bounds(cub, next_x, cub->pos_player.y) || !is_within_bounds(cub, cub->pos_player.x, next_y))
