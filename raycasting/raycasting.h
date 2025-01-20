@@ -9,8 +9,8 @@
 # include <math.h>
 # include "../libft/libft.h"
 
-#define WIDTH 2480
-#define HEIGHT 1440
+#define WIDTH 1240
+#define HEIGHT 720
 #define PI 3.14159265358979323846  // Define Pi
 
 //---------------- COLORS --------------//

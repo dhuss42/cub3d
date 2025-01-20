@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/17 11:51:40 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/20 09:16:53 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height)
 
 void	init_win_imgs(t_cub *cub)
 {
-	mlx_set_setting(MLX_FULLSCREEN, 1);
+	// mlx_set_setting(MLX_FULLSCREEN, 1);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
 	cub->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
 	if (cub->mlx == NULL)
@@ -41,11 +41,11 @@ void	init_win_imgs(t_cub *cub)
 	}
 	// intialises new Window
 
-	cub->width = 0;
-	cub->height = 0;
+	cub->width = WIDTH;
+	cub->height = HEIGHT;
 	cub->cell_size = 16;
 	get_map_size(cub);
-	mlx_get_monitor_size(0, &cub->width, &cub->height);
+	// mlx_get_monitor_size(0, &cub->width, &cub->height);
 	printf(MAGENTA"width: %d\n"WHITE, cub->width);
 	printf(MAGENTA"height: %d\n"WHITE, cub->height);
 	mlx_set_window_size(cub->mlx, cub->width, cub->height);
@@ -56,5 +56,5 @@ void	init_win_imgs(t_cub *cub)
 	new_image(cub->mlx, &cub->wall_image, cub->width, cub->height);
 
 	mlx_image_to_window(cub->mlx, cub->wall_image, 0, 0);
-	mlx_set_cursor_mode(cub->mlx, MLX_MOUSE_DISABLED);
+	// mlx_set_cursor_mode(cub->mlx, MLX_MOUSE_DISABLED);
 }
