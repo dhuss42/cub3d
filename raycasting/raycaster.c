@@ -210,6 +210,7 @@ void	draw_walls(t_cub *cub, int x)
 {
 	int y;
 
+	
 	cub->colour = 0x0F00F0FF;
 	if (cub->side == 1)
 		cub->colour = cub->colour / 2;
@@ -220,6 +221,82 @@ void	draw_walls(t_cub *cub, int x)
 			mlx_put_pixel(cub->wall_image, x, y, cub->colour);
 		y++;
 	}
+}
+
+// texture_y = (int)texture_pos & TEX_HEIGHT;
+// -> handles overflow (valid range is 0 to TEX_HEIGHT)
+// -> wraps round
+void	loop_y_axis(t_cub *cub)
+{
+	float step;
+	float texture_pos;
+	int		y;
+	int		texture_y;
+
+	step = 1.0 * TEX_HEIGHT / cub->line_height;
+	texture_pos = (cub->line_start - 100 - cub->height / 2 + cub->line_height / 2) * step;
+	y = cub->line_start;
+	texture_y = (int)texture_pos % TEX_HEIGHT;
+	printf("texture_pos: %f\n", texture_pos);
+	printf("texture_y: %d\n", texture_y);
+	while (y < cub->line_end)
+	{
+		// texture_y = (int)texture_pos & (TEX_HEIGHT -1);
+		texture_y = (int)texture_pos % TEX_HEIGHT;
+		texture_pos += step;
+
+		// ---- not understood yet --//
+		size_t pixel_index = (TEX_WIDTH * texture_y + cub->texture_x) * cub->texture->bytes_per_pixel;
+
+        // Extract RGBA color (assuming 4 bytes per pixel)
+        uint8_t r = cub->texture->pixels[pixel_index];
+        uint8_t g = cub->texture->pixels[pixel_index + 1];
+        uint8_t b = cub->texture->pixels[pixel_index + 2];
+        uint8_t a = cub->texture->pixels[pixel_index + 3]; // Not used here, but available
+
+        // Combine RGBA into a single Uint32 value
+        u_int32_t color = (r << 16) | (g << 8) | b;
+		// buffer
+		y++;
+	}
+}
+
+// scales wall_x with texture width to get exact x-location on texture
+// checks which side was hit (vertical/horizontal)
+// also checks if right side or bottom was hit
+// reverses image if both conditions true
+// example texture_x = 50, subtracting it from entire width equals same distance from the end of the image
+// -1 accounts for starting at 0
+void	scale_to_texture_width(t_cub *cub)
+{
+	cub->texture_x = cub->wall_x * TEX_WIDTH;
+	if (cub->side == 0 && cub->ray_dir.x > 0)
+		cub->texture_x = TEX_WIDTH - cub->texture_x -1;
+	if (cub->side == 1 && cub->ray_dir.y < 0)
+		cub->texture_x = TEX_WIDTH - cub->texture_x -1;
+	// printf(GREEN"location on texture: %d\n"WHITE, cub->texture_x);
+}
+
+// determines the correct texture depending on the location on the map
+// subtracts -1 because texture array start at 0 and Wall is 1 on map
+// calculates where the ray hit the wall relative to the map grid
+// checks if vertical wall or horizontal
+// removes the integral part from the fractional part
+// now wall_x is the percentage of the hitpoint on the x-axis of the texture
+void	exact_hit_point(t_cub *cub)
+{
+	char str[2];
+
+	str[0] = cub->map[cub->map_pos.y][cub->map_pos.x] - 1;
+	str[1] = '\0';
+	cub->tex_num = atoi(str); // change to ft_atoi
+	if (cub->side == 0)
+		cub->wall_x = cub->pos_player.y + cub->plane_wall_dist * cub->ray_dir.y;
+	else
+		cub->wall_x = cub->pos_player.x + cub->plane_wall_dist * cub->ray_dir.x;
+	// printf(YELLOW"wall_x before removing int: %f\n"WHITE, cub->wall_x);
+	cub->wall_x -= floor(cub->wall_x);
+	// printf(YELLOW"wall_x after removing int: %f\n"WHITE, cub->wall_x);
 }
 
 void	raycaster(t_cub *cub)
@@ -239,12 +316,13 @@ void	raycaster(t_cub *cub)
 		plane_to_wall_distance(cub);
 		// printf("test5\n");
 		calculate_line_height(cub);
+		exact_hit_point(cub);
+		scale_to_texture_width(cub);
+		loop_y_axis(cub);
 		draw_walls(cub, x);
 		// draw_rays(cub, x);
 		// printf("test6\n");
 		x++;
 		// printf("x: %d\n", x);
 	}
-	// Spiegelverkehrt
-	// Fisheye
 }

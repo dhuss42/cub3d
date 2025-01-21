@@ -59,3 +59,4 @@
 	tex_y = tex_pos cast to an int to obtain the y-coordinate of the texture
 		(int)texPos & (texHeight - 1) // I don't understand this bit operation
 
+	

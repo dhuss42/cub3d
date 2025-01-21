@@ -8,9 +8,12 @@
 # include <stdlib.h>
 # include <math.h>
 # include "../libft/libft.h"
+// # include "../cub.h"
 
-#define WIDTH 1240
-#define HEIGHT 720
+#define WIDTH 720
+#define HEIGHT 360
+#define TEX_WIDTH 64
+#define TEX_HEIGHT 64
 #define PI 3.14159265358979323846  // Define Pi
 
 //---------------- COLORS --------------//
@@ -51,6 +54,7 @@ typedef struct s_cub
 	mlx_image_t	*player_image;
 	mlx_image_t	*dir_image;
 	mlx_image_t	*rays;
+	mlx_texture_t *texture;
 	t_vector	pos_player;
 	t_vector	dir_player;
 	t_vector	plane;
@@ -76,6 +80,9 @@ typedef struct s_cub
 	int			width;
 	int			height;
 	int			cell_size;
+	int			tex_num;
+	int			texture_x;
+	float		wall_x;
 	uint32_t	colour;
 	char		**map;
 	char		start_dir;
