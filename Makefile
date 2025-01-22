@@ -13,7 +13,9 @@
 NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-LFLAGS = MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -framework IOKit
+MLX42 = ./MLX42/build/libMLX42.a
+#LFLAGS = MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
+LFLAGS = $(MLX42) -ldl -lglfw -pthread -lm #linux
 CFILES = cub.c\
 		error_free/error_handling.c\
 		error_free/free_cub.c\
@@ -33,6 +35,8 @@ CFILES = cub.c\
 		raycasting/rendering.c
 
 VPATH := $(dir $(CFILES))
+#VPATH specifies a list of directories that Make should search for source
+#files when they are not found in the current directory.
 
 OBJ_DIR = objs
 OFILES = $(addprefix $(OBJ_DIR)/, $(notdir $(CFILES:.c=.o)))
@@ -48,11 +52,12 @@ $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) bonus
 
 $(NAME): $(OFILES) $(LIBFT)
-	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(LFLAGS) -o $(NAME)
+	@$(CC) -I./MLX42/include/MLX42 $(CFLAGS) $(OFILES) $(LIBFT) -o $(NAME) $(LFLAGS)
 	@echo "\033[32m cub3D built successfully! \033[0m"
+#MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(LFLAGS) -o $(NAME)
 
-$(OBJ_DIR)/%.o: %.c  $(OBJ_DIR)
-	$(CC) $(CFLAGS) $(LIBFT_INCLUDES) -c $< -o $@
+$(OBJ_DIR)/%.o: %.c 
+	@$(CC) $(CFLAGS) $(LIBFT_INCLUDES) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
