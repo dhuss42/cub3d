@@ -14,6 +14,7 @@
 # define CUB_H
 
 # include "cub_typedef.h"
+# include "raycasting/raycasting.h"
 # include "./libft/libft.h"
 # include "MLX42/include/MLX42/MLX42.h"
 // MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -framework IOKit

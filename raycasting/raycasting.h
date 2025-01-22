@@ -8,7 +8,7 @@
 # include <stdlib.h>
 # include <math.h>
 # include "../libft/libft.h"
-// # include "../cub.h"
+# include "../cub.h"
 
 #define WIDTH 720
 #define HEIGHT 360
@@ -90,6 +90,7 @@ typedef struct s_game
 } t_game;
 
 //-init-//
+void	rendering(t_cub *cub);
 void	init_win_imgs(t_game *game);
 
 //-mini_map-//

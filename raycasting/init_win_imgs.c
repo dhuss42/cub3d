@@ -96,7 +96,7 @@ void	init_win_imgs(t_game *game)
 	game->width = WIDTH;
 	game->height = HEIGHT;
 	game->cell_size = 16;
-	get_map_size(game);
+	get_map_size(game); // need x and y size
 	// mlx_get_monitor_size(0, &game->width, &game->height);
 	printf(MAGENTA"width: %d\n"WHITE, game->width);
 	printf(MAGENTA"height: %d\n"WHITE, game->height);
@@ -107,9 +107,9 @@ void	init_win_imgs(t_game *game)
 	new_image(game->mlx, &game->player_image, game->cell_size / 2, game->cell_size / 2);
 	new_image(game->mlx, &game->wall_image, game->width, game->height);
 
+	mlx_image_to_window(game->mlx, game->wall_image, 0, 0);
 	if (generate_textures(game) == -1)
 		return ;
 
-	mlx_image_to_window(game->mlx, game->wall_image, 0, 0);
 	// mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
 }

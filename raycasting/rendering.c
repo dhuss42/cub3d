@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "../cub.h"
 
 void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 {
@@ -37,45 +37,48 @@ void	game_loop(void *param)
 
 	game = param;
 	ft_key_hook(game);
-	reset_img(game->width, game->height, 	0xFFC1C1FF, game->wall_image);
+	reset_img(game->width, game->height, 0xFFC1C1FF, game->wall_image);
 	reset_img(game->map_size.x * game->cell_size, game->map_size.y * game->cell_size, 0xFF00FFFF, game->map_image);
 	raycaster(game);
 	draw_mini_map(game);
 	draw_direction(game, game->dir_player.x, game->dir_player.y);
 }
 
-void	visualisation(t_game *game)
+void	rendering(t_cub *cub)
 {
-	init_win_imgs(game);
-	mini_map(game);
-	game->pos_player.x += 0.5;
-	game->pos_player.y += 0.5;
-	mlx_loop_hook(game->mlx, game_loop, game);
-	mlx_loop(game->mlx);
-	mlx_terminate(game->mlx);
+	t_game game;
+
+	game.map = cub->mapy->map;
+	init_win_imgs(&game);
+	mini_map(&game);
+	game.pos_player.x += 0.5;
+	game.pos_player.y += 0.5;
+	mlx_loop_hook(game.mlx, game_loop, &game);
+	mlx_loop(game.mlx);
+	mlx_terminate(game.mlx);
 }
 
-int	main()
-{
-	t_game	game;
+// int	main()
+// {
+// 	t_game	game;
 
-	char	*map[] = {
-		"1111111111",
-		"1000000001",
-		"1000000001",
-		"1000000001",
-		"1000001101",
-		"10S0000001",
-		"1000001001",
-		"1001001001",
-		"1100001101",
-		"1111111111",
-		NULL
-	};
-	game.map = map;
-	visualisation(&game);
-	return (0);
-}
+// 	char	*map[] = {
+// 		"1111111111",
+// 		"1000000001",
+// 		"1000000001",
+// 		"1000000001",
+// 		"1000001101",
+// 		"10S0000001",
+// 		"1000001001",
+// 		"1001001001",
+// 		"1100001101",
+// 		"1111111111",
+// 		NULL
+// 	};
+// 	game.map = map;
+// 	visualisation(&game);
+// 	return (0);
+// }
 
 // tidy up
 // handle minimap and screen size more gracefully

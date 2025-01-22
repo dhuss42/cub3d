@@ -24,6 +24,7 @@
 	if (argc != 2)
 		print_error_free_exit(E_ARGS, NULL, NULL);
 	parser(argv[1], &cub);
+	rendering(&cub);
 	free_cub(&cub);
 	return (0);
 }
