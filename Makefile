@@ -59,15 +59,16 @@ $(OBJ_DIR):
 
 clean:
 	@echo "\033[33m cleaning cub3D files \033[0m"
-	@rm -f $(OBJ_DIR)/*
+	@rm -f $(OFILES)
+	@rm -fd $(OBJ_DIR)
 	@$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean:
 	@echo "\033[33m fcleaning cub3D \033[0m"
-	@rm -f $(OBJ_DIR)/*
+	@rm -f $(OFILES)
+	@rm -fd $(OBJ_DIR)
 	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean
-#wild card forbidden
 
 re:
 	@echo "\033[35m re making... \033[0m"

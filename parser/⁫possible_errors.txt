@@ -64,7 +64,12 @@ TODO:
 DONE check if "file" is directory
 NOPE better test for missing texture or color
 DONE delete newlines after map or throw error?
-CHeck for memory leaks (system leaks not working :´( 	)
+DONE CHeck for memory leaks (system leaks not working :´( 	)
+clean norm errors in parser
+improve Makefile
+	-> add download MLX library?
+	-> make one for leak checking?
+research how to add music?
 
 valid:
 NO ./assets/tile_0.png
