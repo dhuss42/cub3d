@@ -33,32 +33,32 @@ int	load_textures(mlx_texture_t *texture, char *path)
 	return (0);
 }
 
-int	generate_textures(t_cub *cub)
+int	generate_textures(t_game *game)
 {
 	size_t	i;
 	size_t	tex_n;
 
 	tex_n = 4;
-	cub->texture = malloc(sizeof(mlx_texture_t) * tex_n);
-	if (!cub->texture)
+	game->texture = malloc(sizeof(mlx_texture_t) * tex_n);
+	if (!game->texture)
 		return (-1);
 	i = 0;
 	while (i < tex_n)
 	{
-		cub->texture[i].width = TEX_WIDTH;
-		cub->texture[i].height = TEX_HEIGHT;
+		game->texture[i].width = TEX_WIDTH;
+		game->texture[i].height = TEX_HEIGHT;
 		i++;
 	}
-	if (load_textures(&cub->texture[0], "../assets/doom_22.png") == -1)
+	if (load_textures(&game->texture[0], "../assets/doom_22.png") == -1)
 	{
 		printf("error\n");
 		return (-1);
 	}
-	if (load_textures(&cub->texture[1], "../assets/doom_1.png") == -1)
+	if (load_textures(&game->texture[1], "../assets/doom_1.png") == -1)
 		return (-1);
-	if (load_textures(&cub->texture[2], "../assets/doom_2.png") == -1)
+	if (load_textures(&game->texture[2], "../assets/doom_2.png") == -1)
 		return (-1);
-	if (load_textures(&cub->texture[3], "../assets/doom_3.png") == -1)
+	if (load_textures(&game->texture[3], "../assets/doom_3.png") == -1)
 		return (-1);
 	return (0);
 }
@@ -80,12 +80,12 @@ void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height)
 
 // }
 
-void	init_win_imgs(t_cub *cub)
+void	init_win_imgs(t_game *game)
 {
 	// mlx_set_setting(MLX_FULLSCREEN, 1);
 	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	cub->mlx = mlx_init(WIDTH, HEIGHT, "cub3D", true);
-	if (cub->mlx == NULL)
+	game->mlx = mlx_init(WIDTH, HEIGHT, "game3D", true);
+	if (game->mlx == NULL)
 	{
 		// call custom error function
 		printf("Failed to initialize mlx\n");
@@ -93,23 +93,23 @@ void	init_win_imgs(t_cub *cub)
 	}
 	// intialises new Window
 
-	cub->width = WIDTH;
-	cub->height = HEIGHT;
-	cub->cell_size = 16;
-	get_map_size(cub);
-	// mlx_get_monitor_size(0, &cub->width, &cub->height);
-	printf(MAGENTA"width: %d\n"WHITE, cub->width);
-	printf(MAGENTA"height: %d\n"WHITE, cub->height);
-	mlx_set_window_size(cub->mlx, cub->width, cub->height);
-	mlx_set_window_pos(cub->mlx, 0, 0);
+	game->width = WIDTH;
+	game->height = HEIGHT;
+	game->cell_size = 16;
+	get_map_size(game);
+	// mlx_get_monitor_size(0, &game->width, &game->height);
+	printf(MAGENTA"width: %d\n"WHITE, game->width);
+	printf(MAGENTA"height: %d\n"WHITE, game->height);
+	mlx_set_window_size(game->mlx, game->width, game->height);
+	mlx_set_window_pos(game->mlx, 0, 0);
 
-	new_image(cub->mlx, &cub->map_image, cub->map_size.x * cub->cell_size, cub->map_size.y * cub->cell_size);
-	new_image(cub->mlx, &cub->player_image, cub->cell_size / 2, cub->cell_size / 2);
-	new_image(cub->mlx, &cub->wall_image, cub->width, cub->height);
+	new_image(game->mlx, &game->map_image, game->map_size.x * game->cell_size, game->map_size.y * game->cell_size);
+	new_image(game->mlx, &game->player_image, game->cell_size / 2, game->cell_size / 2);
+	new_image(game->mlx, &game->wall_image, game->width, game->height);
 
-	if (generate_textures(cub) == -1)
+	if (generate_textures(game) == -1)
 		return ;
 
-	mlx_image_to_window(cub->mlx, cub->wall_image, 0, 0);
-	// mlx_set_cursor_mode(cub->mlx, MLX_MOUSE_DISABLED);
+	mlx_image_to_window(game->mlx, game->wall_image, 0, 0);
+	// mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
 }

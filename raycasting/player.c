@@ -45,53 +45,53 @@ t_vector	find_position(char **map, char identifier)
 	return (pos);
 }
 
-void	determine_dir(t_cub *cub, char dir)
+void	determine_dir(t_game *game, char dir)
 {
 	if (dir == 'N')
 	{
-		cub->player_angle = 3 * PI / 2; // turned around because of y
-		cub->plane.x = 0.66;
-		cub->plane.y = 0;
+		game->player_angle = 3 * PI / 2; // turned around because of y
+		game->plane.x = 0.66;
+		game->plane.y = 0;
 	}
 	else if (dir == 'E')
 	{
-		cub->player_angle = 0;
-		cub->plane.x = 0;
-		cub->plane.y = 0.66;
+		game->player_angle = 0;
+		game->plane.x = 0;
+		game->plane.y = 0.66;
 	}
 	else if (dir == 'S')
 	{
-		cub->player_angle = PI / 2;
-		cub->plane.x = -0.66;
-		cub->plane.y = 0;
+		game->player_angle = PI / 2;
+		game->plane.x = -0.66;
+		game->plane.y = 0;
 	}
 	else if (dir == 'W')
 	{
-		cub->player_angle = PI;
-		cub->plane.x = 0;
-		cub->plane.y = -0.66;
+		game->player_angle = PI;
+		game->plane.x = 0;
+		game->plane.y = -0.66;
 	}
-	cub->dir_player.x = cos(cub->player_angle);
-	cub->dir_player.y = sin(cub->player_angle);
-	printf(RED"dir player.x: %f /\n"WHITE, cub->dir_player.x);
-	printf(RED"dir player.y: %f /\n"WHITE, cub->dir_player.y);
+	game->dir_player.x = cos(game->player_angle);
+	game->dir_player.y = sin(game->player_angle);
+	printf(RED"dir player.x: %f /\n"WHITE, game->dir_player.x);
+	printf(RED"dir player.y: %f /\n"WHITE, game->dir_player.y);
 }
 
 
 // If the player is facing East (0°), cos(0) gives 1 (along the x-axis), and sin(0) gives 0 (along the y-axis).
 // So, the direction vector is (1, 0), which points straight to the right.
 
-void	determine_plane(t_cub *cub)
+void	determine_plane(t_game *game)
 {
 	t_vector	camera;
 
-	camera = cub->plane;
-	camera.x = cub->dir_player.y;
-	camera.y = cub->dir_player.x;
+	camera = game->plane;
+	camera.x = game->dir_player.y;
+	camera.y = game->dir_player.x;
 	printf(RED"camera.x %f\n"WHITE, camera.x);
 	printf(RED"camera.y %f\n"WHITE, camera.y);
-	printf(GREEN"dir_player.x %f\n"WHITE, cub->dir_player.x);
-	printf(GREEN"dir_player.y %f\n"WHITE, cub->dir_player.y);
+	printf(GREEN"dir_player.x %f\n"WHITE, game->dir_player.x);
+	printf(GREEN"dir_player.y %f\n"WHITE, game->dir_player.y);
 
 
 	// inverse of direction vector
@@ -99,11 +99,11 @@ void	determine_plane(t_cub *cub)
 }
 
 // finds starting position and angle of player
-int	create_vectors(t_cub *cub)
+int	create_vectors(t_game *game)
 {
-	// printf("char dir: %c\n", cub->start_dir);
-	cub->pos_player = find_position(cub->map, cub->start_dir);
-	determine_dir(cub, cub->start_dir);
-	determine_plane(cub);
+	// printf("char dir: %c\n", game->start_dir);
+	game->pos_player = find_position(game->map, game->start_dir);
+	determine_dir(game, game->start_dir);
+	determine_plane(game);
 	return (0);
 }

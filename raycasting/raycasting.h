@@ -46,7 +46,7 @@ typedef struct s_point
 	int y;
 } t_point;
 
-typedef struct s_cub
+typedef struct s_game
 {
 	mlx_t		*mlx;
 	mlx_image_t	*map_image;
@@ -87,31 +87,31 @@ typedef struct s_cub
 	char		**map;
 	char		start_dir;
 	bool		bottom;
-} t_cub;
+} t_game;
 
 //-init-//
-void	init_win_imgs(t_cub *cub);
+void	init_win_imgs(t_game *game);
 
 //-mini_map-//
-void	mini_map(t_cub *cub);
-void	draw_mini_map(t_cub *cub);
-int		create_vectors(t_cub *cub);
+void	mini_map(t_game *game);
+void	draw_mini_map(t_game *game);
+int		create_vectors(t_game *game);
 
 //-raycasting-//
-void	raycaster(t_cub *cub);
+void	raycaster(t_game *game);
 
 //-drawing-//
-void	draw_player(t_cub *cub);
-void	draw_cell(mlx_image_t *image, int start_x, int start_y, int cell_size, uint32_t color, t_cub *cub);
+void	draw_player(t_game *game);
+void	draw_cell(mlx_image_t *image, int start_x, int start_y, int cell_size, uint32_t color, t_game *game);
 void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height);
-void	draw_direction(t_cub *cub, float dir_x, float dir_y);
+void	draw_direction(t_game *game, float dir_x, float dir_y);
 
 //-input-//
 void	ft_key_hook(void* param);
 
 // -------helpers---------- //
-bool	is_player(char c, t_cub *cub);
-void	get_map_size(t_cub *cub);
+bool	is_player(char c, t_game *game);
+void	get_map_size(t_game *game);
 
 #endif
 

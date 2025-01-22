@@ -33,31 +33,31 @@ void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 
 void	game_loop(void *param)
 {
-	t_cub	*cub;
+	t_game	*game;
 
-	cub = param;
-	ft_key_hook(cub);
-	reset_img(cub->width, cub->height, 	0xFFC1C1FF, cub->wall_image);
-	reset_img(cub->map_size.x * cub->cell_size, cub->map_size.y * cub->cell_size, 0xFF00FFFF, cub->map_image);
-	raycaster(cub);
-	draw_mini_map(cub);
-	draw_direction(cub, cub->dir_player.x, cub->dir_player.y);
+	game = param;
+	ft_key_hook(game);
+	reset_img(game->width, game->height, 	0xFFC1C1FF, game->wall_image);
+	reset_img(game->map_size.x * game->cell_size, game->map_size.y * game->cell_size, 0xFF00FFFF, game->map_image);
+	raycaster(game);
+	draw_mini_map(game);
+	draw_direction(game, game->dir_player.x, game->dir_player.y);
 }
 
-void	visualisation(t_cub *cub)
+void	visualisation(t_game *game)
 {
-	init_win_imgs(cub);
-	mini_map(cub);
-	cub->pos_player.x += 0.5;
-	cub->pos_player.y += 0.5;
-	mlx_loop_hook(cub->mlx, game_loop, cub);
-	mlx_loop(cub->mlx);
-	mlx_terminate(cub->mlx);
+	init_win_imgs(game);
+	mini_map(game);
+	game->pos_player.x += 0.5;
+	game->pos_player.y += 0.5;
+	mlx_loop_hook(game->mlx, game_loop, game);
+	mlx_loop(game->mlx);
+	mlx_terminate(game->mlx);
 }
 
 int	main()
 {
-	t_cub	cub;
+	t_game	game;
 
 	char	*map[] = {
 		"1111111111",
@@ -72,8 +72,8 @@ int	main()
 		"1111111111",
 		NULL
 	};
-	cub.map = map;
-	visualisation(&cub);
+	game.map = map;
+	visualisation(&game);
 	return (0);
 }
 

@@ -12,7 +12,7 @@
 
 #include "raycasting.h"
 
-bool	is_player(char c, t_cub *cub)
+bool	is_player(char c, t_game *game)
 {
 	int		i;
 	char	*str;
@@ -23,7 +23,7 @@ bool	is_player(char c, t_cub *cub)
 	{
 		if (c == str[i])
 		{
-			cub->start_dir = c;
+			game->start_dir = c;
 			return (true);
 		}
 		i++;
@@ -31,7 +31,7 @@ bool	is_player(char c, t_cub *cub)
 	return (false);
 }
 
-void	get_map_size(t_cub *cub)
+void	get_map_size(t_game *game)
 {
 	int	x;
 	int	y;
@@ -39,10 +39,10 @@ void	get_map_size(t_cub *cub)
 
 	y = 0;
 	longest_x = 0;
-	while (cub->map[y] != NULL)
+	while (game->map[y] != NULL)
 	{
 		x = 0;
-		while (cub->map[y][x] != '\0')
+		while (game->map[y][x] != '\0')
 		{
 			x++;
 		}
@@ -52,8 +52,8 @@ void	get_map_size(t_cub *cub)
 		}
 		y++;
 	}
-	cub->map_size.y = y;
-	cub->map_size.x = longest_x;
-	printf(GREEN"x = %d\n"WHITE, cub->map_size.x);
-	printf(GREEN"y = %d\n"WHITE, cub->map_size.y);
+	game->map_size.y = y;
+	game->map_size.x = longest_x;
+	printf(GREEN"x = %d\n"WHITE, game->map_size.x);
+	printf(GREEN"y = %d\n"WHITE, game->map_size.y);
 }
