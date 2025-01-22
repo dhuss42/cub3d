@@ -13,9 +13,9 @@
 NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-MLX42 = ./MLX42/build/libMLX42.a
-#LFLAGS = MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
-LFLAGS = $(MLX42) -ldl -lglfw -pthread -lm #linux
+
+#MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
+LFLAGS = -ldl -lglfw -pthread -lm #linux
 CFILES = cub.c\
 		error_free/error_handling.c\
 		error_free/free_cub.c\
@@ -45,22 +45,61 @@ LIBFT_DIR = ./libft
 LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INCLUDES = -I $(LIBFT_DIR)
 
+MLX42_LIB = ./MLX42/build/libMLX42.a
+MLX42_INCL = -I./MLX42/include/MLX42 #for linux
+
+### !!INCL/INCLUDES umbenennen in etwas Einheitliches
+
 all: $(OBJ_DIR) $(NAME)
 
 $(LIBFT):
 	@$(MAKE) -C $(LIBFT_DIR) all
 	@$(MAKE) -C $(LIBFT_DIR) bonus
 
-$(NAME): $(OFILES) $(LIBFT)
-	@$(CC) -I./MLX42/include/MLX42 $(CFLAGS) $(OFILES) $(LIBFT) -o $(NAME) $(LFLAGS)
-	@echo "\033[32m cub3D built successfully! \033[0m"
-#MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(LFLAGS) -o $(NAME)
+$(MLX42_LIB):
+	mlx_clone
 
-$(OBJ_DIR)/%.o: %.c 
-	@$(CC) $(CFLAGS) $(LIBFT_INCLUDES) -c $< -o $@
+# Git repo which traces mem leaks without conflicting with MLX.
+LEAK_FINDER = -L./leak_finder -lft_malloc
+LEAK_FINDER_INCLUDE = -I./leak_finder/includes
+LEAK_FINDER_REPO = https://github.com/iwillenshofer/leak_finder.git
+
+$(NAME): $(OFILES) $(LIBFT) $(MLX42_LIB)
+	@$(CC) $(CFLAGS) $(MLX42_INCL) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
+	@echo "\033[32m cub3D built successfully! \033[0m"
+#MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
+
+leaks:	mlx_clone $(LIBFT) $(MLX42) $(LEAK_FINDER) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(MLX42_Flags) $(MLX42) $(LEAK_FINDER) $(LIBFT) -o $(NAME)
+
+$(OBJ_DIR)/%.o: %.c
+	@$(CC) $(CFLAGS) $(LIBFT_INCLUDES) $(MLX42_INCL) $(LEAK_FINDER_INCLUDE) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
+
+mlx_clone:
+	@if [ -d "MLX42" ]; then \
+		echo "MLX42 directory already exists."; \
+	else \
+		git clone https://github.com/codam-coding-college/MLX42.git; \
+		cd MLX42 && cmake -B build && cd build && make && cd ../..;\
+	fi
+
+$(LEAK_FINDER):
+	@if [ -d ./leak_finder/ ]; then \
+		echo "[leak_finder] already exists!"; \
+	else \
+		echo "	Cloning [leak_finder library]"; \
+		git clone $(LEAK_FINDER_REPO) leak_finder; \
+	fi
+	@echo "Compiling [leak_finder]..."
+	@$(MAKE) -C ./leak_finder
+	@cp ./leak_finder/libft_malloc.so ./
+	@cp ./leak_finder/libft_malloc_x86_64_Darwin.so ./
+	@echo "To use leak_finder: \
+	- include 'malloc.h' on the VERY TOP of your main header (will substitute the malloc()) \
+	- Use the appropriate functions print_leaks() (show_alloc_mem_ex()) at the exit points"
 
 clean:
 	@echo "\033[33m cleaning cub3D files \033[0m"
@@ -80,4 +119,9 @@ re:
 	@$(MAKE) fclean
 	@$(MAKE) all
 
-.PHONY: all clean fclean re
+destroy: fclean
+	rm -rf ./MLX42
+	rm -rf ./leak_finder
+#./libft_malloc.so ./libft_malloc_x86_64_Darwin.so
+
+.PHONY: all clean fclean re mlx_clone leaks
