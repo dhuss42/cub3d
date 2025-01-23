@@ -14,6 +14,7 @@ NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
+#linux: LFLAGS = -ldl -lglfw -pthread -lm
 #MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
 LFLAGS = -ldl -lglfw -pthread -lm #linux
 CFILES = cub.c\
@@ -46,9 +47,7 @@ LIBFT = $(LIBFT_DIR)/libft.a
 LIBFT_INCLUDES = -I $(LIBFT_DIR)
 
 MLX42_LIB = ./MLX42/build/libMLX42.a
-MLX42_INCL = -I./MLX42/include/MLX42 #for linux
-
-### !!INCL/INCLUDES umbenennen in etwas Einheitliches
+MLX42_INCLUDES = -I./MLX42/include/MLX42 #for linux
 
 all: $(OBJ_DIR) $(NAME)
 
@@ -61,19 +60,17 @@ $(MLX42_LIB):
 
 # Git repo which traces mem leaks without conflicting with MLX.
 LEAK_FINDER = -L./leak_finder -lft_malloc
-LEAK_FINDER_INCLUDE = -I./leak_finder/includes
+LEAK_FINDER_INCLUDES = -I./leak_finder/includes
 LEAK_FINDER_REPO = https://github.com/iwillenshofer/leak_finder.git
 
 $(NAME): $(OFILES) $(LIBFT) $(MLX42_LIB)
-	@$(CC) $(CFLAGS) $(MLX42_INCL) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
+	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
 	@echo "\033[32m cub3D built successfully! \033[0m"
 #MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
-
-leaks:	mlx_clone $(LIBFT) $(MLX42) $(LEAK_FINDER) $(OBJS)
-	@$(CC) $(CFLAGS) $(OBJS) $(MLX42_Flags) $(MLX42) $(LEAK_FINDER) $(LIBFT) -o $(NAME)
+#linux	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
 
 $(OBJ_DIR)/%.o: %.c
-	@$(CC) $(CFLAGS) $(LIBFT_INCLUDES) $(MLX42_INCL) $(LEAK_FINDER_INCLUDE) -c $< -o $@
+	@$(CC) $(CFLAGS) $(LIBFT_INCLUDES) $(MLX42_INCLUDES) $(LEAK_FINDER_INCLUDES) -c $< -o $@
 
 $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
@@ -86,6 +83,10 @@ mlx_clone:
 		cd MLX42 && cmake -B build && cd build && make && cd ../..;\
 	fi
 
+leaks:	mlx_clone $(LIBFT) $(MLX42) $(LEAK_FINDER) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(MLX42_Flags) $(MLX42) $(LEAK_FINDER) $(LIBFT) -o $(NAME)
+
+# With linux: Add in leakfinder Makefile at CCFlags: -D_GNU_SOURCE
 $(LEAK_FINDER):
 	@if [ -d ./leak_finder/ ]; then \
 		echo "[leak_finder] already exists!"; \
@@ -119,9 +120,10 @@ re:
 	@$(MAKE) fclean
 	@$(MAKE) all
 
-destroy: fclean
-	rm -rf ./MLX42
-	rm -rf ./leak_finder
-#./libft_malloc.so ./libft_malloc_x86_64_Darwin.so
+destroy:
+	@echo "\033[35m destroying... \033[0m"
+	@$(MAKE) fclean
+#	rm -rf ./MLX42
+	rm -rf ./leak_finder ./libft_malloc.so ./libft_malloc_x86_64_Darwin.so
 
-.PHONY: all clean fclean re mlx_clone leaks
+.PHONY: all clean fclean re mlx_clone leaks destroy
