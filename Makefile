@@ -123,7 +123,7 @@ re:
 destroy:
 	@echo "\033[35m destroying... \033[0m"
 	@$(MAKE) fclean
-#	rm -rf ./MLX42
+	rm -rf ./MLX42
 	rm -rf ./leak_finder ./libft_malloc.so ./libft_malloc_x86_64_Darwin.so
 
 .PHONY: all clean fclean re mlx_clone leaks destroy

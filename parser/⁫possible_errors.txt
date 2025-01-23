@@ -65,8 +65,8 @@ DONE check if "file" is directory
 NOPE better test for missing texture or color
 DONE delete newlines after map or throw error?
 DONE CHeck for memory leaks (system leaks not working :´( 	)
-clean norm errors in parser
-improve Makefile
+DONE clean norm errors in parser
+DONE improve Makefile
 	-> add download MLX library?
 	-> make one for leak checking?
 research how to add music?
