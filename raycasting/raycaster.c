@@ -210,10 +210,9 @@ void	draw_walls(t_game *game, int x)
 {
 	int y;
 
-	
-	game->colour = 0x0F00F0FF;
-	if (game->side == 1)
-		game->colour = game->colour / 2;
+	// game->colour = 0x0F00F0FF;
+	// if (game->side == 1)
+	// 	game->colour = game->colour / 2;
 	y = game->line_start;
 	while (y <= game->line_end)
 	{
@@ -223,41 +222,69 @@ void	draw_walls(t_game *game, int x)
 	}
 }
 
+int rgba_colours(int r, int g, int b, int a)
+{
+	return (r << 24 | g << 16 | b << 8 | a);
+}
+
+// function loops through the vertical line of each point on the x axis
+// step: the increment in texture coordinates
+// texture_pos is the starting texture coordinate for the current vertical line
+//	line_start is the starting y-coordinate of the wall segment on the screen
+//	height / 2 Centers the screen vertically
+//	line_height centers the wall texture vertically relative to its segment
+// y is the vertical screen pixel currently being processed
+// texture_y is the corresponding texture y-coordinate
 // texture_y = (int)texture_pos & TEX_HEIGHT;
 // -> handles overflow (valid range is 0 to TEX_HEIGHT)
 // -> wraps round
-void	loop_y_axis(t_game *game)
+void	loop_y_axis(t_game *game, int x)
 {
 	float step;
 	float texture_pos;
 	int		y;
 	int		texture_y;
+	unsigned int i;
 
 	step = 1.0 * TEX_HEIGHT / game->line_height;
-	texture_pos = (game->line_start - 100 - game->height / 2 + game->line_height / 2) * step;
+	texture_pos = (game->line_start - game->height / 2 + game->line_height / 2) * step;
 	y = game->line_start;
 	texture_y = (int)texture_pos % TEX_HEIGHT;
-	printf("texture_pos: %f\n", texture_pos);
-	printf("texture_y: %d\n", texture_y);
+	// printf("texture_pos: %f\n", texture_pos);
+	// printf("texture_y: %d\n", texture_y);
+	// printf("game->tex_num: %d\n", game->tex_num);
+	if (game->tex_num < 0 || game->tex_num >= 4) 
+	{
+    	printf("Invalid texture index: %d\n", game->tex_num);
+    	return;
+	}
+
+	mlx_texture_t texture = *game->texture[game->tex_num];
+
 	while (y < game->line_end)
 	{
 		// texture_y = (int)texture_pos & (TEX_HEIGHT -1);
 		texture_y = (int)texture_pos % TEX_HEIGHT;
+		if (texture_y < 0)
+			texture_y += TEX_HEIGHT;
 		texture_pos += step;
 
 		// ---- not understood yet --//
-		size_t pixel_index = (TEX_WIDTH * texture_y + game->texture_x) * game->texture->bytes_per_pixel;
+		// printf("TEX WIDTH: %d\n", (int)TEX_WIDTH);
+		// printf("texture_y %d\n", texture_y);
+		// printf("texture_x %d\n", game->texture_x);
+		// printf("bytes per pixel %d\n", game->texture->bytes_per_pixel);
+		
+		i = (texture_y * TEX_WIDTH + game->texture_x) * 4;
 
-        // Extract RGBA color (assuming 4 bytes per pixel)
-        uint8_t r = game->texture->pixels[pixel_index];
-        uint8_t g = game->texture->pixels[pixel_index + 1];
-        uint8_t b = game->texture->pixels[pixel_index + 2];
-        // uint8_t a = game->texture->pixels[pixel_index + 3]; // Not used here, but available
+		// printf("Texture position: %f\n", texture_pos);
+		// printf("Texture coordinates: x=%d, y=%d\n", game->texture_x, texture_y);
+		// printf("Bytes per pixel: %d\n", texture.bytes_per_pixel);
+		// printf("Index in texture pixels: %d\n", i);
 
-        // Combine RGBA into a single Uint32 value
-        u_int32_t color = (r << 16) | (g << 8) | b;
-		(void) color;
-		// buffer
+		game->colour = (rgba_colours(texture.pixels[i], texture.pixels[i + 1], texture.pixels[i + 2], texture.pixels[i + 3]));
+		if (y > 0 && y < game->height && x > 0 && x < game->width)
+			mlx_put_pixel(game->wall_image, x, y, game->colour);
 		y++;
 	}
 }
@@ -286,15 +313,27 @@ void	scale_to_texture_width(t_game *game)
 // now wall_x is the percentage of the hitpoint on the x-axis of the texture
 void	exact_hit_point(t_game *game)
 {
-	char str[2];
+	// char str[2];
 
-	str[0] = game->map[game->map_pos.y][game->map_pos.x] - 1;
-	str[1] = '\0';
-	game->tex_num = atoi(str); // change to ft_atoi
+	// str[0] = game->map[game->map_pos.y][game->map_pos.x] - 1;
+	// str[1] = '\0';
+	// game->tex_num = atoi(str); // change to ft_atoi
 	if (game->side == 0)
+	{
 		game->wall_x = game->pos_player.y + game->plane_wall_dist * game->ray_dir.y;
+		if (game->ray_dir.x > 0)
+			game->tex_num = 2;
+		else
+			game->tex_num = 3;
+	}
 	else
+	{
 		game->wall_x = game->pos_player.x + game->plane_wall_dist * game->ray_dir.x;
+		if (game->ray_dir.y < 0)
+			game->tex_num = 0;
+		else
+			game->tex_num = 1;
+	}
 	// printf(YELLOW"wall_x before removing int: %f\n"WHITE, game->wall_x);
 	game->wall_x -= floor(game->wall_x);
 	// printf(YELLOW"wall_x after removing int: %f\n"WHITE, game->wall_x);
@@ -307,23 +346,17 @@ void	raycaster(t_game *game)
 	x = 0;
 	while (x < game->width)
 	{
-		// printf("test1\n");
 		rays(game, x);
-		// printf("test2\n");
 		distance_to_first_side(game);
-		// printf("test3\n");
 		dda(game);
-		// printf("test4\n");
 		plane_to_wall_distance(game);
-		// printf("test5\n");
 		calculate_line_height(game);
-		// exact_hit_point(game);
-		// scale_to_texture_width(game);
-		// loop_y_axis(game);
-		draw_walls(game, x);
-		// draw_rays(game, x);
-		// printf("test6\n");
+
+		exact_hit_point(game);
+		scale_to_texture_width(game);
+		loop_y_axis(game, x);
+
+		// draw_walls(game, x);
 		x++;
-		// printf("x: %d\n", x);
 	}
 }

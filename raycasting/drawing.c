@@ -47,8 +47,6 @@ void	draw_player(t_game *game)
 	// y=0 and x=0 refer to the top left corner of the player image !! not the map
 
 	draw_direction(game, game->dir_player.x, game->dir_player.y);
-	// draw_direction(game, game->dir_player.x - game->plane.x, game->dir_player.y - game->plane.y);
-	// draw_direction(game, game->dir_player.x + game->plane.x, game->dir_player.y + game->plane.y);
 	if (mlx_image_to_window(game->mlx, game->player_image, player_pixel_x, player_pixel_y) == -1)
 		printf("Error mlx_image to window\n");
 }

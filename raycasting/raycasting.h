@@ -10,10 +10,10 @@
 # include "../libft/libft.h"
 # include "../cub.h"
 
-#define WIDTH 720
-#define HEIGHT 360
-#define TEX_WIDTH 64
-#define TEX_HEIGHT 64
+#define WIDTH 1440
+#define HEIGHT 720
+#define TEX_WIDTH 512
+#define TEX_HEIGHT 512
 #define PI 3.14159265358979323846  // Define Pi
 
 //---------------- COLORS --------------//
@@ -53,15 +53,17 @@ typedef struct s_game
 	mlx_image_t	*wall_image;
 	mlx_image_t	*player_image;
 	mlx_image_t	*dir_image;
-	mlx_image_t	*rays;
-	mlx_texture_t *texture;
+	mlx_image_t	*rays; //
+	mlx_texture_t *texture[4];
+	t_assets	*ass;
 	t_vector	pos_player;
 	t_vector	dir_player;
 	t_vector	plane;
 	t_vector	ray_dir;
-	t_vector	buffer;
+	// t_vector	buffer;
 	t_point		map_pos;
 	t_point		map_size;
+	t_point		m_map_size;
 	float		camera_x;
 	float		player_angle;
 	float		first_side_x;
@@ -84,6 +86,7 @@ typedef struct s_game
 	int			texture_x;
 	float		wall_x;
 	uint32_t	colour;
+	uint32_t	**buffer;
 	char		**map;
 	char		start_dir;
 	bool		bottom;

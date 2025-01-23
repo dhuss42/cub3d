@@ -49,7 +49,7 @@ void	mini_map(t_game *game)
 {
 	// printf("test0\n");
 	draw_mini_map(game);
-	mlx_image_to_window(game->mlx, game->map_image, 0, 0);
+	mlx_image_to_window(game->mlx, game->map_image, 0, 0); // change her to move into screen but also means changing player to be rendered new every time
 	// printf("test2\n");
 	create_vectors(game);
 	// printf("test3\n");
