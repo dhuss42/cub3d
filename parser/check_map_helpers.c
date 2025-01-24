@@ -20,7 +20,7 @@ bool	non_valid_char_map(char c)
 {
 	if (c != '1' && c != '0' && c != 'N' && c != 'E' && c != 'S'
 		&& c != 'W' && c != '\n' && c != ' ')
-			return(true);
+		return (true);
 	return (false);
 }
 
@@ -29,12 +29,12 @@ check map for newlines, non valid characters, if player exists
 -------------------------------------------------------------------*/
 void	check_map_valid(int i, int j, t_cub *cub, char **map)
 {
-	while(map[j])
+	while (map[j])
 	{
 		i = 0;
 		if (map[j][i] == '\n' && map [j + 1] && map [j + 1][0] != '\n')
 			print_error_free_exit(E_NEWLINEMAP, cub, NULL);
-		while(map[j][i])
+		while (map[j][i])
 		{
 			if (non_valid_char_map(map[j][i]))
 				print_error_free_exit(E_LINECONTENT, cub, map[j]);
@@ -102,7 +102,8 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 	}
 	if (map[y][x] == '1')
 		return ;
-	else (map[y][x] = '1');
+	else
+		(map[y][x] = '1');
 	floodfill(map, cub, x, y + 1);
 	floodfill(map, cub, x, y - 1);
 	floodfill(map, cub, x + 1, y);

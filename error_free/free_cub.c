@@ -21,7 +21,6 @@ void	free_double(char **to_free)
 	i = 0;
 	while (to_free[i])
 	{
-		// printf("%d\n", i);
 		free (to_free[i]);
 		to_free[i] = NULL;
 		i++;

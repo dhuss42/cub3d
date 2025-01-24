@@ -18,7 +18,7 @@ Detect unexpected content in line
 ------------------------------------------------------------------------*/
 void	check_rest_line(t_assets *assets, char *line)
 {
-	while(line[assets->i] && line[assets->i] != '\n')
+	while (line[assets->i] && line[assets->i] != '\n')
 	{
 		if (line[assets->i] != 9 && line[assets->i] != ' ')
 		{
@@ -78,11 +78,11 @@ int	is_asset(char *line, t_assets *assets)
 			assets->i++;
 		if (line[assets->i] == 'N' && line[assets->i + 1] == 'O')
 			return (store_path(&assets->no, line, assets, "NO"));
-		else if (line[assets->i] == 'E' && line[assets->i+1] == 'A')
+		else if (line[assets->i] == 'E' && line[assets->i + 1] == 'A')
 			return (store_path(&assets->ea, line, assets, "EA"));
-		else if (line[assets->i] == 'S' && line[assets->i+1] == 'O')
+		else if (line[assets->i] == 'S' && line[assets->i + 1] == 'O')
 			return (store_path(&assets->so, line, assets, "SO"));
-		else if (line[assets->i] == 'W' && line[assets->i+1] == 'E')
+		else if (line[assets->i] == 'W' && line[assets->i + 1] == 'E')
 			return (store_path(&assets->we, line, assets, "WE"));
 		assets->i++;
 	}
@@ -127,7 +127,8 @@ int	is_map(char *line, t_cub *cub)
 	int	i;
 
 	if (cub->assets->no && cub->assets->ea && cub->assets->so
-		&& cub->assets->we && cub->assets->c < 16777216 && cub->assets->f < 16777216)
+		&& cub->assets->we && cub->assets->c < 16777216
+		&& cub->assets->f < 16777216)
 	{
 		if (!cub->mapy->is_map)
 		{

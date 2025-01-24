@@ -20,7 +20,8 @@ void	allocate_map(t_map *mapy)
 {
 	int	i;
 
-	mapy->map = malloc(sizeof(char*) * (mapy->nbr_lines - mapy->line_start + 1));
+	mapy->map = malloc (sizeof (char *)
+			* (mapy->nbr_lines - mapy->line_start + 1));
 	if (!mapy->map)
 	{
 		print_error(E_MALLOC, &mapy->err, NULL);
