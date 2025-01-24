@@ -84,6 +84,8 @@ void	determine_plane(t_game *game)
 int	create_vectors(t_game *game)
 {
 	game->pos_player = find_position(game->map, game->start_dir);
+	// game->pos_player.x += 0.5; 
+	// game->pos_player.y += 0.5;
 	determine_dir(game, game->start_dir);
 	determine_plane(game);
 	return (0);

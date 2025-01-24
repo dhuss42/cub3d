@@ -17,6 +17,7 @@ LFLAGS = ../MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -fr
 CFILES = main.c\
 	init_win_imgs.c\
 	mini_map.c\
+	mini_map_bonus.c\
 	drawing.c\
 	player.c\
 	key_inputs.c\

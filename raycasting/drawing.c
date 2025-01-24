@@ -24,7 +24,6 @@ void	draw_direction(t_game *game, float dir_x, float dir_y)
 	float ray_length = 10.0;
 
 	pixel_x = game->pos_player.x * game->cell_size + game->cell_size / 4; // adjust to center
-
 	pixel_y = game->pos_player.y * game->cell_size + game->cell_size / 4;
 	while (step < ray_length)
 	{
@@ -41,14 +40,11 @@ void	draw_player(t_game *game)
 	int player_pixel_x;
 	int player_pixel_y;
 
-	player_pixel_y = game->pos_player.y * game->cell_size + game->cell_size / 2;
-	player_pixel_x = game->pos_player.x * game->cell_size + game->cell_size / 2;  // The starting pixel position of the player
-	draw_cell(game->player_image, 0, 0, game->cell_size / 2, 0xFFFF00FF, game);
+	player_pixel_y = game->pos_player.y * game->cell_size;
+	player_pixel_x = game->pos_player.x * game->cell_size;  // The starting pixel position of the player
+	draw_cell(game->map_image, player_pixel_x - game->cell_size / 4, player_pixel_y - game->cell_size / 4, game->cell_size / 2, 0xFFFF00FF, game);
 	// y=0 and x=0 refer to the top left corner of the player image !! not the map
-
 	draw_direction(game, game->dir_player.x, game->dir_player.y);
-	if (mlx_image_to_window(game->mlx, game->player_image, player_pixel_x, player_pixel_y) == -1)
-		printf("Error mlx_image to window\n");
 }
 
 

@@ -65,39 +65,55 @@ void	game_loop(void *param)
 
 	// reset_img(game->map_size.x * game->cell_size, game->map_size.y * game->cell_size, 0xFF00FFFF, game->map_image);
 	// reset_img(game->width / 4, game->height / 4, 0xFF00FFFF, game->map_image); // pink
-	reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image); // transparent set last values to 00
 	raycaster(game);
-
-	draw_mini_map(game);
-	draw_direction(game, game->dir_player.x, game->dir_player.y);
+	if (game->bonus == true)
+	{
+		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image); // transparent set last values to 00
+		draw_mini_map(game);
+		draw_player(game);
+		draw_direction(game, game->dir_player.x, game->dir_player.y);
+	}
 }
 
 void	rendering(t_cub *cub)
 {
 	t_game game;
 
+	game.bonus = false;
 	game.map = cub->mapy->map;
 	game.ass = cub->assets;
+
 	init_win_imgs(&game);
-	mini_map(&game);
+	create_vectors(&game);
+	printf("pos.player.x = %f\n", game.pos_player.x);
+	printf("pos.player.y = %f\n", game.pos_player.y);
 	game.pos_player.x += 0.5;
 	game.pos_player.y += 0.5;
+	printf("pos.player.y center = %f\n", game.pos_player.y);
+	printf("pos.player.x center = %f\n", game.pos_player.x);
+	if (game.bonus == true) // for debuggig
+	{
+		mini_map_bonus(&game);
+	}
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
 }
 
 // tidy up
-// minimap should be rendered only partially and the img window should have a fixed size
-// handle minimap colission better
 // handle double speed when moving diagonally
 
 // rotate point of view with mouse
 
-// some maps segfault
+// collison a little "bouncy"
+// map_05 could go through wall and segfault
+
+// rendering super slow when exactly infront of wall 
+// also when rotating in front of wall
 
 // map size
 //	map size img should be proportional to the Screen width/height
 
+// player position is not in the middle of the square
 //	map should be rendered new for every movement
 //	also player (maybe even rotated player)

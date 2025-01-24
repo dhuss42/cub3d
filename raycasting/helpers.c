@@ -44,6 +44,7 @@ void	get_map_size(t_game *game)
 		x = 0;
 		while (game->map[y][x] != '\0')
 		{
+			is_player(game->map[y][x], game);
 			x++;
 		}
 		if (longest_x < x)
@@ -54,6 +55,6 @@ void	get_map_size(t_game *game)
 	}
 	game->map_size.y = y;
 	game->map_size.x = longest_x;
-	printf(GREEN"x = %d\n"WHITE, game->map_size.x);
-	printf(GREEN"y = %d\n"WHITE, game->map_size.y);
+	printf(GREEN"map grid size: x = %d\n"WHITE, game->map_size.x);
+	printf(GREEN"map grid size: y = %d\n"WHITE, game->map_size.y);
 }

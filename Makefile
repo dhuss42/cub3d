@@ -27,7 +27,7 @@ CFILES = cub.c\
 		raycasting/helpers.c\
 		raycasting/init_win_imgs.c\
 		raycasting/key_inputs.c\
-		raycasting/mini_map.c\
+		raycasting/mini_map_bonus.c\
 		raycasting/player.c\
 		raycasting/raycaster.c\
 		raycasting/rendering.c

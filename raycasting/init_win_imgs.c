@@ -54,15 +54,9 @@ void	init_win_imgs(t_game *game)
 	}
 	game->width = WIDTH;
 	game->height = HEIGHT;
-	game->cell_size = 16;
-	get_map_size(game); // maybe remove
+	get_map_size(game); // determines NSWO right now
 
-	mlx_set_window_size(game->mlx, game->width, game->height);
-
-	game->m_map_size.x = game->width / 4;
-	game->m_map_size.y = game->height / 4;
-	// new_image(game->mlx, &game->map_image, game->map_size.x * game->cell_size, game->map_size.y * game->cell_size);
-	new_image(game->mlx, &game->map_image, game->m_map_size.x, game->m_map_size.y);
+	// mlx_set_window_size(game->mlx, game->width, game->height);
 	
 	new_image(game->mlx, &game->player_image, game->cell_size / 2, game->cell_size / 2);
 	new_image(game->mlx, &game->wall_image, game->width, game->height);

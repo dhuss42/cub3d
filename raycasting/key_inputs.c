@@ -73,18 +73,18 @@ void	update_position(t_game *game, float next_x, float next_y, int dir)
 	{
 		game->pos_player.x = next_x;
 		game->pos_player.y = next_y;
-		game->player_image->instances[0].x = game->pos_player.x * game->cell_size;
-		game->player_image->instances[0].y = game->pos_player.y * game->cell_size;
+		// game->player_image->instances[0].x = game->pos_player.x * game->cell_size;
+		// game->player_image->instances[0].y = game->pos_player.y * game->cell_size;
 	}
 	else if (dir == X_DIR)
 	{
 		game->pos_player.x = next_x;
-		game->player_image->instances[0].x = game->pos_player.x * game->cell_size;
+		// game->player_image->instances[0].x = game->pos_player.x * game->cell_size;
 	}
 	else if (dir == Y_DIR)
 	{
 		game->pos_player.y = next_y;
-		game->player_image->instances[0].y = game->pos_player.y * game->cell_size;
+		// game->player_image->instances[0].y = game->pos_player.y * game->cell_size;
 	}
 }
 

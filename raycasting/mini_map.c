@@ -45,13 +45,22 @@ void	draw_mini_map(t_game *game)
 	// create_vectors(game);
 }
 
+void	mini_map_size_bonus(t_game *game)
+{
+	game->m_map_size.x = game->width / 4;
+	game->m_map_size.y = game->height / 4;
+	// new_image(game->mlx, &game->map_image, game->map_size.x * game->cell_size, game->map_size.y * game->cell_size);
+	new_image(game->mlx, &game->map_image, game->m_map_size.x, game->m_map_size.y);
+}
+
 void	mini_map(t_game *game)
 {
 	// printf("test0\n");
+	mini_map_size_bonus(game);
 	draw_mini_map(game);
 	mlx_image_to_window(game->mlx, game->map_image, 0, 0); // change her to move into screen but also means changing player to be rendered new every time
 	// printf("test2\n");
-	create_vectors(game);
+	// create_vectors(game);
 	// printf("test3\n");
 	draw_player(game);
 	// printf("test4\n");

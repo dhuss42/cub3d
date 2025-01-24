@@ -12,8 +12,8 @@
 
 #define WIDTH 1440
 #define HEIGHT 720
-#define TEX_WIDTH 512
-#define TEX_HEIGHT 512
+#define TEX_WIDTH 64
+#define TEX_HEIGHT 64
 #define PI 3.14159265358979323846  // Define Pi
 
 //---------------- COLORS --------------//
@@ -46,6 +46,17 @@ typedef struct s_point
 	int y;
 } t_point;
 
+typedef struct s_mini_map
+{
+	int	render_distance;
+	int	min_x;
+	int	min_y;
+	int max_x;
+	int	max_y;
+	int	pos_player_mm_x;
+	int	pos_player_mm_y;
+} t_mini_map;
+
 typedef struct s_game
 {
 	mlx_t		*mlx;
@@ -64,6 +75,7 @@ typedef struct s_game
 	t_point		map_pos;
 	t_point		map_size;
 	t_point		m_map_size;
+	t_mini_map	mini_map;
 	float		camera_x;
 	float		player_angle;
 	float		first_side_x;
@@ -90,6 +102,7 @@ typedef struct s_game
 	char		**map;
 	char		start_dir;
 	bool		bottom;
+	bool		bonus;
 } t_game;
 
 //-init-//
@@ -98,6 +111,8 @@ void	init_win_imgs(t_game *game);
 
 //-mini_map-//
 void	mini_map(t_game *game);
+void	mini_map_bonus(t_game *game);
+void	mini_map_size_bonus(t_game *game);
 void	draw_mini_map(t_game *game);
 int		create_vectors(t_game *game);
 
