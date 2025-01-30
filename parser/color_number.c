@@ -29,7 +29,8 @@ static int	get_single_number(t_assets *assets, char *line)
 	while (line[assets->i] && line[assets->i] != ','
 		&& line[assets->i] != ' ' && line[assets->i] != '\n')
 	{
-		while (j == 0 && line[assets->i] == '0' && ft_isdigit(line[assets->i + 1]))
+		while (j == 0 && line[assets->i] == '0'
+			&& ft_isdigit(line[assets->i + 1]))
 			assets->i++;
 		if (!assets->err && (!ft_isdigit (line[assets->i]) || j > 2))
 		{
