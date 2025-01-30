@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   rendering.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/20 09:51:35 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/30 10:40:36 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,19 +79,15 @@ void	rendering(t_cub *cub)
 {
 	t_game game;
 
-	game.bonus = false;
+	game.bonus = false; // currently not working for all maps if true
 	game.map = cub->mapy->map;
 	game.ass = cub->assets;
 
 	init_win_imgs(&game);
 	create_vectors(&game);
-	printf("pos.player.x = %f\n", game.pos_player.x);
-	printf("pos.player.y = %f\n", game.pos_player.y);
 	game.pos_player.x += 0.5;
 	game.pos_player.y += 0.5;
-	printf("pos.player.y center = %f\n", game.pos_player.y);
-	printf("pos.player.x center = %f\n", game.pos_player.x);
-	if (game.bonus == true) // for debuggig
+	if (game.bonus == true)
 	{
 		mini_map_bonus(&game);
 	}
@@ -108,7 +104,7 @@ void	rendering(t_cub *cub)
 // collison a little "bouncy"
 // map_05 could go through wall and segfault
 
-// rendering super slow when exactly infront of wall 
+// rendering super slow when exactly infront of wall
 // also when rotating in front of wall
 
 // map size

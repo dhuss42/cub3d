@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/30 10:13:35 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/30 10:18:01 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int	generate_textures(t_game *game)
 	if (!game->texture[3])
 		printf("error\n"); // call error function
 
-	printf("%d\n", game->texture[0]->height);
-	printf("%d\n", game->texture[0]->width);
+	// printf("%d\n", game->texture[0]->height);
+	// printf("%d\n", game->texture[0]->width);
 	return (0);
 }
 

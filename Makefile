@@ -16,7 +16,7 @@ CFLAGS = -Wall -Wextra -Werror
 
 #linux: LFLAGS = -ldl -lglfw -pthread -lm
 #MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
-LFLAGS = -ldl -lglfw -pthread -lm #linux
+LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
 CFILES = cub.c\
 		error_free/error_handling.c\
 		error_free/free_cub.c\
@@ -64,7 +64,7 @@ LEAK_FINDER_INCLUDES = -I./leak_finder/includes
 LEAK_FINDER_REPO = https://github.com/iwillenshofer/leak_finder.git
 
 $(NAME): $(OFILES) $(LIBFT) $(MLX42_LIB)
-	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
+	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
 	@echo "\033[32m cub3D built successfully! \033[0m"
 #MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
 #linux	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
