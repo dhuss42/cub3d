@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/20 09:16:53 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/01/30 10:13:35 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@ int	generate_textures(t_game *game)
 	game->texture[3] = mlx_load_png(game->ass->we);
 	if (!game->texture[3])
 		printf("error\n"); // call error function
+
+	printf("%d\n", game->texture[0]->height);
+	printf("%d\n", game->texture[0]->width);
 	return (0);
 }
 
@@ -38,7 +41,7 @@ void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height)
 		printf("Failed to create image\n");
 		exit(EXIT_FAILURE);
 	}
-	// needs to return 
+	// needs to return
 }
 
 void	init_win_imgs(t_game *game)
@@ -57,7 +60,7 @@ void	init_win_imgs(t_game *game)
 	get_map_size(game); // determines NSWO right now
 
 	// mlx_set_window_size(game->mlx, game->width, game->height);
-	
+
 	new_image(game->mlx, &game->player_image, game->cell_size / 2, game->cell_size / 2);
 	new_image(game->mlx, &game->wall_image, game->width, game->height);
 
