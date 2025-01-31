@@ -34,37 +34,14 @@ void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 	}
 }
 
-void	reset_img_f(int width, int height, uint32_t colour, mlx_image_t *img)
-{
-	int x;
-	int	y;
-
-	y = height / 2;
-	while (y < height)
-	{
-		x = 0;
-		while (x < width)
-		{
-			if (y >= 0 && y < height&& x >= 0 && x < width)
-				mlx_put_pixel(img, x, 0 + y, colour);
-			x++;
-		}
-		y++;
-	}
-}
-
 void	game_loop(void *param)
 {
 	t_game	*game;
 
 	game = param;
 	ft_key_hook(game);
-	// reset_img(game->width, game->height, 0xFFC1C1FF, game->wall_image);
 	reset_img(game->width, game->height / 2, game->ass->f, game->wall_image);
 	reset_img(game->width, game->height, game->ass->c, game->wall_image);
-
-	// reset_img(game->map_size.x * game->cell_size, game->map_size.y * game->cell_size, 0xFF00FFFF, game->map_image);
-	// reset_img(game->width / 4, game->height / 4, 0xFF00FFFF, game->map_image); // pink
 	raycaster(game);
 	if (game->bonus == true)
 	{
@@ -82,11 +59,9 @@ void	rendering(t_cub *cub)
 	game.bonus = false; // currently not working for all maps if true
 	game.map = cub->mapy->map;
 	game.ass = cub->assets;
-
+	game.cub = cub;
 	init_win_imgs(&game);
-	create_vectors(&game);
-	game.pos_player.x += 0.5;
-	game.pos_player.y += 0.5;
+	set_player(&game);
 	if (game.bonus == true)
 	{
 		mini_map_bonus(&game);
@@ -102,7 +77,8 @@ void	rendering(t_cub *cub)
 // rotate point of view with mouse
 
 // collison a little "bouncy"
-// map_05 could go through wall and segfault
+// map_05 could go through wall in corners and segfault
+// map_08 could go through diagonal walls and segfault
 
 // rendering super slow when exactly infront of wall
 // also when rotating in front of wall
@@ -113,3 +89,6 @@ void	rendering(t_cub *cub)
 // player position is not in the middle of the square
 //	map should be rendered new for every movement
 //	also player (maybe even rotated player)
+
+// minimap
+//	Leni fragen ob sie die x und y größe der Map hat

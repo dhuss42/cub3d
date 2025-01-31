@@ -42,27 +42,32 @@ void	draw_player(t_game *game)
 
 	player_pixel_y = game->pos_player.y * game->cell_size;
 	player_pixel_x = game->pos_player.x * game->cell_size;  // The starting pixel position of the player
-	draw_cell(game->map_image, player_pixel_x - game->cell_size / 4, player_pixel_y - game->cell_size / 4, game->cell_size / 2, 0xFFFF00FF, game);
+	draw_cell(game, player_pixel_x - game->cell_size / 4, player_pixel_y - game->cell_size / 4, 0xFFFF00FF);
 	// y=0 and x=0 refer to the top left corner of the player image !! not the map
 	draw_direction(game, game->dir_player.x, game->dir_player.y);
 }
 
 
 /* Draws a square on the passed image starting from the passed x and y starting position and according to the passed size and colour */
-void	draw_cell(mlx_image_t *image, int start_x, int start_y, int cell_size, uint32_t color, t_game *game)
+void	draw_cell(t_game *game, int start_x, int start_y, uint32_t color)
 {
 	int y;
 	int x;
+    int cell;
 
-	if (start_x >= game->map_size.x * game->cell_size || start_y >= game->map_size.y * game->cell_size)
+	// if (color == 0xFFFF00FF)
+    // 	cell = game->cell_size  / 2;
+	// else
+		cell = game->cell_size - 1;
+	if (start_x >= game->map_size.x * cell || start_y >= game->map_size.y * cell)
 		return;
 	y = 0;
-	while (y < cell_size && (start_y + y) < game->map_size.y * game->cell_size)
+	while (y < cell && (start_y + y) < game->map_size.y * cell)
 	{
 		x = 0;
-		while (x < cell_size && (start_x + x) < game->map_size.x * game->cell_size)
+		while (x < cell && (start_x + x) < game->map_size.x * cell)
 		{
-			mlx_put_pixel(image, start_x + x, start_y + y, color);
+			mlx_put_pixel(game->map_image, start_x + x, start_y + y, color);
 			x++;
 		}
 		y++;

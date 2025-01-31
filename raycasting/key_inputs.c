@@ -63,6 +63,7 @@ void	is_side_dir(t_game *game, int sideways, float *move_x, float *move_y)
 int	is_within_bounds(t_game *game, float x, float y)
 {
 	return (x >= 0 && x < game->map_size.x && y >= 0 && y < game->map_size.y);
+	// should be changed to actual size, this size is not entirely correct
 }
 
 // updates the player position according to the passed direction

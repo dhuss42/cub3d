@@ -30,7 +30,11 @@ typedef enum e_custom_error
 	E_NEWLINEMAP,
 	E_TOOMANYPLAYERS,
 	E_NOPLAYER,
-	E_OPENMAP
+	E_OPENMAP,
+	E_MLXINIT,
+	E_MLXIMG,
+	E_MLXIMGTOWIN,
+	E_MLXLOADPNG
 }				t_custom_error;
 
 typedef struct s_assets

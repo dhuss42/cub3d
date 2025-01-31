@@ -12,6 +12,20 @@
 
 #include "../cub.h"
 
+int	custom_error_3(t_custom_error err, char *str)
+{
+	(void) str;
+	if (err == E_MLXINIT)
+		ft_putstr_fd("Mlx_init failed!\n", 2);
+	else if (err == E_MLXIMG)
+		ft_putstr_fd("Mlx_new_img failed!\n", 2);
+	else if (err == E_MLXIMGTOWIN)
+		ft_putstr_fd("Mlx_img_to_window failed!\n", 2);
+	else if (err == E_MLXLOADPNG)
+		ft_putstr_fd("Mlx_load_png failed!\n", 2);
+	return (err);
+}
+
 int	custom_error_2(t_custom_error err, char *str)
 {
 	if (err == E_MALLOC)
@@ -33,6 +47,8 @@ int	custom_error_2(t_custom_error err, char *str)
 		ft_putstr_fd("No player!\n", 2);
 	else if (err == E_OPENMAP)
 		ft_putstr_fd("Map is not surrounded by walls!\n", 2);
+	else
+		return(custom_error_3(err, str));
 	return (err);
 }
 

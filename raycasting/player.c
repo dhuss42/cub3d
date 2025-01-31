@@ -69,24 +69,14 @@ void	determine_dir(t_game *game, char dir)
 	game->dir_player.y = sin(game->player_angle);
 }
 
-// If the player is facing East (0°), cos(0) gives 1 (along the x-axis), and sin(0) gives 0 (along the y-axis).
-// So, the direction vector is (1, 0), which points straight to the right.
-void	determine_plane(t_game *game)
-{
-	t_vector	camera;
-
-	camera = game->plane;
-	camera.x = game->dir_player.y;
-	camera.y = game->dir_player.x;
-}
-
 // finds starting position and angle of player
-int	create_vectors(t_game *game)
+int	set_player(t_game *game)
 {
+	get_map_size(game); // determines NSWO right now
+	// is used for out of bounds check when moving, but the x and y sizes of the map are only accurate when map is a rectangle
 	game->pos_player = find_position(game->map, game->start_dir);
-	// game->pos_player.x += 0.5; 
-	// game->pos_player.y += 0.5;
+	game->pos_player.x += 0.5;
+	game->pos_player.y += 0.5;
 	determine_dir(game, game->start_dir);
-	determine_plane(game);
 	return (0);
 }

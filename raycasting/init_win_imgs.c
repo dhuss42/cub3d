@@ -12,61 +12,38 @@
 
 #include "raycasting.h"
 
-int	generate_textures(t_game *game)
+int	load_textures(t_game *game)
 {
-	game->texture[0] = mlx_load_png(game->ass->no);
+	t_assets *assets;
+
+	assets = game->ass;
+	game->texture[0] = mlx_load_png(assets->no);
 	if (!game->texture[0])
-		printf("error\n"); // call error function
-	game->texture[1] = mlx_load_png(game->ass->so);
+		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->no);
+	game->texture[1] = mlx_load_png(assets->so);
 	if (!game->texture[1])
-		printf("error\n"); // call error function
-	game->texture[2] = mlx_load_png(game->ass->ea);
+		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->so);
+	game->texture[2] = mlx_load_png(assets->ea);
 	if (!game->texture[2])
-		printf("error\n"); // call error function
-	game->texture[3] = mlx_load_png(game->ass->we);
+		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->ea);
+	game->texture[3] = mlx_load_png(assets->we);
 	if (!game->texture[3])
-		printf("error\n"); // call error function
-
-	// printf("%d\n", game->texture[0]->height);
-	// printf("%d\n", game->texture[0]->width);
+		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->we);
 	return (0);
-}
-
-void	new_image(mlx_t *mlx, mlx_image_t **image, uint32_t width, uint32_t height)
-{
-	*image = mlx_new_image(mlx, width, height);
-	if (image == NULL)
-	{
-		// call custom error function
-		printf("Failed to create image\n");
-		exit(EXIT_FAILURE);
-	}
-	// needs to return
 }
 
 void	init_win_imgs(t_game *game)
 {
-	// mlx_set_setting(MLX_FULLSCREEN, 1);
-	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
-	game->mlx = mlx_init(WIDTH, HEIGHT, "game3D", true);
-	if (game->mlx == NULL)
-	{
-		// call custom error function
-		printf("Failed to initialize mlx\n");
-		return ;
-	}
 	game->width = WIDTH;
 	game->height = HEIGHT;
-	get_map_size(game); // determines NSWO right now
-
-	// mlx_set_window_size(game->mlx, game->width, game->height);
-
-	new_image(game->mlx, &game->player_image, game->cell_size / 2, game->cell_size / 2);
-	new_image(game->mlx, &game->wall_image, game->width, game->height);
-
-	mlx_image_to_window(game->mlx, game->wall_image, 0, 0);
-	if (generate_textures(game) == -1)
-		return ;
-
-	// mlx_set_cursor_mode(game->mlx, MLX_MOUSE_DISABLED);
+	mlx_set_setting(MLX_STRETCH_IMAGE, 1);
+	game->mlx = mlx_init(game->width, game->height, "game3D", true);
+	if (!game->mlx)
+		print_error_free_exit(E_MLXINIT, game->cub, NULL);
+	game->wall_image = mlx_new_image(game->mlx, game->width, game->height);
+	if (!game->mlx)
+		print_error_free_exit(E_MLXIMG, game->cub, NULL);
+	if (mlx_image_to_window(game->mlx, game->wall_image, 0, 0) == -1)
+		print_error_free_exit(E_MLXIMGTOWIN, game->cub, NULL);
+	load_textures(game);
 }

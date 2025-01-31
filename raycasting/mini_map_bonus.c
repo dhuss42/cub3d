@@ -57,13 +57,13 @@ void	draw_mini_map(t_game *game)
 			start_y = (y - game->mini_map.min_y) * game->cell_size;
 			// determines where to start drawing
 			if (game->map[y][x] == '1')
-				draw_cell(game->map_image, start_x, start_y, game->cell_size - 1, 0x000000FF, game);
+				draw_cell(game, start_x, start_y, 0x000000FF);
 			else if (game->map[y][x] == '0')
-				draw_cell(game->map_image, start_x, start_y, game->cell_size - 1, 0xFFFFFFFF, game);
+				draw_cell(game, start_x, start_y, 0xFFFFFFFF);
 			else if (is_player(game->map[y][x], game))
-				draw_cell(game->map_image, start_x, start_y, game->cell_size - 1, 0xFFFFFFFF, game);
+				draw_cell(game, start_x, start_y, 0xFFFFFFFF);
 			else
-				draw_cell(game->map_image, start_x, start_y, game->cell_size - 1, 0xCCCCCCFF, game);
+				draw_cell(game, start_x, start_y, 0xCCCCCCFF);
 			x++;
 		}
 		y++;
@@ -77,21 +77,22 @@ void	mini_map_size_bonus(t_game *game)
 	game->m_map_size.x = game->width / 4;
 	game->m_map_size.y = game->height / 4;
 	// new_image(game->mlx, &game->map_image, game->map_size.x * game->cell_size, game->map_size.y * game->cell_size);
-	new_image(game->mlx, &game->map_image, game->m_map_size.x, game->m_map_size.y);
+	// new_image(game->mlx, &game->map_image, game->m_map_size.x, game->m_map_size.y);
+
+	game->map_image = mlx_new_image(game->mlx, game->m_map_size.x, game->m_map_size.y);
+	if (!game->mlx)
+		print_error_free_exit(E_MLXIMG, game->cub, "map_image");
 }
 
 void	mini_map_bonus(t_game *game)
 {
-	// printf("test0\n");
 	game->cell_size = 32;
 	game->mini_map.render_distance = 5;
 	mini_map_size_bonus(game);
 	draw_mini_map(game);
 	draw_player(game);
-	mlx_image_to_window(game->mlx, game->map_image, 10, 10); // change here to move into screen but also means changing player to be rendered new every time
-	// printf("test2\n");
-	// printf("test3\n");
-	// printf("test4\n");
+	if (mlx_image_to_window(game->mlx, game->map_image, 10, 10) == -1)
+		print_error_free_exit(E_MLXIMGTOWIN, game->cub, NULL);
 }
 
 // render map based on player position
