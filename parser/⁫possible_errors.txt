@@ -72,12 +72,13 @@ DONE improve Makefile
 DONE COLORS:
 	flag if c/f is set
 	init f/c = 0
-
-research how to add music?
-Check Edges:
+DONE Check Edges:
 	in / before floodfill (change non 1 parts into 2 (?))
-	check if this koordinate is touching at least two walls.
+	check if this coordinate is touching at least two walls.
 	if yes->check the outer edge in this point:
+
+Change edge in middle of ass_07.cub
+research how to add music?
 
 
 valid:

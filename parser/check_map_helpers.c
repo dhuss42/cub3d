@@ -87,8 +87,8 @@ char	**cpy_map(char **map_2d, t_cub *cub)
 /*-------------------------------------------------------------------
 check if map is closed/surrounded by walls
 starting from players position, check always the surrounding fields
-if not beyond map, set it to 1
-if 1, return
+if not beyond map, set it to 2
+if 1 or 2, return
 if it reaches beyond the borders of the map ('\0', '\n' or y/x < 0),
 means that map is open
 -------------------------------------------------------------------*/
@@ -100,10 +100,10 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 		free_double(map);
 		print_error_free_exit(E_OPENMAP, cub, NULL);
 	}
-	if (map[y][x] == '1')
+	if (map[y][x] == '1' || map[y][x] == '2')
 		return ;
-	else
-		(map[y][x] = '1');
+	check_edge(map, cub, x, y);
+	(map[y][x] = '2');
 	floodfill(map, cub, x, y + 1);
 	floodfill(map, cub, x, y - 1);
 	floodfill(map, cub, x + 1, y);
@@ -133,3 +133,29 @@ void	cut_newlines_map_end(char **map)
 		j--;
 	}
 }
+
+/*-------------------------------------------------------------------
+check if map is closed/surrounded by walls
+starting from players position, check always the surrounding fields
+if not beyond map, set it to 1
+if 1, return
+if it reaches beyond the borders of the map ('\0', '\n' or y/x < 0),
+means that map is open
+-------------------------------------------------------------------*/
+// void	floodfill(char **map, t_cub *cub, int x, int y)
+// {
+// 	if (y < 0 || x < 0 || !map[y] || x > (int)ft_strlen(map[y])
+// 		|| !map[y][x] || map[y][x] == '\n')
+// 	{
+// 		free_double(map);
+// 		print_error_free_exit(E_OPENMAP, cub, NULL);
+// 	}
+// 	if (map[y][x] == '1')
+// 		return ;
+// 	else
+// 		(map[y][x] = '1');
+// 	floodfill(map, cub, x, y + 1);
+// 	floodfill(map, cub, x, y - 1);
+// 	floodfill(map, cub, x + 1, y);
+// 	floodfill(map, cub, x - 1, y);
+// }
