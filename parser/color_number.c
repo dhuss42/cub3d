@@ -61,11 +61,11 @@ static void	skip_ws_until_comma(t_assets *assets, char *line)
 convert int array into uint32
 little endian ( = less significant byte first)
 --- how to transform uint32_t (little endian) into single colors ---
-	uint8_t red = (nbr_uint32 >> 16 & 0xFF); ->takes the 8 bits on the left
-	uint8_t green = (nbr_uint32 >> 8 & 0xFF);
-	uint8_t blue = nbr_uint32 & 0xFF; -->takes the 8 bits on the right
-nbr_uint32:	10001110 10111111 10010011
-			red			green	blue
+	uint8_t red = (nbr_uint32 >> 24 & 0xFF); ->takes the 8 bits on the left
+	uint8_t green = (nbr_uint32 >> 26 & 0xFF);
+	uint8_t blue = nbr_uint32 >> 8 & 0xFF;
+nbr_uint32:	10001110 10111111 10010011 11111111
+			red			green	blue	transparency (0xFF is not transparent)
 ------------------------------------------------------------------------*/
 uint32_t	int_to_uint32(int *nbr_int)
 {
@@ -95,12 +95,12 @@ uint32_t	color_to_uint32(t_assets *assets, char *line)
 	while (n < 3)
 	{
 		nbr_int[n] = get_single_number(assets, line);
-		if (nbr_int[n] < 0)
-			print_error(E_INVALIDNBR, &assets->err, line);
 		if (n < 2 && !assets->err)
 			skip_ws_until_comma(assets, line);
 		else if (n >= 2 && !assets->err)
 			check_rest_line(assets, line);
+		if (assets->err)
+			return (0);
 		n++;
 	}
 	if (!assets->err)
