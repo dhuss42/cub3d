@@ -103,8 +103,10 @@ static void	init_assets(t_cub *cub)
 	cub->assets->ea = NULL;
 	cub->assets->so = NULL;
 	cub->assets->we = NULL;
-	cub->assets->c = 16777216;
-	cub->assets->f = 16777216;
+	cub->assets->c = 0;
+	cub->assets->f = 0;
+	cub->assets->c_set = false;
+	cub->assets->f_set = false;
 	cub->assets->err = 0;
 	cub->assets->i = 0;
 }

@@ -71,6 +71,10 @@ DONE improve Makefile
 	-> make one for leak checking?
 research how to add music?
 
+COLORS:
+flag if c/f is set
+init f/c = 0
+
 valid:
 NO ./assets/tile_0.png
 WE ./assets/tile_1.png

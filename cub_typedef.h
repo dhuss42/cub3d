@@ -45,6 +45,8 @@ typedef struct s_assets
 	char			*we;
 	uint32_t		c;		//color ceiling
 	uint32_t		f;		//color floor
+	bool			c_set;
+	bool			f_set;
 	int				err;
 	int				i;
 }					t_assets;

@@ -72,9 +72,10 @@ uint32_t	int_to_uint32(int *nbr_int)
 	uint32_t	nbr_uint32;
 
 	nbr_uint32 = 0;
-	nbr_uint32 |= (uint32_t)nbr_int[0] << 16;
-	nbr_uint32 |= (uint32_t)nbr_int[1] << 8;
-	nbr_uint32 |= (uint32_t)nbr_int[2];
+	nbr_uint32 |= (uint32_t)nbr_int[0] << 24;
+	nbr_uint32 |= (uint32_t)nbr_int[1] << 16;
+	nbr_uint32 |= (uint32_t)nbr_int[2] << 8;
+	nbr_uint32 |= 0xFF;
 	return (nbr_uint32);
 }
 
@@ -95,7 +96,7 @@ uint32_t	color_to_uint32(t_assets *assets, char *line)
 	{
 		nbr_int[n] = get_single_number(assets, line);
 		if (nbr_int[n] < 0)
-			return (16777216);
+			print_error(E_INVALIDNBR, &assets->err, line);
 		if (n < 2 && !assets->err)
 			skip_ws_until_comma(assets, line);
 		else if (n >= 2 && !assets->err)
@@ -104,5 +105,5 @@ uint32_t	color_to_uint32(t_assets *assets, char *line)
 	}
 	if (!assets->err)
 		return (int_to_uint32(nbr_int));
-	return (16777216);
+	return (0);
 }

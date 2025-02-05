@@ -104,9 +104,15 @@ int	is_color(char *line, t_assets *assets)
 		if (line[assets->i] == 'C' || line[assets->i] == 'F')
 		{
 			if (line[assets->i] == 'C')
+			{
+				assets->c_set = true;
 				assets->c = color_to_uint32(assets, line);
+			}
 			else if (line[assets->i] == 'F')
+			{
+				assets->f_set = true;
 				assets->f = color_to_uint32(assets, line);
+			}
 			return (1);
 		}
 		assets->i++;
@@ -127,8 +133,8 @@ int	is_map(char *line, t_cub *cub)
 	int	i;
 
 	if (cub->assets->no && cub->assets->ea && cub->assets->so
-		&& cub->assets->we && cub->assets->c < 16777216
-		&& cub->assets->f < 16777216)
+		&& cub->assets->we && cub->assets->c_set
+		&& cub->assets->f_set)
 	{
 		if (!cub->mapy->is_map)
 		{

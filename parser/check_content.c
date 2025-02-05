@@ -25,9 +25,9 @@ static void	check_all_there(t_cub *cub)
 		print_error_free_exit(E_MISSING, cub, "'SO' file path\n");
 	if (!cub->assets->we)
 		print_error_free_exit(E_MISSING, cub, "'WE' file path\n");
-	if (cub->assets->c > 16777215)
+	if (!cub->assets->c_set)
 		print_error_free_exit(E_MISSING, cub, "'C' ceiling color\n");
-	if (cub->assets->f > 16777215)
+	if (!cub->assets->f_set)
 		print_error_free_exit(E_MISSING, cub, "'F' floor color\n");
 }
 
