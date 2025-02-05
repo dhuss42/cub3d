@@ -14,9 +14,9 @@ NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-#linux: LFLAGS = -ldl -lglfw -pthread -lm
+LFLAGS = -ldl -lglfw -pthread -lm	#linux
 #MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
-LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
+# LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
 CFILES = cub.c\
 		error_free/error_handling.c\
 		error_free/free_cub.c\
@@ -63,8 +63,8 @@ LEAK_FINDER = -L./leak_finder -lft_malloc
 LEAK_FINDER_INCLUDES = -I./leak_finder/includes
 LEAK_FINDER_REPO = https://github.com/iwillenshofer/leak_finder.git
 
-$(NAME): $(OFILES) $(LIBFT) $(MLX42_LIB)
-	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
+$(NAME): mlx_clone $(OFILES) $(LIBFT) $(MLX42_LIB)
+	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
 	@echo "\033[32m cub3D built successfully! \033[0m"
 #MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
 #linux	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
@@ -80,7 +80,8 @@ mlx_clone:
 		echo "MLX42 directory already exists."; \
 	else \
 		git clone https://github.com/codam-coding-college/MLX42.git; \
-		cd MLX42 && cmake -B build && cd build && make && cd ../..;\
+		cd MLX42 && git checkout ce254c3a19af8176787601a2ac3490100a5c4c61 && \
+		cmake -B build && cd build && make && cd ../..;\
 	fi
 
 leaks:	mlx_clone $(LIBFT) $(MLX42) $(LEAK_FINDER) $(OBJS)
