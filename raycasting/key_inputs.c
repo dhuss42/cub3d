@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/07 14:05:14 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 15:40:08 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,20 +34,6 @@ void	rotation(t_game *game, float angle)
 	game->dir_player = dir;
 }
 
-// determines in which direction the buffer
-//		should be added based on the passed speed
-// negative speed means moving backwards
-void	get_buffer_dir(float speed, float *buffer_dir)
-{
-	float	buffer;
-
-	buffer = 0.1;
-	if (speed > 0)
-		*buffer_dir = buffer;
-	else
-		*buffer_dir = -buffer;
-}
-
 // sets move_x/y to perpundicular to player direction vector
 void	is_side_dir(t_game *game, int sideways, float *move_x, float *move_y)
 {
@@ -61,13 +47,6 @@ void	is_side_dir(t_game *game, int sideways, float *move_x, float *move_y)
 		*move_x = game->dir_player.x;
 		*move_y = game->dir_player.y;
 	}
-}
-
-// checks if next move in x/y direction is valid, prevents segfault
-// should be changed to actual size, this size is not entirely correct
-int	is_within_bounds(t_game *game, float x, float y)
-{
-	return (x >= 0 && x < game->map_size.x && y >= 0 && y < game->map_size.y);
 }
 
 // updates the player position according to the passed direction
@@ -89,6 +68,18 @@ void	update_position(t_game *game, float next_x, float next_y, int dir)
 	}
 }
 
+// handles player like a box which detects in a plaer radius if there are any walls
+int	is_coliding(t_game *game, float x, float y)
+{
+	float	pr;
+
+	pr = 0.2;
+	return (game->map[(int)(y + pr)][(int)(x + pr)] == '1' ||
+		game->map[(int)(y + pr)][(int)(x - pr)] == '1' ||
+		game->map[(int)(y - pr)][(int)(x + pr)] == '1' ||
+		game->map[(int)(y - pr)][(int)(x - pr)] == '1');
+}
+
 // checks if the next cell is a wall, if not then the player is
 //		moved according to the pressed key and passed speed
 // moves the player on the minimap in corresponding pixel distance
@@ -99,24 +90,15 @@ void	movement(t_game *game, float speed, int sideways)
 	float	next_y;
 	float	move_x;
 	float	move_y;
-	float	check_buffer;
 
-	check_buffer = 0;
-	get_buffer_dir(speed, &check_buffer);
 	is_side_dir(game, sideways, &move_x, &move_y);
 	next_x = game->pos_player.x + move_x * speed;
 	next_y = game->pos_player.y + move_y * speed;
-	if (!is_within_bounds(game, next_x, game->pos_player.y) || !is_within_bounds(game, game->pos_player.x, next_y))
-		return ;
-	if (game->map[(int)(next_y + move_y * check_buffer)][(int)(next_x + move_x * check_buffer)] != '1') // do the same check for ' '
-		update_position(game, next_x, next_y, DIAGONAL);
-	else
-	{
-		if (game->map[(int)game->pos_player.y][(int)(next_x + move_x * check_buffer)] != '1') // do the same check for ' '
-			update_position(game, next_x, next_y, X_DIR);
-		if (game->map[(int)(next_y + move_y * check_buffer)][(int)game->pos_player.x] != '1') // do the same check for ' '
-			update_position(game, next_x, next_y, Y_DIR);
-	}
+	// in bounds check
+	if (!is_coliding(game, next_x, game->pos_player.y))
+		update_position(game, next_x, game->pos_player.y, X_DIR);
+	if (!is_coliding(game, game->pos_player.x, next_y))
+		update_position(game, game->pos_player.x, next_y, Y_DIR);
 }
 
 void	ft_key_hook(void *param)

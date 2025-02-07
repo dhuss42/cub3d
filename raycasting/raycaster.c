@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/07 13:47:12 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 14:08:24 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,17 @@ void	distance_to_first_side(t_game *game)
 
 
 /*
+	Digital Differential Analysis
    Algorithm that iteratively advances the ray through the grid one cell at a time,
    adding the distance the ray travels to cross a cell boundary in the respective
    direction (x or y). Determines whether the ray hits a vertical or horizontal wall
    first and updates the position accordingly.
+   		// if the distance to the next x-side is smaller than to the next y-side
+		// the ray crosses a vertical line first (y-axis)
+		// increment the first_side_x by dist_x
+		//  the distance the ray travels when moving one cell in the x-direction
 */
-void	dda(t_game *game) // Digital Differential Analysis
+void	dda(t_game *game)
 {
 	int run = 0;
 	while (game->hit == 0)
@@ -97,10 +102,6 @@ void	dda(t_game *game) // Digital Differential Analysis
 			game->map_pos.x += game->step_x;
 			game->side = 0;
 		}
-		// if the distance to the next x-side is smaller than to the next y-side
-		// the ray crosses a vertical line first (y-axis)
-		// increment the first_side_x by dist_x
-		//  the distance the ray travels when moving one cell in the x-direction
 		else
 		{
 			game->first_side_y += game->dist_y;
