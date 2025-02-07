@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:34 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/20 09:49:05 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 13:41:59 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 t_vector	find_position(char **map, char identifier)
 {
-	int y;
-	int x;
-	t_vector pos;
+	int			y;
+	int			x;
+	t_vector	pos;
 
 	pos.x = -1;
 	pos.y = -1;
@@ -43,7 +43,7 @@ void	determine_dir(t_game *game, char dir)
 {
 	if (dir == 'N')
 	{
-		game->player_angle = 3 * PI / 2; // turned around because of y
+		game->player_angle = 3 * PI / 2;
 		game->plane.x = 0.66;
 		game->plane.y = 0;
 	}

@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:02 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/30 10:41:59 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 11:11:19 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,4 @@ void	get_map_size(t_game *game)
 	}
 	game->map_size.y = y;
 	game->map_size.x = longest_x;
-	// printf(GREEN"map grid size: x = %d\n"WHITE, game->map_size.x);
-	// printf(GREEN"map grid size: y = %d\n"WHITE, game->map_size.y);
 }

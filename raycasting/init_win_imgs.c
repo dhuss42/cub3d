@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/30 10:18:01 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 11:11:33 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	load_textures(t_game *game)
 {
-	t_assets *assets;
+	t_assets	*assets;
 
 	assets = game->ass;
 	game->texture[0] = mlx_load_png(assets->no);

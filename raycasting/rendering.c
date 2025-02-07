@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/30 10:40:36 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 13:42:00 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 {
-	int x;
+	int	x;
 	int	y;
 
 	if (height == HEIGHT)
@@ -45,7 +45,7 @@ void	game_loop(void *param)
 	raycaster(game);
 	if (game->bonus == true)
 	{
-		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image); // transparent set last values to 00
+		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image);
 		draw_mini_map(game);
 		draw_player(game);
 		draw_direction(game, game->dir_player.x, game->dir_player.y);

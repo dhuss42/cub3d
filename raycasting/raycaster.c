@@ -6,37 +6,33 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/30 10:13:30 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/07 13:47:12 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-void	rays(t_game *game, int x)
-{
-	game->camera_x = 2 * x / (float)(game->width) -1;
-	game->ray_dir.x = game->dir_player.x + game->plane.x * game->camera_x;
-	game->ray_dir.y = game->dir_player.y + game->plane.y * game->camera_x;
-	game->map_pos.x = (int)game->pos_player.x;
-	game->map_pos.y = (int)game->pos_player.y;
-	game->dist_x = sqrt(1 + (game->ray_dir.y * game->ray_dir.y) / (game->ray_dir.x * game->ray_dir.x));
-	// 1 is the distanced traveld in x direction
+// camera_x: point on which the current ray will cross the camera plane
+// ray_dir.x/y direction vector of the current ray
+// map_pos.x/y the current square we are in
+// dist_x/y is the distance the ray travels in the x/y direction when moving
+//		exactly one square on the opposite axis
+//	// 1 is the distanced traveld in x direction
 	// slope = y / x
 	// y = x * slope
 	// When x = 1, then y is the slope of raydir
 	// --> ray_dir_y / ray_dir_x is the slope when x is exactly 1
 	// --> y = 1 * raydirY / raydirX
+void	rays(t_game *game, int x)
+{
+	game->camera_x = 2 * x / (float)(game->width) - 1;
+	game->ray_dir.x = game->dir_player.x + game->plane.x * game->camera_x;
+	game->ray_dir.y = game->dir_player.y + game->plane.y * game->camera_x;
+	game->map_pos.x = (int)game->pos_player.x;
+	game->map_pos.y = (int)game->pos_player.y;
+	game->dist_x = sqrt(1 + (game->ray_dir.y * game->ray_dir.y) / (game->ray_dir.x * game->ray_dir.x));
 	game->dist_y = sqrt(1 + (game->ray_dir.x * game->ray_dir.x) / (game->ray_dir.y * game->ray_dir.y));
-
-	// game->dist_x = fabs(1 / game->ray_dir.x);
-	// game->dist_y = fabs(1 / game->ray_dir.y);
 }
-
-// camera_x: point on which the current ray will cross the camera plane
-// ray_dir.x/y direction vector of the current ray
-// map_pos.x/y the current square we are in
-// dist_x/y is the distance the ray travels in the x/y direction when moving exactly one square on the opposite axis
-
 
 /*
    Calculates the initial distances to the first grid line (side) intersected by the ray
@@ -130,11 +126,14 @@ void	plane_to_wall_distance(t_game *game)
 
 // do not understand the maths involved here
 
+// - inverse (Kehrwert) of perpWallDist multiplied by h (height in pixels of the screen)
+// -> 1 / perpWallDist
+// -> this is done because things that are closer appear larger and vice versa (Umgekehrt proportional)
+// don't understand the line_height / 2 part
+// determines line to be drawn in the center of the screen HEIGHT / 2
+// checks that the line is not drawn out of bounds (if checks)
 void	calculate_line_height(t_game *game)
 {
-	// printf(YELLOW"plane_wall_dist: %f\n"WHITE, game->plane_wall_dist);
-
-
 	game->line_height = game->height / game->plane_wall_dist;
 	game->line_start = -game->line_height / 2 + game->height / 2;
 	if (game->line_start < 0)
@@ -145,13 +144,6 @@ void	calculate_line_height(t_game *game)
 
 }
 
-// - inverse (Kehrwert) of perpWallDist multiplied by h (height in pixels of the screen)
-// -> 1 / perpWallDist
-// -> this is done because things that are closer appear larger and vice versa (Umgekehrt proportional)
-
-// don't understand the line_height / 2 part
-// determines line to be drawn in the center of the screen HEIGHT / 2
-// checks that the line is not drawn out of bounds (if checks)
 
 int rgba_colours(int r, int g, int b, int a)
 {
@@ -171,48 +163,25 @@ int rgba_colours(int r, int g, int b, int a)
 // -> wraps round
 void	loop_y_axis(t_game *game, int x)
 {
-	float step;
-	float texture_pos;
-	int		y;
-	int		texture_y;
-	unsigned int i;
+	float			step;
+	float			texture_pos;
+	int				y;
+	int				texture_y;
+	unsigned int	i;
+	mlx_texture_t	texture;
 
 	step = 1.0 * game->texture[game->tex_num]->height / game->line_height;
 	texture_pos = (game->line_start - game->height / 2 + game->line_height / 2) * step;
 	y = game->line_start;
 	texture_y = (int)texture_pos % game->texture[game->tex_num]->height;
-	// printf("texture_pos: %f\n", texture_pos);
-	// printf("texture_y: %d\n", texture_y);
-	// printf("game->tex_num: %d\n", game->tex_num);
-	if (game->tex_num < 0 || game->tex_num >= 4)
-	{
-    	printf("Invalid texture index: %d\n", game->tex_num);
-    	return;
-	}
-
-	mlx_texture_t texture = *game->texture[game->tex_num];
-
+	texture = *game->texture[game->tex_num];
 	while (y < game->line_end)
 	{
-		// texture_y = (int)texture_pos & (game->texture[game->tex_num]->height -1);
 		texture_y = (int)texture_pos % texture.height;
 		if (texture_y < 0)
 			texture_y += texture.height;
 		texture_pos += step;
-
-		// ---- not understood yet --//
-		// printf("TEX WIDTH: %d\n", (int)game->texture[game->tex_num]->width);
-		// printf("texture_y %d\n", texture_y);
-		// printf("texture_x %d\n", game->texture_x);
-		// printf("bytes per pixel %d\n", game->texture->bytes_per_pixel);
-
 		i = (texture_y * texture.width + game->texture_x) * 4;
-
-		// printf("Texture position: %f\n", texture_pos);
-		// printf("Texture coordinates: x=%d, y=%d\n", game->texture_x, texture_y);
-		// printf("Bytes per pixel: %d\n", texture.bytes_per_pixel);
-		// printf("Index in texture pixels: %d\n", i);
-
 		game->colour = (rgba_colours(texture.pixels[i], texture.pixels[i + 1], texture.pixels[i + 2], texture.pixels[i + 3]));
 		if (y > 0 && y < game->height && x > 0 && x < game->width)
 			mlx_put_pixel(game->wall_image, x, y, game->colour);
@@ -233,7 +202,6 @@ void	scale_to_texture_width(t_game *game)
 		game->texture_x = game->texture[game->tex_num]->width - game->texture_x -1;
 	if (game->side == 1 && game->ray_dir.y < 0)
 		game->texture_x = game->texture[game->tex_num]->width - game->texture_x -1;
-	// printf(GREEN"location on texture: %d\n"WHITE, game->texture_x);
 }
 
 // determines the correct texture depending on the location on the map
@@ -244,11 +212,6 @@ void	scale_to_texture_width(t_game *game)
 // now wall_x is the percentage of the hitpoint on the x-axis of the texture
 void	exact_hit_point(t_game *game)
 {
-	// char str[2];
-
-	// str[0] = game->map[game->map_pos.y][game->map_pos.x] - 1;
-	// str[1] = '\0';
-	// game->tex_num = atoi(str); // change to ft_atoi
 	if (game->side == 0)
 	{
 		game->wall_x = game->pos_player.y + game->plane_wall_dist * game->ray_dir.y;
@@ -265,9 +228,7 @@ void	exact_hit_point(t_game *game)
 		else
 			game->tex_num = 1;
 	}
-	// printf(YELLOW"wall_x before removing int: %f\n"WHITE, game->wall_x);
 	game->wall_x -= floor(game->wall_x);
-	// printf(YELLOW"wall_x after removing int: %f\n"WHITE, game->wall_x);
 }
 
 void	raycaster(t_game *game)
@@ -282,7 +243,6 @@ void	raycaster(t_game *game)
 		dda(game);
 		plane_to_wall_distance(game);
 		calculate_line_height(game);
-
 		exact_hit_point(game);
 		scale_to_texture_width(game);
 		loop_y_axis(game, x);
