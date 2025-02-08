@@ -80,6 +80,18 @@ int	is_coliding(t_game *game, float x, float y)
 		game->map[(int)(y - pr)][(int)(x - pr)] == '1');
 }
 
+// halfs speed when moving diagonally
+void	two_keys_pressed(t_game *game, float *speed)
+{
+	if (mlx_is_key_down(game->mlx, MLX_KEY_W) 
+		|| mlx_is_key_down(game->mlx, MLX_KEY_S))
+	{
+		if (mlx_is_key_down(game->mlx, MLX_KEY_D) 
+			|| mlx_is_key_down(game->mlx, MLX_KEY_A))
+			*speed /= 2;
+	}
+}
+
 // checks if the next cell is a wall, if not then the player is
 //		moved according to the pressed key and passed speed
 // moves the player on the minimap in corresponding pixel distance
@@ -92,6 +104,7 @@ void	movement(t_game *game, float speed, int sideways)
 	float	move_y;
 
 	is_side_dir(game, sideways, &move_x, &move_y);
+	two_keys_pressed(game, &speed);
 	next_x = game->pos_player.x + move_x * speed;
 	next_y = game->pos_player.y + move_y * speed;
 	// in bounds check
@@ -121,5 +134,3 @@ void	ft_key_hook(void *param)
 	if (mlx_is_key_down(game->mlx, MLX_KEY_RIGHT))
 		rotation(game, 0.05);
 }
-
-// movement speed is faster when pressing two keys
