@@ -57,6 +57,20 @@ typedef struct s_mini_map
 	int	pos_player_mm_y;
 } t_mini_map;
 
+typedef struct s_player_map
+{
+	float	min_x;
+	float	max_x;
+	float	min_y;
+	float	max_y;
+	float	x;
+	float	y;
+	float	corners[4][2];
+	float	half_size;
+	float	perp_x;
+	float	perp_y;
+} t_player_map;
+
 typedef struct s_game
 {
 	t_cub		*cub;
@@ -116,6 +130,7 @@ void	mini_map(t_game *game);
 void	mini_map_bonus(t_game *game);
 void	mini_map_size_bonus(t_game *game);
 void	draw_mini_map(t_game *game);
+void	rotable_player(t_game *game);
 
 
 //-drawing-//

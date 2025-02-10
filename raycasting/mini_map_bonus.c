@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:21 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/07 13:41:58 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/10 15:15:40 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	draw_mini_map(t_game *game)
 	int	y;
 	int	start_x;
 	int	start_y; // The actual pixel location on the window (map location * cell_size)
-
 
 	game->mini_map.pos_player_mm_x = game->pos_player.x - 0.5;
 	game->mini_map.pos_player_mm_y = game->pos_player.y - 0.5;
@@ -68,8 +67,6 @@ void	draw_mini_map(t_game *game)
 		}
 		y++;
 	}
-	// interates over map and draws cells according to 1 and 0
-	// displays image on window at x = 0 and y = 0
 }
 
 void	mini_map_size_bonus(t_game *game)
@@ -86,7 +83,7 @@ void	mini_map_bonus(t_game *game)
 	game->cell_size = 32;
 	game->mini_map.render_distance = 5;
 	mini_map_size_bonus(game);
-	draw_mini_map(game);
+	// draw_mini_map(game);
 	draw_player(game);
 	if (mlx_image_to_window(game->mlx, game->map_image, 10, 10) == -1)
 		print_error_free_exit(E_MLXIMGTOWIN, game->cub, NULL);

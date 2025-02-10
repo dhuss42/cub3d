@@ -58,6 +58,7 @@ void	free_cub(t_cub *cub)
 		free_assets(cub->assets);
 	if (cub->mapy)
 		free_mapy(cub->mapy);
+	// mlx_terminate
 }
 
 void	free_exit(int err, t_cub *cub)

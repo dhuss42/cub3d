@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:21 by dhuss             #+#    #+#             */
-/*   Updated: 2025/01/16 13:53:36 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/10 09:11:30 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	mini_map(t_game *game)
 	// printf("test0\n");
 	mini_map_size_bonus(game);
 	draw_mini_map(game);
-	mlx_image_to_window(game->mlx, game->map_image, 0, 0); // change her to move into screen but also means changing player to be rendered new every time
+	mlx_image_to_window(game->mlx, game->map_image, 0, 0); // change here to move into screen but also means changing player to be rendered new every time
 	// printf("test2\n");
 	// create_vectors(game);
 	// printf("test3\n");

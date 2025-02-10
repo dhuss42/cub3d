@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/07 13:42:00 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/10 14:21:02 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,18 @@ void	game_loop(void *param)
 	{
 		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image);
 		draw_mini_map(game);
-		draw_player(game);
-		draw_direction(game, game->dir_player.x, game->dir_player.y);
+		// draw_player(game);
+		// draw_direction(game, game->dir_player.x, game->dir_player.y);
+		rotable_player(game);
+		mlx_put_pixel(game->map_image, game->pos_player.x * game->cell_size, game->pos_player.y * game->cell_size, 0x000AF0FF);
 	}
 }
 
 void	rendering(t_cub *cub)
 {
-	t_game game;
+	t_game	game;
 
-	game.bonus = false; // currently not working for all maps if true
+	game.bonus = true; // currently not working for all maps if true
 	game.map = cub->mapy->map;
 	game.ass = cub->assets;
 	game.cub = cub;

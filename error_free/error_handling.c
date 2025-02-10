@@ -23,6 +23,7 @@ int	custom_error_3(t_custom_error err, char *str)
 		ft_putstr_fd("Mlx_img_to_window failed!\n", 2);
 	else if (err == E_MLXLOADPNG)
 		ft_putstr_fd("Mlx_load_png failed!\n", 2);
+	// mlx terminate
 	return (err);
 }
 
