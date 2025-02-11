@@ -6,11 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:53:43 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 10:22:03 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 11:02:12 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "../cub.h"
 
 // camera_x: point on which the current ray will cross the camera plane
 // ray_dir.x/y direction vector of the current ray

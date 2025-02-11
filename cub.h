@@ -13,16 +13,22 @@
 #ifndef CUB_H
 # define CUB_H
 
-# include "cub_typedef.h"
-# include "raycasting/raycasting.h"
-# include "./libft/libft.h"
 # include "MLX42/include/MLX42/MLX42.h"
+# include "cub_typedef.h"
+# include "./libft/libft.h"
+
 // MLX42/build/libmlx42.a -lglfw -framework Cocoa -framework OpenGL -framework IOKit
 // -> needed for compilation with MLX
 
+# define WIDTH 1440
+# define HEIGHT 720
+# define TEX_WIDTH 64
+# define TEX_HEIGHT 64
+# define PI 3.14159265358979323846
 
 # include <stdio.h>
 # include <errno.h>
+# include <math.h>
 
 //---------------- COLORS --------------//
 # define RESET       "\033[0m"
@@ -59,5 +65,40 @@ char	**cpy_map(char **map_2d, t_cub *cub);
 void	floodfill(char **map, t_cub *cub, int x, int y);
 void	check_edge(char **map, t_cub *cub, int x, int y);
 void	cut_newlines_map_end(char **map);
+
+/*---------------- INIT WINDOW AND PLAYER -----------------*/
+void	rendering(t_cub *cub);
+void	init_win_imgs(t_game *game);
+int		set_player(t_game *game);
+bool	is_player(char c, t_game *game);
+
+/*---------------- MINI MAP -----------------*/
+void	mini_map(t_game *game);
+void	mini_map_bonus(t_game *game);
+void	mini_map_size_bonus(t_game *game);
+void	draw_mini_map(t_game *game);
+void	rotable_player(t_game *game);
+
+/*---------------- DRAWING -----------------*/
+void	draw_player(t_game *game);
+void	draw_cell(t_game *game, int start_x, int start_y, uint32_t color);
+void	draw_direction(t_game *game, float dir_x, float dir_y);
+
+/*---------------- RAYCASTING -----------------*/
+void	raycaster(t_game *game);
+void	rays(t_game *game, int x);
+void	distance_to_first_side(t_game *g);
+void	dda(t_game *game);
+void	plane_to_wall_distance(t_game *game);
+void	calculate_line_height(t_game *game);
+void	exact_hit_point(t_game *game);
+void	scale_to_texture_width(t_game *game);
+void	loop_y_axis(t_game *game, int x);
+
+/*---------------- INPUT-----------------*/
+void	ft_key_hook(void *param);
+void	two_keys_pressed(t_game *game, float *speed);
+int		is_coliding(t_game *game, float x, float y);
+void	is_side_dir(t_game *game, int sideways, float *move_x, float *move_y);
 
 # endif

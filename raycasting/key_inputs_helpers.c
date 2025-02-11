@@ -6,11 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 08:56:02 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 09:25:05 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 11:02:33 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "../cub.h"
 
 // sets move_x/y to perpundicular to player direction vector
 void	is_side_dir(t_game *game, int sideways, float *move_x, float *move_y)
