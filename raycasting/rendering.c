@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:24:35 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 11:58:27 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	rendering(t_cub *cub)
 {
 	t_game	game;
 
-	game.bonus = false; // currently not working for all maps if true
+	game.bonus = true; // currently not working for all maps if true
 	game.map = cub->mapy->map;
 	game.ass = cub->assets;
 	game.cub = cub;
