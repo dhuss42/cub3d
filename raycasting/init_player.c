@@ -6,11 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:34 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 10:42:35 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 11:02:42 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "raycasting.h"
+#include "../cub.h"
 
 bool	is_player(char c, t_game *game)
 {
