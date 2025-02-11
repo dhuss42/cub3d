@@ -95,7 +95,7 @@ typedef struct s_point
 
 typedef struct s_mini_map
 {
-	int	render_distance;
+	int	rndr_dst;
 	int	min_x;
 	int	min_y;
 	int	max_x;

@@ -28,7 +28,7 @@ void	draw_direction(t_game *game, float dir_x, float dir_y)
 	{
 		draw_x = pixel_x + dir_x * step;
 		draw_y = pixel_y + dir_y * step;
-		if (draw_x >= 0 && draw_y >= 0)
+		if (draw_x >= 0 && draw_y >= 0 && draw_x < game->m_map_size.x && draw_y < game->m_map_size.y)
 			mlx_put_pixel(game->map_image, draw_x, draw_y, 0x0C0FF0FF);
 		step += 0.001;
 	}
@@ -83,14 +83,14 @@ void	draw_rotable_player(t_game *game, t_player_map *pm)
 			local_y = -dx * pm->perp_x - dy * pm->perp_y;
 			if (fabs(local_x) <= pm->half_size && fabs(local_y) <= pm->half_size)
 			{
-				if (grid_x + pm->x >= 0 && grid_y + pm->y >= 0)
+				if (grid_x + pm->x >= 0 && grid_y + pm->y >= 0 && grid_x + pm->x < game->m_map_size.x && grid_y + pm->y < game->m_map_size.y)
 				{
 					mlx_put_pixel(game->map_image, grid_x + pm->x, grid_y + pm->y, 0xFFFF00FF);
+					if (pm->x == pm->min_x || pm->x == pm->max_x) // DEBUGGING
+						mlx_put_pixel(game->map_image, grid_x + pm->x, grid_y + pm->y, 0xFF0000FF);
+					if (pm->y == pm->min_y || pm->y == pm->max_y) // DEBUGGING
+						mlx_put_pixel(game->map_image, grid_x + pm->x, grid_y + pm->y, 0x000AF0FF);
 				}
-				if (pm->x == pm->min_x || pm->x == pm->max_x) // DEBUGGING
-					mlx_put_pixel(game->map_image, grid_x + pm->x, grid_y + pm->y, 0xFF0000FF);
-				if (pm->y == pm->min_y || pm->y == pm->max_y) // DEBUGGING
-					mlx_put_pixel(game->map_image, grid_x + pm->x, grid_y + pm->y, 0x000AF0FF);
 			}
 			pm->y++;
 		}
@@ -157,9 +157,14 @@ void	rotable_player(t_game *game)
 	player_map.half_size = game->cell_size / 4.0;
 	player_map.perp_x = -game->dir_player.y;
 	player_map.perp_y = game->dir_player.x;
+	printf("1\n");
 	init_corners(game, &player_map);
+	printf("2\n");
 	bounding_box(&player_map);
-	draw_rotable_player(game, &player_map);
+	printf("3\n");
+	// draw_rotable_player(game, &player_map);
+	test_draw(game);
+	printf("4\n");
 	draw_direction(game, game->dir_player.x, game->dir_player.y);
 }
 

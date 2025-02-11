@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:21 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:57:55 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 14:41:07 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	draw_mini_map(t_game *game)
 	//render distance
 	printf(RED"game->mini_map.pos_player_mm_x: %d\n"WHITE, game->mini_map.pos_player_mm_x);
 	printf(RED"game->mini_map.pos_player_mm_y: %d\n"WHITE, game->mini_map.pos_player_mm_y);
-	game->mini_map.min_x = game->mini_map.pos_player_mm_x - game->mini_map.render_distance;
+/* 	game->mini_map.min_x = game->mini_map.pos_player_mm_x - game->mini_map.render_distance;
 	game->mini_map.max_x = game->mini_map.pos_player_mm_x + game->mini_map.render_distance;
 	game->mini_map.min_y = game->mini_map.pos_player_mm_y - game->mini_map.render_distance;
-	game->mini_map.max_y = game->mini_map.pos_player_mm_y + game->mini_map.render_distance;
+	game->mini_map.max_y = game->mini_map.pos_player_mm_y + game->mini_map.render_distance; */
 	printf(YELLOW"game->m_map_size.x %d\n"WHITE, game->map_size.x);
 	printf(YELLOW"game->m_map_size.y %d\n"WHITE, game->map_size.y);
 	// calculate min and max for x and y
@@ -82,12 +82,17 @@ void	mini_map_size_bonus(t_game *game)
 void	mini_map_bonus(t_game *game)
 {
 	game->cell_size = 32;
-	game->mini_map.render_distance = 5;
+
+	printf("test\n");
 	mini_map_size_bonus(game);
+	map(game);
 	// draw_mini_map(game);
-	draw_player(game);
+	printf("test1\n");
+	// rotable_player(game);
+	printf("test2\n");
 	if (mlx_image_to_window(game->mlx, game->map_image, 10, 10) == -1)
 		print_error_free_exit(E_MLXIMGTOWIN, game->cub, NULL);
+	printf("test3\n");
 }
 
 // render map based on player position

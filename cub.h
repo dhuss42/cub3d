@@ -79,10 +79,14 @@ void	mini_map_size_bonus(t_game *game);
 void	draw_mini_map(t_game *game);
 void	rotable_player(t_game *game);
 
+void	test_draw(t_game *game);
+void	map(t_game *game);
+
 /*---------------- DRAWING -----------------*/
 void	draw_player(t_game *game);
 void	draw_cell(t_game *game, int start_x, int start_y, uint32_t color);
 void	draw_direction(t_game *game, float dir_x, float dir_y);
+void	draw_rotable_player(t_game *game, t_player_map *pm);
 
 /*---------------- RAYCASTING -----------------*/
 void	raycaster(t_game *game);

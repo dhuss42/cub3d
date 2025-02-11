@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:58:27 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 15:56:59 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,15 @@ void	game_loop(void *param)
 	raycaster(game);
 	if (game->bonus == true)
 	{
+		// printf("4\n");
 		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image);
+		// printf("5\n");
 		// draw_mini_map(game);
 			// draw_player(game);
 			// draw_direction(game, game->dir_player.x, game->dir_player.y);
-		rotable_player(game);
-		mlx_put_pixel(game->map_image, game->pos_player.x * game->cell_size, game->pos_player.y * game->cell_size, 0x000AF0FF);
+		map(game);
+		// rotable_player(game);
+		// printf("6\n");
 	}
 }
 
