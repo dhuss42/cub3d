@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:21 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/10 15:15:40 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 09:05:47 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ void	mini_map_size_bonus(t_game *game)
 {
 	game->m_map_size.x = game->width / 4;
 	game->m_map_size.y = game->height / 4;
-	game->map_image = mlx_new_image(game->mlx, game->m_map_size.x, game->m_map_size.y);
+	game->map_image = mlx_new_image(game->mlx, game->m_map_size.x,
+			game->m_map_size.y);
 	if (!game->mlx)
 		print_error_free_exit(E_MLXIMG, game->cub, "map_image");
 }

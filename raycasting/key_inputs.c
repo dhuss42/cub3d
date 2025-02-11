@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/07 15:40:08 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 08:58:25 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,6 @@ void	rotation(t_game *game, float angle)
 	game->dir_player = dir;
 }
 
-// sets move_x/y to perpundicular to player direction vector
-void	is_side_dir(t_game *game, int sideways, float *move_x, float *move_y)
-{
-	if (sideways)
-	{
-		*move_x = game->dir_player.y;
-		*move_y = -game->dir_player.x;
-	}
-	else
-	{
-		*move_x = game->dir_player.x;
-		*move_y = game->dir_player.y;
-	}
-}
-
 // updates the player position according to the passed direction
 // Also updates the player position on the minimap
 void	update_position(t_game *game, float next_x, float next_y, int dir)
@@ -68,34 +53,11 @@ void	update_position(t_game *game, float next_x, float next_y, int dir)
 	}
 }
 
-// handles player like a box which detects in a plaer radius if there are any walls
-int	is_coliding(t_game *game, float x, float y)
-{
-	float	pr;
-
-	pr = 0.2;
-	return (game->map[(int)(y + pr)][(int)(x + pr)] == '1' ||
-		game->map[(int)(y + pr)][(int)(x - pr)] == '1' ||
-		game->map[(int)(y - pr)][(int)(x + pr)] == '1' ||
-		game->map[(int)(y - pr)][(int)(x - pr)] == '1');
-}
-
-// halfs speed when moving diagonally
-void	two_keys_pressed(t_game *game, float *speed)
-{
-	if (mlx_is_key_down(game->mlx, MLX_KEY_W) 
-		|| mlx_is_key_down(game->mlx, MLX_KEY_S))
-	{
-		if (mlx_is_key_down(game->mlx, MLX_KEY_D) 
-			|| mlx_is_key_down(game->mlx, MLX_KEY_A))
-			*speed /= 2;
-	}
-}
-
 // checks if the next cell is a wall, if not then the player is
 //		moved according to the pressed key and passed speed
 // moves the player on the minimap in corresponding pixel distance
 //	-> buffer acts as a small buffer zone between player and wall
+// ADD in bounds check
 void	movement(t_game *game, float speed, int sideways)
 {
 	float	next_x;
@@ -107,7 +69,6 @@ void	movement(t_game *game, float speed, int sideways)
 	two_keys_pressed(game, &speed);
 	next_x = game->pos_player.x + move_x * speed;
 	next_y = game->pos_player.y + move_y * speed;
-	// in bounds check
 	if (!is_coliding(game, next_x, game->pos_player.y))
 		update_position(game, next_x, game->pos_player.y, X_DIR);
 	if (!is_coliding(game, game->pos_player.x, next_y))

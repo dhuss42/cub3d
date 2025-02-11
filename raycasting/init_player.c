@@ -1,70 +1,77 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player.c                                           :+:      :+:    :+:   */
+/*   init_player.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:34 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/07 13:41:59 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:42:35 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "raycasting.h"
 
-t_vector	find_position(char **map, char identifier)
+bool	is_player(char c, t_game *game)
 {
-	int			y;
-	int			x;
-	t_vector	pos;
+	int		i;
+	char	*str;
 
-	pos.x = -1;
-	pos.y = -1;
+	i = 0;
+	str = "NSEW";
+	while (str[i] != '\0')
+	{
+		if (c == str[i])
+		{
+			game->start_dir = c;
+			return (true);
+		}
+		i++;
+	}
+	return (false);
+}
+
+void	get_player_pos(t_game *game)
+{
+	int	x;
+	int	y;
+
 	y = 0;
-	while (map[y] != NULL)
+	while (game->map[y] != NULL)
 	{
 		x = 0;
-		while (map[y][x] != '\0')
+		while (game->map[y][x] != '\0')
 		{
-			if (map[y][x] == identifier)
+			if (is_player(game->map[y][x], game) == true)
 			{
-				pos.x = x;
-				pos.y = y;
-				return (pos);
+				game->pos_player.x = x;
+				game->pos_player.y = y;
 			}
 			x++;
 		}
 		y++;
 	}
-	return (pos);
+	game->pos_player.x += 0.5;
+	game->pos_player.y += 0.5;
+}
+
+void	assigne_angle_dir(t_game *game, float angle, float x, float y)
+{
+	game->player_angle = angle;
+	game->plane.x = x;
+	game->plane.y = y;
 }
 
 void	determine_dir(t_game *game, char dir)
 {
 	if (dir == 'N')
-	{
-		game->player_angle = 3 * PI / 2;
-		game->plane.x = 0.66;
-		game->plane.y = 0;
-	}
+		assigne_angle_dir(game, 3 * PI / 2, 0.66, 0);
 	else if (dir == 'E')
-	{
-		game->player_angle = 0;
-		game->plane.x = 0;
-		game->plane.y = 0.66;
-	}
+		assigne_angle_dir(game, 0, 0, 0.66);
 	else if (dir == 'S')
-	{
-		game->player_angle = PI / 2;
-		game->plane.x = -0.66;
-		game->plane.y = 0;
-	}
+		assigne_angle_dir(game, PI / 2, -0.66, 0);
 	else if (dir == 'W')
-	{
-		game->player_angle = PI;
-		game->plane.x = 0;
-		game->plane.y = -0.66;
-	}
+		assigne_angle_dir(game, PI, 0, -0.66);
 	game->dir_player.x = cos(game->player_angle);
 	game->dir_player.y = sin(game->player_angle);
 }
@@ -72,11 +79,7 @@ void	determine_dir(t_game *game, char dir)
 // finds starting position and angle of player
 int	set_player(t_game *game)
 {
-	get_map_size(game); // determines NSWO right now
-	// is used for out of bounds check when moving, but the x and y sizes of the map are only accurate when map is a rectangle
-	game->pos_player = find_position(game->map, game->start_dir);
-	game->pos_player.x += 0.5;
-	game->pos_player.y += 0.5;
+	get_player_pos(game);
 	determine_dir(game, game->start_dir);
 	return (0);
 }

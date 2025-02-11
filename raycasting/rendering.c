@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/10 14:21:02 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:40:34 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	game_loop(void *param)
 	if (game->bonus == true)
 	{
 		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image);
-		draw_mini_map(game);
-		// draw_player(game);
-		// draw_direction(game, game->dir_player.x, game->dir_player.y);
+		// draw_mini_map(game);
+			// draw_player(game);
+			// draw_direction(game, game->dir_player.x, game->dir_player.y);
 		rotable_player(game);
 		mlx_put_pixel(game->map_image, game->pos_player.x * game->cell_size, game->pos_player.y * game->cell_size, 0x000AF0FF);
 	}
@@ -74,16 +74,10 @@ void	rendering(t_cub *cub)
 }
 
 // tidy up
-// handle double speed when moving diagonally
 
 // rotate point of view with mouse
 
-// collison a little "bouncy"
-// map_05 could go through wall in corners and segfault
-// map_08 could go through diagonal walls and segfault
-
-// rendering super slow when exactly infront of wall
-// also when rotating in front of wall
+// rendering slow when rotating in front of wall
 
 // map size
 //	map size img should be proportional to the Screen width/height

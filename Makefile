@@ -27,14 +27,16 @@ CFILES = cub.c\
 		parser/check_content.c\
 		parser/check_map_helpers.c\
 		parser/check_edges.c\
-		raycasting/drawing.c\
-		raycasting/helpers.c\
+		raycasting/rendering.c\
 		raycasting/init_win_imgs.c\
+		raycasting/init_player.c\
 		raycasting/key_inputs.c\
-		raycasting/mini_map_bonus.c\
-		raycasting/player.c\
+		raycasting/key_inputs_helpers.c\
 		raycasting/raycaster.c\
-		raycasting/rendering.c
+		raycasting/ray_distance.c\
+		raycasting/draw_textures.c\
+		raycasting/drawing.c\
+		raycasting/mini_map_bonus.c
 
 VPATH := $(dir $(CFILES))
 #VPATH specifies a list of directories that Make should search for source

@@ -12,26 +12,25 @@
 
 #include "raycasting.h"
 
-// function not up to date
+// out of boudns check
 void	draw_direction(t_game *game, float dir_x, float dir_y)
 {
-	int	pixel_x;
-	int	pixel_y;
-	int	draw_x;
-	int	draw_y;
-	float	step = 0;
-	float	step_size = 0.001;
-	float	ray_length = 10.0;
+	int		pixel_x;
+	int		pixel_y;
+	int		draw_x;
+	int		draw_y;
+	float	step;
 
+	step = 0;
 	pixel_x = game->pos_player.x * game->cell_size;
 	pixel_y = game->pos_player.y * game->cell_size;
-	while (step < ray_length)
+	while (step < 10)
 	{
 		draw_x = pixel_x + dir_x * step;
 		draw_y = pixel_y + dir_y * step;
-		if (draw_x >= 0 && draw_x < game->map_size.x * game->cell_size && draw_y >= 0 && draw_y < game->map_size.y * game->cell_size)
+		if (draw_x >= 0 && draw_y >= 0)
 			mlx_put_pixel(game->map_image, draw_x, draw_y, 0x0C0FF0FF);
-		step += step_size;
+		step += 0.001;
 	}
 }
 
@@ -42,7 +41,8 @@ void	draw_player(t_game *game)
 
 	player_pixel_y = game->pos_player.y * game->cell_size;
 	player_pixel_x = game->pos_player.x * game->cell_size;
-	draw_cell(game, player_pixel_x - game->cell_size / 4, player_pixel_y - game->cell_size / 4, 0xFFFF00FF);
+	draw_cell(game, player_pixel_x - game->cell_size / 4,
+		player_pixel_y - game->cell_size / 4, 0xFFFF00FF);
 	draw_direction(game, game->dir_player.x, game->dir_player.y);
 }
 
@@ -99,7 +99,8 @@ void	draw_rotable_player(t_game *game, t_player_map *pm)
 }
 
 // finds the min and max x and y values of all the corners
-// important because the x and y values are different for the corners (because rotable)
+// important because the x and y values are d
+//		ifferent for the corners (because rotable)
 // need these values to start and stop drawing
 void	bounding_box(t_player_map *pm)
 {
@@ -171,7 +172,8 @@ void	draw_cell(t_game *game, int start_x, int start_y, uint32_t color)
 	int	cell;
 
 	cell = game->cell_size - 1;
-	if (start_x >= game->map_size.x * cell || start_y >= game->map_size.y * cell)
+	if (start_x >= game->map_size.x * cell
+		|| start_y >= game->map_size.y * cell)
 		return ;
 	y = 0;
 	while (y < cell && (start_y + y) < game->map_size.y * cell)
@@ -186,6 +188,9 @@ void	draw_cell(t_game *game, int start_x, int start_y, uint32_t color)
 	}
 }
 // checks if starting positions are on the screen
-// starts from top (y = 0) left (x = 0) going to the right edge of the cell
-// always checks if still in bounds by adding starting position to the position within the cell
-// draws a pixel at the starting position + the position within the cell thus getting the actual pixel on the screen
+// starts from top (y = 0) left (x = 0)
+//		going to the right edge of the cell
+// always checks if still in bounds
+//		by adding starting position to the position within the cell
+// draws a pixel at the starting position + the position within
+//		the cell thus getting the actual pixel on the screen
