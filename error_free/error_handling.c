@@ -12,8 +12,9 @@
 
 #include "../cub.h"
 
-int	custom_error_3(t_custom_error err)
+int	custom_error_3(t_custom_error err, char *str)
 {
+	(void) str;
 	if (err == E_MLXINIT)
 		ft_putstr_fd("Mlx_init failed!\n", 2);
 	else if (err == E_MLXIMG)
@@ -48,7 +49,7 @@ int	custom_error_2(t_custom_error err, char *str)
 	else if (err == E_OPENMAP)
 		ft_putstr_fd("Map is not surrounded by walls!\n", 2);
 	else
-		return(custom_error_3(err));
+		return(custom_error_3(err, str));
 	return (err);
 }
 

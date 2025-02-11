@@ -35,8 +35,8 @@ CFILES = cub.c\
 		raycasting/raycaster.c\
 		raycasting/ray_distance.c\
 		raycasting/draw_textures.c\
-		mini_map/drawing.c\
-		mini_map/mini_map_bonus.c
+		raycasting/drawing.c\
+		raycasting/mini_map_bonus.c
 
 VPATH := $(dir $(CFILES))
 #VPATH specifies a list of directories that Make should search for source

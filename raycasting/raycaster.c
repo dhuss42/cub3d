@@ -6,11 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:54:45 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:08 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:14:11 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub.h"
+#include "raycasting.h"
 
 void	raycaster(t_game *game)
 {

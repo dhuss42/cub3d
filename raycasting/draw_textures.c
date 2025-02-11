@@ -6,11 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:54:46 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:51 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 10:34:59 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub.h"
+#include "raycasting.h"
 
 int	rgba_colours(int r, int g, int b, int a)
 {

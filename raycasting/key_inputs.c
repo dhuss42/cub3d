@@ -6,11 +6,11 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:26 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/02/11 08:58:25 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../cub.h"
+#include "raycasting.h"
 
 // saves the previous direction.x so it can
 //		be used after the direction of x is updated
