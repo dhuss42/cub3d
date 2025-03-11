@@ -120,44 +120,44 @@ typedef struct s_player_map
 
 typedef struct s_game
 {
-	t_cub		*cub;
-	mlx_t		*mlx;
-	mlx_image_t	*map_image;
-	mlx_image_t	*wall_image;
+	t_cub			*cub;
+	mlx_t			*mlx;
+	mlx_image_t		*map_image;
+	mlx_image_t		*wall_image;
 	mlx_texture_t	*texture[4];
-	t_assets	*ass;
-	t_vector	pos_player;
-	t_vector	dir_player;
-	t_vector	plane;
-	t_vector	ray_dir;
-	t_point		map_pos;
-	t_point		map_size;
-	t_point		m_map_size; // size of window of minimaps
-	t_mini_map	mini_map;
-	float		camera_x;
-	float		player_angle;
-	float		first_side_x;
-	float		first_side_y;
-	float		dist_x;
-	float		dist_y;
-	float		plane_wall_dist;
-	int			step_x;
-	int			step_y;
-	int			hit;
-	int			side;
-	int			line_height;
-	int			line_start;
-	int			line_end;
-	int			width;
-	int			height;
-	int			cell_size;
-	int			tex_num;
-	int			texture_x;
-	float		wall_x;
-	uint32_t	colour;
-	char		**map;
-	char		start_dir;
-	bool		bonus;
+	t_assets		*ass;
+	t_vector		pos_player;
+	t_vector		dir_player;
+	t_vector		plane;
+	t_vector		ray_dir;
+	t_point			map_pos;
+	t_point			map_size;
+	t_point			m_map_size;
+	t_mini_map		mini_map;
+	float			camera_x;
+	float			player_angle;
+	float			first_side_x;
+	float			first_side_y;
+	float			dist_x;
+	float			dist_y;
+	float			plane_wall_dist;
+	int				step_x;
+	int				step_y;
+	int				hit;
+	int				side;
+	int				line_height;
+	int				line_start;
+	int				line_end;
+	int				width;
+	int				height;
+	int				cell_size;
+	int				tex_num;
+	int				texture_x;
+	float			wall_x;
+	uint32_t		colour;
+	char			**map;
+	char			start_dir;
+	bool			bonus;
 }	t_game;
 
 typedef struct s_cub
@@ -167,4 +167,4 @@ typedef struct s_cub
 	t_game		*game;
 }					t_cub;
 
-# endif
+#endif

@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 15:56:59 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/11 14:39:52 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,17 +43,18 @@ void	game_loop(void *param)
 	reset_img(game->width, game->height / 2, game->ass->f, game->wall_image);
 	reset_img(game->width, game->height, game->ass->c, game->wall_image);
 	raycaster(game);
-	if (game->bonus == true)
+}
+
+void	free_pngs(t_game *game)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
 	{
-		// printf("4\n");
-		reset_img(game->m_map_size.x, game->m_map_size.y, 0xCCCCCCFF, game->map_image);
-		// printf("5\n");
-		// draw_mini_map(game);
-			// draw_player(game);
-			// draw_direction(game, game->dir_player.x, game->dir_player.y);
-		map(game);
-		// rotable_player(game);
-		// printf("6\n");
+		if (game->texture[i])
+			mlx_delete_texture(game->texture[i]);
+		i++;
 	}
 }
 
@@ -61,34 +62,26 @@ void	rendering(t_cub *cub)
 {
 	t_game	game;
 
-	game.bonus = true; // currently not working for all maps if true
 	game.map = cub->mapy->map;
 	game.ass = cub->assets;
 	game.cub = cub;
 	cub->game = &game;
 	init_win_imgs(&game);
 	set_player(&game);
-	if (game.bonus == true)
-	{
-		mini_map_bonus(&game);
-	}
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);
-	mlx_terminate(game.mlx);
+	free_pngs(&game);
+	if (game.wall_image)
+	{
+		mlx_delete_image(game.mlx, game.wall_image);
+		game.wall_image = NULL;
+	}
+	// printf("test\n");
+	if (game.mlx)
+	{
+		mlx_terminate(game.mlx);
+		game.mlx = NULL;
+	}
+	cub->game = NULL;
+	// printf("test1\n");
 }
-
-// tidy up
-
-// rotate point of view with mouse
-
-// rendering slow when rotating in front of wall
-
-// map size
-//	map size img should be proportional to the Screen width/height
-
-// player position is not in the middle of the square
-//	map should be rendered new for every movement
-//	also player (maybe even rotated player)
-
-// minimap
-//	Leni fragen ob sie die x und y größe der Map hat

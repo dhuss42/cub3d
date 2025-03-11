@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:53:43 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:12 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/11 09:35:50 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,14 +134,12 @@ void	plane_to_wall_distance(t_game *game)
 	}
 }
 
-// do not understand the maths involved here
-
 // - inverse (Kehrwert) of perpWallDist
 //		 multiplied by h (height in pixels of the screen)
 // -> 1 / perpWallDist
 // -> this is done because things that are
 //		closer appear larger and vice versa (Umgekehrt proportional)
-// don't understand the line_height / 2 part
+// the line_height / 2 part
 // determines line to be drawn in the center of the screen HEIGHT / 2
 // checks that the line is not drawn out of bounds (if checks)
 void	calculate_line_height(t_game *game)

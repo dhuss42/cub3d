@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:13:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:38 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/11 12:25:28 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,22 @@ int	load_textures(t_game *game)
 		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->no);
 	game->texture[1] = mlx_load_png(assets->so);
 	if (!game->texture[1])
+	{
+		free_pngs(game);
 		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->so);
+	}
 	game->texture[2] = mlx_load_png(assets->ea);
 	if (!game->texture[2])
+	{
+		free_pngs(game);
 		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->ea);
+	}
 	game->texture[3] = mlx_load_png(assets->we);
 	if (!game->texture[3])
+	{
+		free_pngs(game);
 		print_error_free_exit(E_MLXLOADPNG, game->cub, assets->we);
+	}
 	return (0);
 }
 

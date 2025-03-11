@@ -102,7 +102,6 @@ void	floodfill(char **map, t_cub *cub, int x, int y)
 	}
 	if (map[y][x] == '1' || map[y][x] == '2')
 		return ;
-	// check_edge(map, cub, x, y);
 	(map[y][x] = '2');
 	floodfill(map, cub, x, y + 1);
 	floodfill(map, cub, x, y - 1);

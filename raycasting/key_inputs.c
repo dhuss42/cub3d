@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:26 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/11 14:38:30 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,7 @@ void	rotation(t_game *game, float angle)
 // Also updates the player position on the minimap
 void	update_position(t_game *game, float next_x, float next_y, int dir)
 {
-	if (dir == DIAGONAL)
-	{
-		game->pos_player.x = next_x;
-		game->pos_player.y = next_y;
-	}
-	else if (dir == X_DIR)
+	if (dir == X_DIR)
 	{
 		game->pos_player.x = next_x;
 	}
@@ -65,7 +60,7 @@ void	movement(t_game *game, float speed, int sideways)
 	float	move_x;
 	float	move_y;
 
-	is_side_dir(game, sideways, &move_x, &move_y);
+	side_dir(game, sideways, &move_x, &move_y);
 	two_keys_pressed(game, &speed);
 	next_x = game->pos_player.x + move_x * speed;
 	next_y = game->pos_player.y + move_y * speed;
@@ -80,8 +75,20 @@ void	ft_key_hook(void *param)
 	t_game	*game;
 
 	game = param;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-		mlx_close_window(game->mlx);
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE)) // sometimes segfaults when checking for leaks
+	{
+		if (game->mlx)
+		{
+			mlx_terminate(game->mlx);
+			game->mlx = NULL;
+		}
+		free_pngs(game);
+		if (game->cub == NULL)
+			printf("IS NULL\n");
+		if (game->cub)
+			free_cub(game->cub);
+		exit(1);
+	}
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		movement(game, 0.07, 0);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))

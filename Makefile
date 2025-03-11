@@ -12,8 +12,8 @@
 
 NAME = cub3D
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
-
+CFLAGS = -Wall -Wextra -Werror -g3
+LEAKS = -L../../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 # LFLAGS = -ldl -lglfw -pthread -lm	#linux
 #MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
 LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
@@ -35,9 +35,6 @@ CFILES = cub.c\
 		raycasting/raycaster.c\
 		raycasting/ray_distance.c\
 		raycasting/draw_textures.c\
-		mini_map/drawing.c\
-		mini_map/mini_map_bonus.c\
-		mini_map/mmap.c
 
 VPATH := $(dir $(CFILES))
 #VPATH specifies a list of directories that Make should search for source
@@ -68,7 +65,7 @@ LEAK_FINDER_INCLUDES = -I./leak_finder/includes
 LEAK_FINDER_REPO = https://github.com/iwillenshofer/leak_finder.git
 
 $(NAME): mlx_clone $(OFILES) $(LIBFT) $(MLX42_LIB)
-	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
+	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME) $(LEAKS)
 	@echo "\033[32m cub3D built successfully! \033[0m"
 #MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
 #linux	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)
