@@ -12,14 +12,14 @@
 
 #include "cub.h"
 
-// void	leaks(void)
-// 	{
-// 		system("leaks cub3D");
-// 	}
+void	leaks(void)
+	{
+		system("leaks cub3D");
+	}
 
 int	main(int argc, char **argv)
 {
-	// atexit(leaks);
+	atexit(leaks);
 	t_cub	cub;
 
 	if (argc != 2)

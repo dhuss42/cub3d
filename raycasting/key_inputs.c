@@ -12,13 +12,15 @@
 
 #include "../cub.h"
 
-// saves the previous direction.x so it can
-//		be used after the direction of x is updated
-// the direction vector is updated with the formula
-//	x' = x * cos(angle) - y * sin(angle)
-//	y' = x * sin(angle) + y * cos(angle)
-// then the camera plane is updated according to the same
-//		principle keeping it perpendicular to the direction vector
+//------------------------------------------------------------------//
+// saves the previous direction.x so it can							//
+//		be used after the direction of x is updated (rotated)		//
+// the direction vector is updated with the formula					//
+//	x' = x * cos(angle) - y * sin(angle)							//
+//	y' = x * sin(angle) + y * cos(angle)							//
+// then the camera plane is updated according to the same			//
+//		principle keeping it perpendicular to the direction vector	//
+//------------------------------------------------------------------//
 void	rotation(t_game *game, float angle)
 {
 	float		old_dir_x;
@@ -34,8 +36,10 @@ void	rotation(t_game *game, float angle)
 	game->dir_player = dir;
 }
 
-// updates the player position according to the passed direction
-// Also updates the player position on the minimap
+/*----------------------------------------------*/
+/* updates the player position according		*/
+/* 		to the passed direction					*/
+/*----------------------------------------------*/
 void	update_position(t_game *game, float next_x, float next_y, int dir)
 {
 	if (dir == X_DIR)
@@ -48,11 +52,13 @@ void	update_position(t_game *game, float next_x, float next_y, int dir)
 	}
 }
 
-// checks if the next cell is a wall, if not then the player is
-//		moved according to the pressed key and passed speed
-// moves the player on the minimap in corresponding pixel distance
-//	-> buffer acts as a small buffer zone between player and wall
-// ADD in bounds check
+/*----------------------------------------------*/
+/* check if side (A/D)							*/
+/* check if two keys pressed					*/
+/* calculat where player would be next			*/
+/* check if that pos + buffer is wall 			*/
+/* if not the position is updated				*/
+/*----------------------------------------------*/
 void	movement(t_game *game, float speed, int sideways)
 {
 	float	next_x;
@@ -70,16 +76,17 @@ void	movement(t_game *game, float speed, int sideways)
 		update_position(game, game->pos_player.x, next_y, Y_DIR);
 }
 
+
+/*----------------------------------------------*/
+/* register key inputs							*/
+/*----------------------------------------------*/
 void	ft_key_hook(void *param)
 {
 	t_game	*game;
 
 	game = param;
 	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
-	{
-		free_mlx(game, 0, 0);
-		exit(EXIT_SUCCESS);
-	}
+		free_mlx(game, 0, 2);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		movement(game, 0.07, 0);
 	if (mlx_is_key_down(game->mlx, MLX_KEY_S))

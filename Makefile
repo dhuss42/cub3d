@@ -13,7 +13,7 @@
 NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
-LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
+# LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 # LFLAGS = -ldl -lglfw -pthread -lm	#linux
 #MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
 LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
@@ -66,7 +66,7 @@ LEAK_FINDER_INCLUDES = -I./leak_finder/includes
 LEAK_FINDER_REPO = https://github.com/iwillenshofer/leak_finder.git
 
 $(NAME): mlx_clone $(OFILES) $(LIBFT) $(MLX42_LIB)
-	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME) $(LEAKS)
+	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
 	@echo "\033[32m cub3D built successfully! \033[0m"
 #MAC	@$(CC) $(CFLAGS) $(OFILES) $(LIBFT) $(MLX42_LIB) $(LFLAGS) -o $(NAME)
 #linux	@$(CC) $(CFLAGS) $(MLX42_INCLUDES) $(OFILES) $(LIBFT) -o $(NAME) $(MLX42_LIB) $(LFLAGS)

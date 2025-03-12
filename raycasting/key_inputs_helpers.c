@@ -12,7 +12,10 @@
 
 #include "../cub.h"
 
-// sets move_x/y to perpundicular to player direction vector
+/*----------------------------------------------*/
+/* if strafing move vector is set perpundicular	*/
+/* else move vector is normal dir vec of player	*/
+/*----------------------------------------------*/
 void	side_dir(t_game *game, int sideways, float *move_x, float *move_y)
 {
 	if (sideways)
@@ -27,8 +30,9 @@ void	side_dir(t_game *game, int sideways, float *move_x, float *move_y)
 	}
 }
 
-// handles player like a box which detects
-//		in a plaer radius if there are any walls
+/*----------------------------------------------*/
+/* box radius around player detects if wall	hit	*/
+/*----------------------------------------------*/
 int	is_coliding(t_game *game, float x, float y)
 {
 	float	pr;
@@ -40,7 +44,9 @@ int	is_coliding(t_game *game, float x, float y)
 		game->map[(int)(y - pr)][(int)(x - pr)] == '1');
 }
 
-// halfs speed when moving diagonally
+/*----------------------------------------------*/
+/* if diagonal movement half speed				*/
+/*----------------------------------------------*/
 void	two_keys_pressed(t_game *game, float *speed)
 {
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W)

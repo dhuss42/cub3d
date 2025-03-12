@@ -16,7 +16,7 @@ void	free_pngs(t_game *game)
 	}
 }
 
-void	free_mlx(t_game *game, t_custom_error err, int exit)
+void	free_mlx(t_game *game, t_custom_error err, int ex)
 {
 	free_pngs(game);
 	if (game->wall_image)
@@ -29,7 +29,13 @@ void	free_mlx(t_game *game, t_custom_error err, int exit)
 		mlx_terminate(game->mlx);
 		game->mlx = NULL;
 	}
-	if (exit == 1)
+	if (ex == 1)
 		print_error_free_exit(err, game->cub, NULL);
+	else if (ex == 2)
+	{
+		if (game->cub)
+			free_cub(game->cub);
+		exit(EXIT_SUCCESS);
+	}
 }
 

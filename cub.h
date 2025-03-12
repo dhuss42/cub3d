@@ -45,7 +45,7 @@ void		free_cub(t_cub *cub);
 void		free_double(char **to_free);
 void		free_exit(int err, t_cub *cub);
 void		free_pngs(t_game *game);
-void    	free_mlx(t_game *game, t_custom_error err, int exit);
+void    	free_mlx(t_game *game, t_custom_error err, int ex);
 
 /*---------------- PARSER -----------------*/
 void		parser(char *cub_file, t_cub *cub);
