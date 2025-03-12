@@ -12,6 +12,9 @@
 
 #include "../cub.h"
 
+/*---------------------------------------------*/
+/* determines if player pos 			       */
+/*---------------------------------------------*/
 bool	is_player(char c, t_game *game)
 {
 	int		i;
@@ -31,6 +34,9 @@ bool	is_player(char c, t_game *game)
 	return (false);
 }
 
+/*---------------------------------------------*/
+/* Retrives player pos and centers him	       */
+/*---------------------------------------------*/
 void	get_player_pos(t_game *game)
 {
 	int	x;
@@ -55,6 +61,9 @@ void	get_player_pos(t_game *game)
 	game->pos_player.y += 0.5;
 }
 
+/*---------------------------------------------*/
+/* assigns plane vector & angle				   */
+/*---------------------------------------------*/
 void	assigne_angle_dir(t_game *game, float angle, float x, float y)
 {
 	game->player_angle = angle;
@@ -62,6 +71,11 @@ void	assigne_angle_dir(t_game *game, float angle, float x, float y)
 	game->plane.y = y;
 }
 
+/*---------------------------------------------*/
+/* determines starting dir for player	       */
+/* north is 3 * PI / 2 because y-axis inverse  */
+/* cos & sin for conversion to vector		   */
+/*---------------------------------------------*/
 void	determine_dir(t_game *game, char dir)
 {
 	if (dir == 'N')
@@ -76,7 +90,9 @@ void	determine_dir(t_game *game, char dir)
 	game->dir_player.y = sin(game->player_angle);
 }
 
-// finds starting position and angle of player
+/*---------------------------------------------*/
+/* sets player and plane vectors and angles	   */
+/*---------------------------------------------*/
 int	set_player(t_game *game)
 {
 	get_player_pos(game);

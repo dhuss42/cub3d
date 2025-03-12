@@ -13,7 +13,7 @@
 NAME = cub3D
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
-LEAKS = -L../../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
+LEAKS = -L../LeakSanitizer -llsan -lc++ -Wno-gnu-include-next -I ../LeakSanitize
 # LFLAGS = -ldl -lglfw -pthread -lm	#linux
 #MAC: LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
 LFLAGS = -lglfw -framework Cocoa -framework OpenGL -framework IOKit #mac
@@ -35,6 +35,7 @@ CFILES = cub.c\
 		raycasting/raycaster.c\
 		raycasting/ray_distance.c\
 		raycasting/draw_textures.c\
+		raycasting/free_mlx.c
 
 VPATH := $(dir $(CFILES))
 #VPATH specifies a list of directories that Make should search for source

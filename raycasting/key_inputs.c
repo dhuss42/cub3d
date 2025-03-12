@@ -75,19 +75,10 @@ void	ft_key_hook(void *param)
 	t_game	*game;
 
 	game = param;
-	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE)) // sometimes segfaults when checking for leaks
+	if (mlx_is_key_down(game->mlx, MLX_KEY_ESCAPE))
 	{
-		if (game->mlx)
-		{
-			mlx_terminate(game->mlx);
-			game->mlx = NULL;
-		}
-		free_pngs(game);
-		if (game->cub == NULL)
-			printf("IS NULL\n");
-		if (game->cub)
-			free_cub(game->cub);
-		exit(1);
+		free_mlx(game, 0, 0);
+		exit(EXIT_SUCCESS);
 	}
 	if (mlx_is_key_down(game->mlx, MLX_KEY_W))
 		movement(game, 0.07, 0);

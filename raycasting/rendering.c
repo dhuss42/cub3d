@@ -12,6 +12,9 @@
 
 #include "../cub.h"
 
+/*----------------------------------------------*/
+/* resets the img to a colour passed			*/
+/*----------------------------------------------*/
 void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 {
 	int	x;
@@ -27,13 +30,19 @@ void	reset_img(int width, int height, uint32_t colour, mlx_image_t *img)
 		while (x < width)
 		{
 			if (y >= 0 && y < height && x >= 0 && x < width)
-				mlx_put_pixel(img, x, 0 + y, colour);
+				mlx_put_pixel(img, x, y, colour);
 			x++;
 		}
 		y++;
 	}
 }
 
+/*----------------------------------------------*/
+/* loops over:									*/
+/* key hook 									*/
+/* setting floor and ceiling to diff colours 	*/
+/* raycaster									*/
+/*----------------------------------------------*/
 void	game_loop(void *param)
 {
 	t_game	*game;
@@ -45,19 +54,12 @@ void	game_loop(void *param)
 	raycaster(game);
 }
 
-void	free_pngs(t_game *game)
-{
-	int	i;
-
-	i = 0;
-	while (i < 4)
-	{
-		if (game->texture[i])
-			mlx_delete_texture(game->texture[i]);
-		i++;
-	}
-}
-
+/*----------------------------------------------*/
+/* initialise mlx stuff						   	*/
+/* set initial player values 					*/
+/* set hooks & loop								*/
+/* free mlx_stuff								*/
+/*----------------------------------------------*/
 void	rendering(t_cub *cub)
 {
 	t_game	game;
@@ -70,18 +72,14 @@ void	rendering(t_cub *cub)
 	set_player(&game);
 	mlx_loop_hook(game.mlx, game_loop, &game);
 	mlx_loop(game.mlx);
-	free_pngs(&game);
-	if (game.wall_image)
-	{
-		mlx_delete_image(game.mlx, game.wall_image);
-		game.wall_image = NULL;
-	}
-	// printf("test\n");
-	if (game.mlx)
-	{
-		mlx_terminate(game.mlx);
-		game.mlx = NULL;
-	}
-	cub->game = NULL;
-	// printf("test1\n");
+	free_mlx(&game, 0, 0);
 }
+
+
+// with at leaks
+//	-> currently more leaks when mlx_terminate is active
+//	-> 1 leaks when only free_pngs()
+
+// with system sanitiser
+// -> less leaks when mlx_terminate is active (15 leaks)
+// -> sometimes segfaults
