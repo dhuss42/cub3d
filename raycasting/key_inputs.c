@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 10:08:40 by dhuss             #+#    #+#             */
-/*   Updated: 2025/03/11 14:38:30 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/13 10:30:27 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,9 @@
 //------------------------------------------------------------------//
 void	rotation(t_game *game, float angle)
 {
-	// float		old_dir_x;
 	float		old_plane_x;
 	t_vector	dir;
 
-	// old_dir_x = game->dir_player.x;
 	dir.x = game->dir_player.x * cos(angle) - game->dir_player.y * sin(angle);
 	dir.y = game->dir_player.x * sin(angle) + game->dir_player.y * cos(angle);
 	game->dir_player = dir;
@@ -73,7 +71,6 @@ void	movement(t_game *game, float speed, int sideways)
 	if (!is_coliding(game, game->pos_player.x, next_y))
 		update_position(game, game->pos_player.x, next_y, Y_DIR);
 }
-
 
 /*----------------------------------------------*/
 /* register key inputs							*/

@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/13 09:55:42 by dhuss             #+#    #+#             */
-/*   Updated: 2025/03/11 14:39:52 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/13 10:29:54 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,3 @@ void	rendering(t_cub *cub)
 	mlx_loop(game.mlx);
 	free_mlx(&game, 0, 0);
 }
-
-
-// with at leaks
-//	-> currently more leaks when mlx_terminate is active
-//	-> 1 leaks when only free_pngs()
-
-// with system sanitiser
-// -> less leaks when mlx_terminate is active (15 leaks)
-// -> sometimes segfaults

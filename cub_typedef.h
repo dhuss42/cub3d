@@ -78,7 +78,6 @@ typedef enum e_dir
 {
 	X_DIR,
 	Y_DIR,
-	DIAGONAL,
 }	t_dir;
 
 typedef struct s_vector
@@ -92,31 +91,6 @@ typedef struct s_point
 	int	x;
 	int	y;
 }	t_point;
-
-typedef struct s_mini_map
-{
-	int	rndr_dst;
-	int	min_x;
-	int	min_y;
-	int	max_x;
-	int	max_y;
-	int	pos_player_mm_x;
-	int	pos_player_mm_y;
-}	t_mini_map;
-
-typedef struct s_player_map
-{
-	float	min_x;
-	float	max_x;
-	float	min_y;
-	float	max_y;
-	float	x;
-	float	y;
-	float	corners[4][2];
-	float	half_size;
-	float	perp_x;
-	float	perp_y;
-}	t_player_map;
 
 typedef struct s_game
 {
@@ -133,7 +107,6 @@ typedef struct s_game
 	t_point			map_pos;
 	t_point			map_size;
 	t_point			m_map_size;
-	t_mini_map		mini_map;
 	float			camera_x;
 	float			player_angle;
 	float			first_side_x;
@@ -141,6 +114,7 @@ typedef struct s_game
 	float			dist_x;
 	float			dist_y;
 	float			plane_wall_dist;
+	float			wall_x;
 	int				step_x;
 	int				step_y;
 	int				hit;
@@ -150,14 +124,11 @@ typedef struct s_game
 	int				line_end;
 	int				width;
 	int				height;
-	int				cell_size;
 	int				tex_num;
 	int				texture_x;
-	float			wall_x;
 	uint32_t		colour;
 	char			**map;
 	char			start_dir;
-	bool			bonus;
 }	t_game;
 
 typedef struct s_cub

@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:54:46 by dhuss             #+#    #+#             */
-/*   Updated: 2025/02/11 11:02:51 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/13 14:07:30 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ void	determine_tex_colours(t_game *game, mlx_texture_t *tex, int tex_y)
 
 // function loops through the vertical line of each point on the x axis
 // step: the increment in texture coordinates
-// texture_pos is the starting texture coordinate for the current vertical line
-//	line_start is the starting y-coordinate of the wall segment on the screen
+// texture_pos:the starting texture coordinate for the current vertical line
+//	line_start: is the starting y-coordinate of the wall segment on the screen
 //	height / 2 Centers the screen vertically
 //	line_height centers the wall texture vertically relative to its segment
 // y is the vertical screen pixel currently being processed
@@ -65,13 +65,15 @@ void	loop_y_axis(t_game *game, int x)
 	}
 }
 
-// scales wall_x with texture width to get exact x-location on texture
-// checks which side was hit (vertical/horizontal)
-// also checks if right side or bottom was hit
-// reverses image if both conditions true
-// example texture_x = 50, subtracting it from entire width
-//		equals same distance from the end of the image
-// -1 accounts for starting at 0
+/*--------------------------------------------------------------------------*/
+// scales wall_x with texture width to get exact x-location on texture		//
+// checks which side was hit (vertical/horizontal)							//
+// also checks if right side or bottom was hit								//
+// reverses image if both conditions true									//
+// example texture_x = 50, subtracting it from entire width					//
+// 			equals same distance from the end of the image					//
+// -1 accounts for starting at 0											//
+/*--------------------------------------------------------------------------*/
 void	scale_to_texture_width(t_game *game)
 {
 	game->texture_x = game->wall_x * game->texture[game->tex_num]->width;
@@ -87,12 +89,14 @@ void	scale_to_texture_width(t_game *game)
 	}
 }
 
-// determines the correct texture depending on the location on the map
-// subtracts -1 because texture array start at 0 and Wall is 1 on map
-// calculates where the ray hit the wall relative to the map grid
-// checks if vertical wall or horizontal
-// removes the integral part from the fractional part
-// now wall_x is the percentage of the hitpoint on the x-axis of the texture
+/*--------------------------------------------------------------------------*/
+// determines the correct texture depending on the location on the map and	//
+//	the ray dir																//
+// checks if vertical wall or horizontal									//
+// calculates where the ray hit the wall relative to the map grid			//
+// removes the integral part from the fractional part						//
+// now wall_x is the percentage of the hitpoint on the x-axis of the texture//
+/*--------------------------------------------------------------------------*/
 void	exact_hit_point(t_game *game)
 {
 	if (game->side == 0)

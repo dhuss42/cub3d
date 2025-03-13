@@ -45,7 +45,7 @@ void		free_cub(t_cub *cub);
 void		free_double(char **to_free);
 void		free_exit(int err, t_cub *cub);
 void		free_pngs(t_game *game);
-void    	free_mlx(t_game *game, t_custom_error err, int ex);
+void		free_mlx(t_game *game, t_custom_error err, int ex);
 
 /*---------------- PARSER -----------------*/
 void		parser(char *cub_file, t_cub *cub);
@@ -70,12 +70,6 @@ void		rendering(t_cub *cub);
 void		init_win_imgs(t_game *game);
 int			set_player(t_game *game);
 bool		is_player(char c, t_game *game);
-
-/*---------------- DRAWING -----------------*/
-void		draw_player(t_game *game);
-void		draw_cell(t_game *game, int start_x, int start_y, uint32_t color);
-void		draw_direction(t_game *game, float dir_x, float dir_y);
-void		draw_rotable_player(t_game *game, t_player_map *pm);
 
 /*---------------- RAYCASTING -----------------*/
 void		raycaster(t_game *game);

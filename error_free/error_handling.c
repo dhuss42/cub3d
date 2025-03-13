@@ -21,10 +21,7 @@ int	custom_error_3(t_custom_error err)
 	else if (err == E_MLXIMGTOWIN)
 		ft_putstr_fd("Mlx_img_to_window failed!\n", 2);
 	else if (err == E_MLXLOADPNG)
-	{
 		ft_putstr_fd("Mlx_load_png failed!\n", 2);
-		// probably need to free here
-	}
 	return (err);
 }
 
