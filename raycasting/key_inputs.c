@@ -13,8 +13,6 @@
 #include "../cub.h"
 
 //------------------------------------------------------------------//
-// saves the previous direction.x so it can							//
-//		be used after the direction of x is updated (rotated)		//
 // the direction vector is updated with the formula					//
 //	x' = x * cos(angle) - y * sin(angle)							//
 //	y' = x * sin(angle) + y * cos(angle)							//
@@ -23,17 +21,17 @@
 //------------------------------------------------------------------//
 void	rotation(t_game *game, float angle)
 {
-	float		old_dir_x;
+	// float		old_dir_x;
 	float		old_plane_x;
 	t_vector	dir;
 
-	old_dir_x = game->dir_player.x;
+	// old_dir_x = game->dir_player.x;
 	dir.x = game->dir_player.x * cos(angle) - game->dir_player.y * sin(angle);
-	dir.y = old_dir_x * sin(angle) + game->dir_player.y * cos(angle);
+	dir.y = game->dir_player.x * sin(angle) + game->dir_player.y * cos(angle);
+	game->dir_player = dir;
 	old_plane_x = game->plane.x;
 	game->plane.x = game->plane.x * cos(angle) - game->plane.y * sin(angle);
 	game->plane.y = old_plane_x * sin(angle) + game->plane.y * cos(angle);
-	game->dir_player = dir;
 }
 
 /*----------------------------------------------*/
