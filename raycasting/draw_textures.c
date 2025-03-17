@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:54:46 by dhuss             #+#    #+#             */
-/*   Updated: 2025/03/13 14:07:30 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/17 09:19:55 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,12 +77,12 @@ void	loop_y_axis(t_game *game, int x)
 void	scale_to_texture_width(t_game *game)
 {
 	game->texture_x = game->wall_x * game->texture[game->tex_num]->width;
-	if (game->side == 0 && game->ray_dir.x > 0)
+	if (game->side == 0 && game->ray_dir.x < 0)
 	{
 		game->texture_x = game->texture[game->tex_num]->width
 			- game->texture_x -1;
 	}
-	if (game->side == 1 && game->ray_dir.y < 0)
+	if (game->side == 1 && game->ray_dir.y > 0)
 	{
 		game->texture_x = game->texture[game->tex_num]->width
 			- game->texture_x -1;
