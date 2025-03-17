@@ -62,7 +62,6 @@ bool		non_valid_char_map(char c);
 void		check_map_valid(int i, int j, t_cub *cub, char **map);
 char		**cpy_map(char **map_2d, t_cub *cub);
 void		floodfill(char **map, t_cub *cub, int x, int y);
-void		check_edge(char **map, t_cub *cub, int x, int y);
 void		cut_newlines_map_end(char **map);
 
 /*---------------- INIT WINDOW AND PLAYER -----------------*/

@@ -19,7 +19,6 @@
 
 int	main(int argc, char **argv)
 {
-	// atexit(leaks);
 	t_cub	cub;
 
 	if (argc != 2)

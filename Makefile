@@ -26,7 +26,6 @@ CFILES = cub.c\
 		parser/get_map.c\
 		parser/check_content.c\
 		parser/check_map_helpers.c\
-		parser/check_edges.c\
 		raycasting/rendering.c\
 		raycasting/init_win_imgs.c\
 		raycasting/init_player.c\

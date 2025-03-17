@@ -95,6 +95,7 @@ void	print_error_free_exit(t_custom_error err, t_cub *cub, char *str)
 	}
 	if (cub)
 		free_cub(cub);
+	ft_putstr_fd(""WHITE, 2);
 	exit (err);
 }
 
