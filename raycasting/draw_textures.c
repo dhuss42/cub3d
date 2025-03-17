@@ -6,7 +6,7 @@
 /*   By: dhuss <dhuss@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/11 09:54:46 by dhuss             #+#    #+#             */
-/*   Updated: 2025/03/17 09:19:55 by dhuss            ###   ########.fr       */
+/*   Updated: 2025/03/17 09:31:55 by dhuss            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,20 @@ void	determine_tex_colours(t_game *game, mlx_texture_t *tex, int tex_y)
 				tex->pixels[i + 2], tex->pixels[i + 3]));
 }
 
-// function loops through the vertical line of each point on the x axis
-// step: the increment in texture coordinates
-// texture_pos:the starting texture coordinate for the current vertical line
-//	line_start: is the starting y-coordinate of the wall segment on the screen
-//	height / 2 Centers the screen vertically
-//	line_height centers the wall texture vertically relative to its segment
-// y is the vertical screen pixel currently being processed
-// texture_y is the corresponding texture y-coordinate
-// texture_y = (int)texture_pos & game->texture[game->tex_num]->height;
-// -> handles overflow (valid range is 0 to
-//		game->texture[game->tex_num]->height)
-// -> wraps round
+/*------------------------------------------------------------------------------*/
+// function loops through the vertical line of each point on the x axis			//
+// step: the increment in texture coordinates									//
+// texture_pos:the starting texture coordinate for the current vertical line	//
+//	line_start: is the starting y-coordinate of the wall segment on the screen	//
+//	height / 2 Centers the screen vertically									//
+//	line_height centers the wall texture vertically relative to its segment		//
+// y is the vertical screen pixel currently being processed						//
+// texture_y is the corresponding texture y-coordinate							//
+// texture_y = (int)texture_pos & game->texture[game->tex_num]->height;			//
+// -> handles overflow (valid range is 0 to										//
+//		game->texture[game->tex_num]->height)									//
+// -> wraps round																//
+/*------------------------------------------------------------------------------*/
 void	loop_y_axis(t_game *game, int x)
 {
 	float			step;
