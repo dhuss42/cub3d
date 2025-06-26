@@ -9,7 +9,8 @@
 
 ## 1. Project overview
 
-In this project we had to make a very small 2D game. In this game the player needs to collect all collectables on the map and then enter the exit. The purpose of the project was to work with textures, sprites and further basic gameplay elements. Moreover, it is the second project in which we had to work with an external library the [MLX42](https://github.com/codam-coding-college/MLX42).
+
+Moreover, it is the second project in which we had to work with an external library the [MLX42](https://github.com/codam-coding-college/MLX42).
 
 
 This project was the second team-based assignment at 42. For this project I teamed-up with [maustel](https://github.com/maustel). We split the project into parsing and graphical / mathematical parts.
