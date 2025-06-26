@@ -14,12 +14,12 @@ For this project I teamed-up with [maustel](https://github.com/maustel). We spli
 
 ## 2. Project Structure
 
-3.1 [Parsing](#31-parsing)
-3.2 [Initialising MLX variables]()
-3.3 [Set initial vectors]()
-3.4 [Movement]()
-3.5 [Floor and Ceiling]()
-3.6 [Raycasting]()
+3.1 [Parsing](#31-parsing)  
+3.2 [Initialising MLX variables](#32-Initialising-MLX-variables)  
+3.3 [Set initial vectors](#33-Set-initial-vectors)  
+3.4 [Movement](#34-Movement)  
+3.5 [Floor and Ceiling](#35-Floor-and-Ceiling)  
+3.6 [Raycasting](#36-Raycasting)   
 
 ## 3. Description of individual steps
 
@@ -33,15 +33,15 @@ First, the MLX instance is initialized, a new image is created to serve as the d
 
 Next, the initial player values are set. This includes determining the player’s starting position on the map and centering them within their starting tile. Then, the player’s initial direction vector (indicating where they’re looking) is defined, along with the plane vector, which is perpendicular to the direction and used for the camera’s field of view.
 
-### 3.3 Movement
+### 3.4 Movement
 
 Once initialization is complete, the MLX loop hook is started, and the game_loop function is hooked into it. Inside this loop, key inputs are handled: the WASD keys allow for directional movement while respecting wall collision logic, the Left and Right Arrow keys rotate the player by updating both the direction and plane vectors, and the Escape key cleanly exits the game, freeing all allocated resources.
 
-### 3.4 Floor and Ceiling
+### 3.5 Floor and Ceiling
 
 Additionally, in each iteration of the game_loop, the background of the image is reset. The screen is split into two halves: the upper half represents the ceiling, and the lower half the floor, each filled with different colors to enhance the 3D illusion.
 
-### 3.5 Raycasting
+### 3.6 Raycasting
 
 In Cub3D, the 3D environment is simulated using a raycasting engine, which projects a 2D map into a pseudo-3D first-person view. The core of this engine lies in the raycasting loop, which is executed once per frame for each vertical column of pixels on the screen.
 
