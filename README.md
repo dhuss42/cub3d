@@ -59,17 +59,22 @@ Finally, for each pixel in the vertical column, we determine the correct Y coord
 
 Clone repository
 ```
-git clone
+git clone https://github.com/dhuss42/cub3d.git cub3d
 ```
 
 navigate into repository
 ```
-cd
+cd cub3d
 ```
 
 run make
 ```
 make
+```
+
+start program
+```
+./cub3D tests/valid/map_04.cub 
 ```
 
 make sure to have cmake installed or the MLX42 will throw an error
